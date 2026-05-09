@@ -11,8 +11,14 @@
     {{else}}
     <span></span>
     {{/if}}
+    {{#if isFinalStep}}
+    <button type="button" class="crw-btn-create" data-action="createCharacter" {{#unless canAdvance}}disabled{{/unless}}>
+      <i class="fas fa-check"></i> {{localize "crw.summary.create"}}
+    </button>
+    {{else}}
     <button type="button" class="crw-btn-next" data-action="next" {{#unless canAdvance}}disabled{{/unless}}>
       {{localize "crw.nav.next"}} <i class="fas fa-arrow-right"></i>
     </button>
+    {{/if}}
   </footer>
 </div>

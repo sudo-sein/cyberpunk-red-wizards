@@ -1,0 +1,61 @@
+<div class="crw-step-summary">
+  <h3 class="crw-section-title">{{localize "crw.summary.title"}}</h3>
+
+  <div class="crw-summary-checklist">
+    <h4 class="crw-category-title">{{localize "crw.summary.checklist"}}</h4>
+    {{#each checks}}
+    <div class="crw-check-row {{#if passed}}crw-check-pass{{else}}crw-check-fail{{/if}}">
+      <i class="fas {{#if passed}}fa-check-circle{{else}}fa-times-circle{{/if}}"></i>
+      <span>{{localize label}}</span>
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="crw-summary-section">
+    <h4 class="crw-category-title">{{localize "crw.summary.identity"}}</h4>
+    <div class="crw-summary-row"><span>{{localize "crw.summary.handle"}}</span><span>{{handle}}</span></div>
+    <div class="crw-summary-row"><span>{{localize "crw.summary.role"}}</span><span>{{roleName}}</span></div>
+    <div class="crw-summary-row"><span>{{localize "crw.summary.method"}}</span><span>{{methodName}}</span></div>
+  </div>
+
+  <div class="crw-summary-section">
+    <h4 class="crw-category-title">{{localize "crw.summary.statsSection"}}</h4>
+    <div class="crw-summary-stat-grid">
+      {{#each stats}}
+      <div class="crw-summary-stat">
+        <span class="crw-stat-abbr">{{abbr}}</span>
+        <span class="crw-stat-value">{{value}}</span>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="crw-summary-section">
+    <h4 class="crw-category-title">{{localize "crw.summary.derivedSection"}}</h4>
+    <div class="crw-summary-derived-grid">
+      {{#each derived}}
+      <div class="crw-summary-row"><span>{{label}}</span><span>{{value}}</span></div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="crw-summary-section">
+    <h4 class="crw-category-title">{{localize "crw.summary.skillsSection"}}</h4>
+    <div class="crw-summary-skills-grid">
+      {{#each skills}}
+      <div class="crw-summary-skill-item">
+        <span>{{name}}</span>
+        <span class="crw-skill-level-badge">{{level}}</span>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="crw-summary-section">
+    <h4 class="crw-category-title">{{localize "crw.summary.financesSection"}}</h4>
+    <div class="crw-summary-row">
+      <span>{{localize "crw.summary.remainingEd"}}</span>
+      <span>{{remainingEd}} ed</span>
+    </div>
+  </div>
+</div>

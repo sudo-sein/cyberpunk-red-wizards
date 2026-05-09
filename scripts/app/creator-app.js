@@ -3,6 +3,7 @@ import StepStats from "../steps/step-stats.js";
 import StepDerived from "../steps/step-derived.js";
 import StepSkills from "../steps/step-skills.js";
 import StepGear from "../steps/step-gear.js";
+import StepSummary from "../steps/step-summary.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -24,6 +25,7 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
     actions: {
       back: CharacterCreatorApp.#onBack,
       next: CharacterCreatorApp.#onNext,
+      createCharacter: CharacterCreatorApp.#onCreateCharacter,
     },
   };
 
@@ -66,6 +68,7 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
       new StepDerived(),
       new StepSkills(),
       new StepGear(),
+      new StepSummary(),
     ]);
   }
 
@@ -97,6 +100,7 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
       currentStep: this.#currentStep,
       stepHtml,
       canAdvance: step ? step.validate(this.state) : false,
+      isFinalStep: this.#currentStep === this.#steps.length - 1,
     };
   }
 
@@ -123,6 +127,30 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
     if (this.#currentStep < this.#steps.length - 1) {
       this.#currentStep++;
       this.render(true);
+    }
+  }
+
+  static async #onCreateCharacter() {
+    const step = this.#steps[this.#currentStep];
+    if (!step || !step.validate(this.state)) return;
+
+    const btn = this.element.querySelector("[data-action='createCharacter']");
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${game.i18n.localize("crw.summary.creating")}`;
+    }
+
+    try {
+      const actor = await step.createCharacter(this.state);
+      await this.close();
+      actor.sheet.render(true);
+    } catch (err) {
+      console.error("Character creation failed:", err);
+      ui.notifications.error("Character creation failed. Check the console for details.");
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-check"></i> ${game.i18n.localize("crw.summary.create")}`;
+      }
     }
   }
 
