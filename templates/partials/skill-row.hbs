@@ -1,11 +1,10 @@
 <div class="crw-skill-row {{#if isX2}}crw-skill-x2{{/if}}">
-  <span class="crw-skill-name">{{name}}</span>
+  <span class="crw-skill-name">{{name}}{{#if isX2}} <span class="crw-skill-cost-tag">{{localize "crw.skills.x2"}}</span>{{/if}}</span>
   <span class="crw-skill-stat">{{stat}}</span>
   {{#if editable}}
   <button type="button" class="crw-stat-btn" data-action="skillDec" data-skill="{{name}}">−</button>
   <span class="crw-skill-level">{{level}}</span>
   <button type="button" class="crw-stat-btn" data-action="skillInc" data-skill="{{name}}">+</button>
-  {{#if isX2}}<span class="crw-skill-cost-tag">{{localize "crw.skills.x2"}}</span>{{/if}}
   {{else}}
   <span class="crw-skill-level">{{level}}</span>
   {{/if}}
