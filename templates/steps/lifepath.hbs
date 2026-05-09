@@ -1,0 +1,30 @@
+<div class="crw-step-lifepath">
+  <div class="crw-lifepath-header">
+    <div>
+      <h3 class="crw-section-title">{{localize "crw.lifepath.title"}}</h3>
+      <p class="crw-section-subtitle">{{localize "crw.lifepath.subtitle"}}</p>
+    </div>
+    <button type="button" class="crw-btn-roll" data-action="rollAll">
+      <i class="fas fa-dice-d20"></i> {{localize "crw.lifepath.rollAll"}}
+    </button>
+  </div>
+
+  <div class="crw-lifepath-tables">
+    {{#each tables}}
+    <div class="crw-lifepath-row" data-table-id="{{id}}">
+      <label class="crw-lifepath-label">{{label}}</label>
+      <select class="crw-lifepath-select" data-table="{{id}}">
+        <option value="">{{localize "crw.lifepath.select"}}</option>
+        {{#each entries}}
+        <option value="{{label}}" {{#if (eq label ../currentValue)}}selected{{/if}}>
+          {{roll}}. {{label}}
+        </option>
+        {{/each}}
+      </select>
+      <button type="button" class="crw-lifepath-roll-btn" data-action="rollTable" data-table="{{id}}" data-die="{{die}}">
+        <i class="fas fa-dice"></i>
+      </button>
+    </div>
+    {{/each}}
+  </div>
+</div>

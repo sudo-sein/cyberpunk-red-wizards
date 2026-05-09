@@ -1,4 +1,5 @@
 import StepStart from "../steps/step-start.js";
+import StepLifepath from "../steps/step-lifepath.js";
 import StepStats from "../steps/step-stats.js";
 import StepDerived from "../steps/step-derived.js";
 import StepSkills from "../steps/step-skills.js";
@@ -64,6 +65,7 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
     };
     this.registerSteps([
       new StepStart(),
+      new StepLifepath(),
       new StepStats(),
       new StepDerived(),
       new StepSkills(),

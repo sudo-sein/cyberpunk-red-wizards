@@ -1,0 +1,230 @@
+{
+  "tables": [
+    {
+      "id": "culturalOrigin",
+      "stateKey": "culturalOrigin",
+      "labelKey": "crw.lifepath.culturalOrigin",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "label": "North American", "language": "English" },
+        { "roll": 2, "label": "South/Central American", "language": "Spanish" },
+        { "roll": 3, "label": "Western European", "language": "French" },
+        { "roll": 4, "label": "Eastern European", "language": "Russian" },
+        { "roll": 5, "label": "Middle Eastern/North African", "language": "Arabic" },
+        { "roll": 6, "label": "Sub-Saharan African", "language": "Swahili" },
+        { "roll": 7, "label": "South Asian", "language": "Hindi" },
+        { "roll": 8, "label": "South East Asian", "language": "Vietnamese" },
+        { "roll": 9, "label": "East Asian", "language": "Chinese" },
+        { "roll": 10, "label": "Oceania/Pacific Islander", "language": "Filipino" }
+      ]
+    },
+    {
+      "id": "personality",
+      "stateKey": "personality",
+      "labelKey": "crw.lifepath.personality",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "label": "Shy and secretive" },
+        { "roll": 2, "label": "Rebellious, antisocial, violent" },
+        { "roll": 3, "label": "Arrogant, proud, aloof" },
+        { "roll": 4, "label": "Moody, rash, headstrong" },
+        { "roll": 5, "label": "Picky, fussy, nervous" },
+        { "roll": 6, "label": "Stable and serious" },
+        { "roll": 7, "label": "Silly and fluffheaded" },
+        { "roll": 8, "label": "Sneaky and deceptive" },
+        { "roll": 9, "label": "Intellectual and detached" },
+        { "roll": 10, "label": "Friendly and outgoing" }
+      ]
+    },
+    {
+      "id": "clothingStyle",
+      "stateKey": "clothingStyle",
+      "labelKey": "crw.lifepath.clothingStyle",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "label": "Generic Chic" },
+        { "roll": 2, "label": "Leisurewear" },
+        { "roll": 3, "label": "Urban Flash" },
+        { "roll": 4, "label": "Businesswear" },
+        { "roll": 5, "label": "High Fashion" },
+        { "roll": 6, "label": "Bohemian" },
+        { "roll": 7, "label": "Streetwear" },
+        { "roll": 8, "label": "Bag Lady Chic" },
+        { "roll": 9, "label": "Gang Colors" },
+        { "roll": 10, "label": "Nomad Leathers" }
+      ]
+    },
+    {
+      "id": "hairStyle",
+      "stateKey": "hairStyle",
+      "labelKey": "crw.lifepath.hairStyle",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "label": "Mohawk" },
+        { "roll": 2, "label": "Long and ratty" },
+        { "roll": 3, "label": "Short and spiked" },
+        { "roll": 4, "label": "Wild and all over" },
+        { "roll": 5, "label": "Bald" },
+        { "roll": 6, "label": "Striped" },
+        { "roll": 7, "label": "Tinted" },
+        { "roll": 8, "label": "Neat and short" },
+        { "roll": 9, "label": "Long and straight" },
+        { "roll": 10, "label": "Dreadlocks" }
+      ]
+    },
+    {
+      "id": "affectations",
+      "stateKey": "affectations",
+      "labelKey": "crw.lifepath.affectations",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "label": "Tattoos" },
+        { "roll": 2, "label": "Mirrorshades" },
+        { "roll": 3, "label": "Ritual scars" },
+        { "roll": 4, "label": "Spiked gloves" },
+        { "roll": 5, "label": "Nose rings" },
+        { "roll": 6, "label": "Tongue or cheek piercings" },
+        { "roll": 7, "label": "Strange contacts" },
+        { "roll": 8, "label": "Fingerless gloves" },
+        { "roll": 9, "label": "Strange fingernail implants" },
+        { "roll": 10, "label": "Biolight skin patches" }
+      ]
+    },
+    {
+      "id": "valueMost",
+      "stateKey": "valueMost",
+      "labelKey": "crw.lifepath.valueMost",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "label": "Money" },
+        { "roll": 2, "label": "Honor" },
+        { "roll": 3, "label": "Your word" },
+        { "roll": 4, "label": "Honesty" },
+        { "roll": 5, "label": "Knowledge" },
+        { "roll": 6, "label": "Vengeance" },
+        { "roll": 7, "label": "Love" },
+        { "roll": 8, "label": "Power" },
+        { "roll": 9, "label": "Family" },
+        { "roll": 10, "label": "Friendship" }
+      ]
+    },
+    {
+      "id": "aboutPeople",
+      "stateKey": "aboutPeople",
+      "labelKey": "crw.lifepath.aboutPeople",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "label": "I stay neutral" },
+        { "roll": 2, "label": "I like almost everyone" },
+        { "roll": 3, "label": "I hate almost everyone" },
+        { "roll": 4, "label": "People are tools" },
+        { "roll": 5, "label": "Every person is a valuable individual" },
+        { "roll": 6, "label": "People are obstacles" },
+        { "roll": 7, "label": "People are untrustworthy" },
+        { "roll": 8, "label": "Wipe 'em all out" },
+        { "roll": 9, "label": "People are wonderful" },
+        { "roll": 10, "label": "I don't care about others" }
+      ]
+    },
+    {
+      "id": "valuedPossession",
+      "stateKey": "valuedPossession",
+      "labelKey": "crw.lifepath.valuedPossession",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "label": "A weapon" },
+        { "roll": 2, "label": "A tool" },
+        { "roll": 3, "label": "A piece of clothing" },
+        { "roll": 4, "label": "A photograph" },
+        { "roll": 5, "label": "A book or diary" },
+        { "roll": 6, "label": "A recording" },
+        { "roll": 7, "label": "A musical instrument" },
+        { "roll": 8, "label": "A piece of jewelry" },
+        { "roll": 9, "label": "A toy" },
+        { "roll": 10, "label": "A letter" }
+      ]
+    },
+    {
+      "id": "familyBackground",
+      "stateKey": "familyBackground",
+      "labelKey": "crw.lifepath.familyBackground",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "label": "Corporate Execs" },
+        { "roll": 2, "label": "Corporate Managers" },
+        { "roll": 3, "label": "Corporate Technicians" },
+        { "roll": 4, "label": "Nomad Pack" },
+        { "roll": 5, "label": "Ganger Family" },
+        { "roll": 6, "label": "Combat Zoners" },
+        { "roll": 7, "label": "Urban Homeless" },
+        { "roll": 8, "label": "Megastructure Warren Rats" },
+        { "roll": 9, "label": "Reclaimers" },
+        { "roll": 10, "label": "Edgerunners" }
+      ]
+    },
+    {
+      "id": "childhoodEnvironment",
+      "stateKey": "childhoodEnvironment",
+      "labelKey": "crw.lifepath.childhoodEnvironment",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "label": "Ran on The Street" },
+        { "roll": 2, "label": "In a Nomad pack" },
+        { "roll": 3, "label": "In a Nomad pack with other kids" },
+        { "roll": 4, "label": "In a decaying, once upscale suburb" },
+        { "roll": 5, "label": "In a Corporate zone" },
+        { "roll": 6, "label": "In a Combat Zone" },
+        { "roll": 7, "label": "In an Arcology" },
+        { "roll": 8, "label": "In an Edgerunner family" },
+        { "roll": 9, "label": "In a Megastructure warren" },
+        { "roll": 10, "label": "On the road, in a Nomad pack" }
+      ]
+    },
+    {
+      "id": "familyCrisis",
+      "stateKey": "familyCrisis",
+      "labelKey": "crw.lifepath.familyCrisis",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "label": "Family lost everything through betrayal" },
+        { "roll": 2, "label": "Family lost everything through bad management" },
+        { "roll": 3, "label": "Family was exiled or forced out" },
+        { "roll": 4, "label": "Family is imprisoned and you alone escaped" },
+        { "roll": 5, "label": "Family vanished. You are the only remaining member" },
+        { "roll": 6, "label": "Family was killed and you were the only survivor" },
+        { "roll": 7, "label": "Family is involved with a powerful criminal enterprise" },
+        { "roll": 8, "label": "Family was scattered due to misfortune" },
+        { "roll": 9, "label": "Family is cursed with a hereditary feud" },
+        { "roll": 10, "label": "You are the inheritor of a family debt" }
+      ]
+    },
+    {
+      "id": "lifeGoals",
+      "stateKey": "lifeGoals",
+      "labelKey": "crw.lifepath.lifeGoals",
+      "die": "1d6",
+      "entries": [
+        { "roll": 1, "label": "Get rid of a bad reputation" },
+        { "roll": 2, "label": "Gain power and control" },
+        { "roll": 3, "label": "Get off The Street no matter what" },
+        { "roll": 4, "label": "Cause as much chaos as possible" },
+        { "roll": 5, "label": "Make a lot of money" },
+        { "roll": 6, "label": "Get revenge" }
+      ]
+    },
+    {
+      "id": "tragicLoveAffairs",
+      "stateKey": "tragicLoveAffairs",
+      "labelKey": "crw.lifepath.tragicLoveAffairs",
+      "die": "1d6",
+      "entries": [
+        { "roll": 1, "label": "Your lover died in an accident" },
+        { "roll": 2, "label": "Your lover mysteriously vanished" },
+        { "roll": 3, "label": "It just didn't work out" },
+        { "roll": 4, "label": "A personal goal came between you" },
+        { "roll": 5, "label": "Your lover was kidnapped" },
+        { "roll": 6, "label": "Your lover went insane" }
+      ]
+    }
+  ]
+}

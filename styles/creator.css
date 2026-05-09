@@ -671,3 +671,56 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Lifepath */
+.crw-lifepath-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.crw-lifepath-tables {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.crw-lifepath-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background-color: var(--cpr-background-box);
+  border-radius: 4px;
+}
+
+.crw-lifepath-label {
+  width: 160px;
+  font-size: var(--cpr-font-small);
+  font-weight: bold;
+  color: var(--cpr-text-icon-highlight);
+  flex-shrink: 0;
+}
+
+.crw-lifepath-select {
+  flex: 1;
+  padding: 6px 10px;
+  background-color: var(--cpr-background-header);
+  border: 1px solid var(--cpr-background-border);
+  border-radius: 3px;
+  color: var(--cpr-text-normal);
+  font-family: var(--cpr-font-primary);
+  font-size: var(--cpr-font-small);
+}
+
+.crw-lifepath-roll-btn {
+  background-color: var(--cpr-color-red);
+  color: var(--cpr-text-header);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
