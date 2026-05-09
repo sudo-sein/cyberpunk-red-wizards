@@ -15,10 +15,10 @@
     { "name": "Stealth", "stat": "dex", "difficulty": "typical" }
   ],
   "controlSkills": [
-    { "name": "Driving", "stat": "ref", "difficulty": "typical" },
-    { "name": "Piloting", "stat": "ref", "difficulty": "x2" },
+    { "name": "Drive Land Vehicle", "stat": "ref", "difficulty": "typical" },
+    { "name": "Pilot Air Vehicle", "stat": "ref", "difficulty": "x2" },
     { "name": "Riding", "stat": "ref", "difficulty": "typical" },
-    { "name": "Sailing", "stat": "ref", "difficulty": "typical" }
+    { "name": "Pilot Sea Vehicle", "stat": "ref", "difficulty": "typical" }
   ],
   "educationSkills": [
     { "name": "Accounting", "stat": "int", "difficulty": "typical" },
@@ -79,7 +79,7 @@
     { "name": "Paramedic", "stat": "tech", "difficulty": "x2" },
     { "name": "Photography/Film", "stat": "tech", "difficulty": "typical" },
     { "name": "Pick Lock", "stat": "tech", "difficulty": "typical" },
-    { "name": "Pickpocket", "stat": "tech", "difficulty": "typical" },
+    { "name": "Pick Pocket", "stat": "tech", "difficulty": "typical" },
     { "name": "Sea Vehicle Tech", "stat": "tech", "difficulty": "typical" },
     { "name": "Weaponstech", "stat": "tech", "difficulty": "typical" }
   ]

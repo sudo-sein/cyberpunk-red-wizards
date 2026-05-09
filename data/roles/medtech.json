@@ -3,65 +3,344 @@
   "nameKey": "crw.roles.medtech",
   "abilityKey": "crw.roleAbility.medtech",
   "statTemplates": [
-    [7, 4, 5, 7, 5, 5, 5, 4, 4, 6],
-    [7, 5, 4, 7, 5, 5, 4, 4, 4, 5],
-    [8, 4, 4, 8, 4, 5, 4, 4, 4, 5],
-    [6, 4, 5, 7, 5, 6, 5, 4, 4, 6],
-    [7, 5, 4, 8, 4, 5, 5, 4, 4, 5],
-    [8, 4, 5, 7, 4, 5, 4, 4, 5, 5],
-    [6, 5, 4, 8, 5, 5, 4, 4, 4, 5],
-    [7, 4, 5, 7, 5, 5, 5, 4, 4, 5],
-    [8, 4, 4, 8, 4, 5, 4, 5, 4, 4],
-    [7, 5, 5, 7, 4, 5, 4, 4, 4, 6]
+    [
+      7,
+      4,
+      5,
+      7,
+      5,
+      5,
+      5,
+      4,
+      4,
+      6
+    ],
+    [
+      7,
+      5,
+      4,
+      7,
+      5,
+      5,
+      4,
+      4,
+      4,
+      5
+    ],
+    [
+      8,
+      4,
+      4,
+      8,
+      4,
+      5,
+      4,
+      4,
+      4,
+      5
+    ],
+    [
+      6,
+      4,
+      5,
+      7,
+      5,
+      6,
+      5,
+      4,
+      4,
+      6
+    ],
+    [
+      7,
+      5,
+      4,
+      8,
+      4,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    [
+      8,
+      4,
+      5,
+      7,
+      4,
+      5,
+      4,
+      4,
+      5,
+      5
+    ],
+    [
+      6,
+      5,
+      4,
+      8,
+      5,
+      5,
+      4,
+      4,
+      4,
+      5
+    ],
+    [
+      7,
+      4,
+      5,
+      7,
+      5,
+      5,
+      5,
+      4,
+      4,
+      5
+    ],
+    [
+      8,
+      4,
+      4,
+      8,
+      4,
+      5,
+      4,
+      5,
+      4,
+      4
+    ],
+    [
+      7,
+      5,
+      5,
+      7,
+      4,
+      5,
+      4,
+      4,
+      4,
+      6
+    ]
   ],
   "skills": [
-    { "name": "Athletics", "fixedLevel": 2, "stat": "dex", "category": "bodySkills", "difficulty": "typical" },
-    { "name": "Basic Tech", "fixedLevel": 4, "stat": "tech", "category": "techniqueSkills", "difficulty": "typical" },
-    { "name": "Concentration", "fixedLevel": 4, "stat": "will", "category": "awarenessSkills", "difficulty": "typical" },
-    { "name": "Conversation", "fixedLevel": 4, "stat": "emp", "category": "socialSkills", "difficulty": "typical" },
-    { "name": "Cryo Tank Operation", "fixedLevel": 4, "stat": "tech", "category": "techniqueSkills", "difficulty": "typical" },
-    { "name": "Cybertech", "fixedLevel": 4, "stat": "tech", "category": "techniqueSkills", "difficulty": "typical" },
-    { "name": "Deduction", "fixedLevel": 4, "stat": "int", "category": "awarenessSkills", "difficulty": "typical" },
-    { "name": "Education", "fixedLevel": 4, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
-    { "name": "Evasion", "fixedLevel": 2, "stat": "dex", "category": "bodySkills", "difficulty": "typical" },
-    { "name": "First Aid", "fixedLevel": 6, "stat": "tech", "category": "techniqueSkills", "difficulty": "typical" },
-    { "name": "Handgun", "fixedLevel": 4, "stat": "ref", "category": "fightingSkills", "difficulty": "typical" },
-    { "name": "Human Perception", "fixedLevel": 4, "stat": "emp", "category": "socialSkills", "difficulty": "typical" },
-    { "name": "Language (Streetslang)", "fixedLevel": 2, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
-    { "name": "Local Expert", "fixedLevel": 2, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
-    { "name": "Paramedic", "fixedLevel": 6, "stat": "tech", "category": "techniqueSkills", "difficulty": "x2" },
-    { "name": "Perception", "fixedLevel": 4, "stat": "int", "category": "awarenessSkills", "difficulty": "typical" },
-    { "name": "Persuasion", "fixedLevel": 2, "stat": "cool", "category": "socialSkills", "difficulty": "typical" },
-    { "name": "Resist Torture/Drugs", "fixedLevel": 2, "stat": "will", "category": "bodySkills", "difficulty": "typical" },
-    { "name": "Science", "fixedLevel": 4, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
-    { "name": "Stealth", "fixedLevel": 2, "stat": "dex", "category": "bodySkills", "difficulty": "typical" }
+    {
+      "name": "Athletics",
+      "fixedLevel": 2,
+      "stat": "dex",
+      "category": "bodySkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Basic Tech",
+      "fixedLevel": 4,
+      "stat": "tech",
+      "category": "techniqueSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Concentration",
+      "fixedLevel": 4,
+      "stat": "will",
+      "category": "awarenessSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Conversation",
+      "fixedLevel": 4,
+      "stat": "emp",
+      "category": "socialSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Cryo Tank Operation",
+      "fixedLevel": 4,
+      "stat": "tech",
+      "category": "techniqueSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Cybertech",
+      "fixedLevel": 4,
+      "stat": "tech",
+      "category": "techniqueSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Deduction",
+      "fixedLevel": 4,
+      "stat": "int",
+      "category": "awarenessSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Education",
+      "fixedLevel": 4,
+      "stat": "int",
+      "category": "educationSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Evasion",
+      "fixedLevel": 2,
+      "stat": "dex",
+      "category": "bodySkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "First Aid",
+      "fixedLevel": 6,
+      "stat": "tech",
+      "category": "techniqueSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Handgun",
+      "fixedLevel": 4,
+      "stat": "ref",
+      "category": "fightingSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Human Perception",
+      "fixedLevel": 4,
+      "stat": "emp",
+      "category": "socialSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Language (Streetslang)",
+      "fixedLevel": 2,
+      "stat": "int",
+      "category": "educationSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Local Expert",
+      "fixedLevel": 2,
+      "stat": "int",
+      "category": "educationSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Paramedic",
+      "fixedLevel": 6,
+      "stat": "tech",
+      "category": "techniqueSkills",
+      "difficulty": "x2"
+    },
+    {
+      "name": "Perception",
+      "fixedLevel": 4,
+      "stat": "int",
+      "category": "awarenessSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Persuasion",
+      "fixedLevel": 2,
+      "stat": "cool",
+      "category": "socialSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Resist Torture/Drugs",
+      "fixedLevel": 2,
+      "stat": "will",
+      "category": "bodySkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Science",
+      "fixedLevel": 4,
+      "stat": "int",
+      "category": "educationSkills",
+      "difficulty": "typical"
+    },
+    {
+      "name": "Stealth",
+      "fixedLevel": 2,
+      "stat": "dex",
+      "category": "bodySkills",
+      "difficulty": "typical"
+    }
   ],
   "equipment": {
     "weapons": [
-      { "packName": "core_weapons", "itemName": "Medium Pistol" },
-      { "choice": ["Light Melee Weapon", "Medium Melee Weapon"], "packName": "core_weapons" }
+      {
+        "packName": "core_weapons",
+        "itemName": "Medium Pistol"
+      },
+      {
+        "choice": [
+          "Light Melee",
+          "Medium Melee"
+        ],
+        "packName": "core_weapons"
+      }
     ],
     "armor": [
-      { "packName": "core_armor", "itemName": "Leathers Body" },
-      { "packName": "core_armor", "itemName": "Leathers Head" }
+      {
+        "packName": "core_armor",
+        "itemName": "Leathers (Body)"
+      },
+      {
+        "packName": "core_armor",
+        "itemName": "Leathers (Head)"
+      }
     ],
     "gear": [
-      { "packName": "core_gear", "itemName": "Agent" },
-      { "packName": "core_gear", "itemName": "Medical Bag" },
-      { "packName": "core_gear", "itemName": "Stim (x3)" }
+      {
+        "packName": "core_gear",
+        "itemName": "Agent"
+      },
+      {
+        "packName": "core_gear",
+        "itemName": "Medtech Bag"
+      },
+      {
+        "packName": "core_gear",
+        "itemName": "Stim",
+        "quantity": 3
+      }
     ],
     "ammo": [
-      { "packName": "core_ammo", "itemName": "Basic (Pistol/SMG)", "quantity": 50 }
+      {
+        "packName": "core_ammo",
+        "itemName": "Medium Pistol (Basic)",
+        "quantity": 50
+      }
     ],
     "cyberware": [
-      { "packName": "core_cyberware", "itemName": "Neural Link", "humanityLoss": 2 },
-      { "packName": "core_cyberware", "itemName": "Cyberarm", "humanityLoss": 4 },
-      { "choice": ["Cyberarm Medscanner", "Cyberarm Toolhand"], "packName": "core_cyberware" }
+      {
+        "packName": "core_cyberware",
+        "itemName": "Neural Link",
+        "humanityLoss": 2
+      },
+      {
+        "packName": "core_cyberware",
+        "itemName": "Cyberarm",
+        "humanityLoss": 4
+      },
+      {
+        "choice": [
+          "Medscanner",
+          "Tool Hand"
+        ],
+        "packName": "core_cyberware"
+      }
     ]
   },
   "startingCash": 500,
   "lifestyle": {
-    "housing": { "description": "Cube Hotel", "cost": 1000 },
-    "lifeStyle": { "description": "Kibble", "cost": 100 }
+    "housing": {
+      "description": "Cube Hotel",
+      "cost": 1000
+    },
+    "lifeStyle": {
+      "description": "Kibble",
+      "cost": 100
+    }
   }
 }

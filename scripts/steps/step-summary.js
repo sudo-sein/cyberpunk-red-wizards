@@ -143,6 +143,14 @@ export default class StepSummary extends StepBase {
       const item = await fetchCompendiumItem(packName, skillName);
       if (item) return item;
     }
+    if (typeof QuickInsert !== "undefined") {
+      const results = QuickInsert.search(skillName);
+      const match = results.find(r => r.item.name === skillName);
+      if (match) {
+        const doc = await match.item.get();
+        if (doc?.type === "skill") return doc;
+      }
+    }
     return null;
   }
 }
