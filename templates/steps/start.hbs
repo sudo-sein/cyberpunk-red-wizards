@@ -1,0 +1,34 @@
+<div class="crw-step-start">
+  <div class="crw-field-group">
+    <label class="crw-label">{{localize "crw.start.handle.label"}}</label>
+    <input type="text" class="crw-input crw-handle-input" name="handle"
+           value="{{handle}}" placeholder="{{localize "crw.start.handle.placeholder"}}">
+  </div>
+
+  <div class="crw-field-group">
+    <label class="crw-label">{{localize "crw.start.method.label"}}</label>
+    <div class="crw-method-grid">
+      {{#each methods}}
+      <div class="crw-method-card {{#if (eq this.id ../selectedMethod)}}crw-selected{{/if}}"
+           data-action="selectMethod" data-method="{{this.id}}">
+        <div class="crw-method-name">{{this.label}}</div>
+        <div class="crw-method-desc">{{this.desc}}</div>
+        <div class="crw-method-time">{{this.time}}</div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="crw-field-group">
+    <label class="crw-label">{{localize "crw.start.role.label"}}</label>
+    <div class="crw-role-grid">
+      {{#each roles}}
+      <div class="crw-role-btn {{#if (eq this.id ../selectedRole)}}crw-selected{{/if}}"
+           data-action="selectRole" data-role="{{this.id}}">
+        <div class="crw-role-name">{{this.label}}</div>
+        <div class="crw-role-ability">{{this.ability}}</div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</div>

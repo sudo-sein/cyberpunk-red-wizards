@@ -1,3 +1,5 @@
+import StepStart from "../steps/step-start.js";
+
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export default class CharacterCreatorApp extends HandlebarsApplicationMixin(ApplicationV2) {
@@ -54,6 +56,9 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
       gear: {},
       cyberware: [],
     };
+    this.registerSteps([
+      new StepStart(),
+    ]);
   }
 
   registerSteps(steps) {

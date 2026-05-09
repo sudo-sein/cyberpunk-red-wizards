@@ -82,3 +82,116 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Step 0: Start */
+.crw-field-group {
+  margin-bottom: 16px;
+}
+
+.crw-label {
+  display: block;
+  font-size: var(--cpr-font-smaller);
+  text-transform: uppercase;
+  color: var(--cpr-text-icon-highlight);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.crw-input {
+  width: 100%;
+  padding: 10px 14px;
+  background-color: var(--cpr-background-box);
+  border: 1px solid var(--cpr-background-border);
+  border-radius: 4px;
+  color: var(--cpr-text-normal);
+  font-size: var(--cpr-font-normal);
+  font-family: var(--cpr-font-primary);
+  box-sizing: border-box;
+}
+
+.crw-method-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.crw-method-card {
+  background-color: var(--cpr-background-box);
+  border: 2px solid var(--cpr-background-border);
+  border-radius: 6px;
+  padding: 14px;
+  cursor: pointer;
+  text-align: center;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.crw-method-card:hover {
+  opacity: 1;
+}
+
+.crw-method-card.crw-selected {
+  border-color: var(--cpr-color-red);
+  opacity: 1;
+}
+
+.crw-method-name {
+  font-family: var(--cpr-font-hero);
+  font-size: var(--cpr-font-normal);
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.crw-method-desc {
+  font-size: var(--cpr-font-smaller);
+  color: var(--cpr-text-icon-dimmed);
+  line-height: 1.4;
+}
+
+.crw-method-time {
+  font-size: var(--cpr-font-smallest);
+  color: var(--cpr-text-icon-dimmed);
+  margin-top: 8px;
+}
+
+.crw-role-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.crw-role-btn {
+  background-color: var(--cpr-background-box);
+  border: 1px solid var(--cpr-background-border);
+  border-radius: 4px;
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.crw-role-btn:hover {
+  opacity: 1;
+}
+
+.crw-role-btn.crw-selected {
+  background-color: var(--cpr-color-red);
+  border-color: var(--cpr-color-red);
+  opacity: 1;
+}
+
+.crw-role-btn.crw-selected .crw-role-ability {
+  color: var(--cpr-text-header);
+}
+
+.crw-role-name {
+  font-family: var(--cpr-font-hero);
+  font-size: var(--cpr-font-small);
+  font-weight: bold;
+}
+
+.crw-role-ability {
+  font-size: var(--cpr-font-smallest);
+  color: var(--cpr-text-icon-dimmed);
+}
