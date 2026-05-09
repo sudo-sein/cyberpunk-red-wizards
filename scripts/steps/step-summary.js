@@ -1,7 +1,7 @@
 import StepBase from "./step-base.js";
 import { calculateAllDerived } from "../utils/derived-stats.js";
 import { runFullChecklist } from "../utils/validation.js";
-import { loadRole, fetchCompendiumItem } from "../data/role-loader.js";
+import { loadRole, fetchCompendiumItem, fetchCompendiumItems } from "../data/role-loader.js";
 
 const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
 
@@ -113,14 +113,17 @@ export default class StepSummary extends StepBase {
       await actor.createEmbeddedDocuments("Item", itemsToCreate);
     }
 
-    // Update skill levels on the actor (skills are auto-created by the system)
-    for (const skill of state.skills.filter(s => s.level > 0)) {
-      const skillItem = actor.items.getName(skill.name);
-      if (skillItem) {
-        await skillItem.update({ "system.level": skill.level });
-      } else {
-        console.warn(`Skill "${skill.name}" not found on actor`);
-      }
+    // Create all skills from internal_skills compendium, setting levels from wizard state
+    const skillLevelMap = new Map(state.skills.map(s => [s.name, s.level]));
+    const allSkillDocs = await fetchCompendiumItems("internal_skills");
+    const skillItems = allSkillDocs.map(doc => {
+      const data = doc.toObject();
+      const level = skillLevelMap.get(data.name) ?? 0;
+      data.system.level = level;
+      return data;
+    });
+    if (skillItems.length > 0) {
+      await actor.createEmbeddedDocuments("Item", skillItems);
     }
 
     // Set wealth
