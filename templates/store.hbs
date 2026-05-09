@@ -1,0 +1,155 @@
+<div class="crw-store-container">
+  {{!-- Header bar: buyer selector + balance --}}
+  <div class="crw-store-header">
+    <div class="crw-store-buyer">
+      <label>{{localize "crw.store.buyer"}}:</label>
+      <select class="crw-store-actor-select">
+        {{#each actors}}
+        <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
+        {{/each}}
+      </select>
+    </div>
+    {{#if selectedActor}}
+    <div class="crw-store-balance">€$ {{balance}}</div>
+    {{/if}}
+  </div>
+
+  {{!-- Category tabs --}}
+  <nav class="crw-store-tabs">
+    {{#each tabs}}
+    {{#if this.visible}}
+    <button class="crw-store-tab {{#if this.active}}crw-store-tab-active{{/if}}"
+            data-tab="{{this.type}}">
+      {{localize this.label}}
+    </button>
+    {{/if}}
+    {{/each}}
+    {{#if isGM}}
+    <button class="crw-store-tab crw-store-tab-settings {{#if settingsActive}}crw-store-tab-active{{/if}}"
+            data-tab="settings" title="{{localize "crw.store.settings.title"}}">
+      <i class="fas fa-cog"></i>
+    </button>
+    {{/if}}
+  </nav>
+
+  {{!-- Main content area --}}
+  <div class="crw-store-body">
+    {{#if noActor}}
+    <div class="crw-store-empty">
+      <p>{{localize "crw.store.noCharacter"}}</p>
+    </div>
+
+    {{else if settingsActive}}
+    {{!-- GM Settings Panel --}}
+    <div class="crw-store-settings">
+
+      {{!-- Cost Modifier --}}
+      <div class="crw-store-settings-section">
+        <h3>{{localize "crw.store.settings.costModifier"}}</h3>
+        <div class="crw-store-markup-controls">
+          <button data-action="adjustMarkup" data-delta="-10">-10%</button>
+          <button data-action="adjustMarkup" data-delta="-1">-1%</button>
+          <span class="crw-store-markup-display">{{markup}}%</span>
+          <button data-action="adjustMarkup" data-delta="1">+1%</button>
+          <button data-action="adjustMarkup" data-delta="10">+10%</button>
+        </div>
+        <div class="crw-store-markup-presets">
+          <button data-action="setMarkup" data-value="0">{{localize "crw.store.settings.free"}}</button>
+          <button data-action="setMarkup" data-value="100" class="crw-store-btn-active">{{localize "crw.store.settings.standardCost"}}</button>
+        </div>
+      </div>
+
+      {{!-- Price Range Filter --}}
+      <div class="crw-store-settings-section">
+        <h3>{{localize "crw.store.settings.priceRange"}}</h3>
+        <div class="crw-store-price-range">
+          <div>
+            <label>{{localize "crw.store.settings.priceMin"}}</label>
+            <input type="number" class="crw-store-price-min" value="{{priceMin}}" min="0">
+          </div>
+          <span class="crw-store-price-separator">—</span>
+          <div>
+            <label>{{localize "crw.store.settings.priceMax"}}</label>
+            <input type="number" class="crw-store-price-max" value="{{priceMax}}" min="0">
+          </div>
+        </div>
+        <button data-action="resetPriceRange">{{localize "crw.store.settings.showAll"}}</button>
+        <p class="crw-store-hint">{{localize "crw.store.settings.priceHint"}}</p>
+      </div>
+
+      {{!-- Category Availability --}}
+      <div class="crw-store-settings-section">
+        <h3>{{localize "crw.store.settings.categories"}}</h3>
+        <div class="crw-store-category-grid">
+          {{#each categoryToggles}}
+          <label class="crw-store-category-toggle {{#unless this.enabled}}crw-store-disabled{{/unless}}">
+            <input type="checkbox" data-category="{{this.type}}" {{#if this.enabled}}checked{{/if}}>
+            <span>{{localize this.label}}</span>
+          </label>
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Hidden Items --}}
+      <div class="crw-store-settings-section">
+        <h3>{{localize "crw.store.settings.hiddenItems"}}</h3>
+        {{#if hiddenItems.length}}
+        <div class="crw-store-hidden-list">
+          {{#each hiddenItems}}
+          <div class="crw-store-hidden-item">
+            <span class="crw-store-hidden-name">{{this.name}}</span>
+            <span class="crw-store-hidden-type">{{this.typeLabel}}</span>
+            <button data-action="restoreItem" data-uuid="{{this.uuid}}">{{localize "crw.store.settings.restore"}}</button>
+          </div>
+          {{/each}}
+        </div>
+        <button data-action="restoreAllItems">{{localize "crw.store.settings.restoreAll"}}</button>
+        {{else}}
+        <p class="crw-store-hint">{{localize "crw.store.settings.noHiddenItems"}}</p>
+        {{/if}}
+        <p class="crw-store-hint">{{localize "crw.store.settings.hiddenHint"}}</p>
+      </div>
+    </div>
+
+    {{else}}
+    {{!-- Item list --}}
+    <div class="crw-store-search">
+      <i class="fas fa-search"></i>
+      <input type="text" class="crw-store-search-input" placeholder="{{localize "crw.store.search"}}" value="{{searchValue}}">
+      {{#if searchValue}}
+      <button class="crw-store-search-clear" data-action="clearSearch"><i class="fas fa-times"></i></button>
+      {{/if}}
+    </div>
+
+    <div class="crw-store-items">
+      {{#each itemGroups}}
+      <div class="crw-store-group-divider">
+        <span>{{localize this.label}}</span>
+      </div>
+      {{#each this.items}}
+      <div class="crw-store-item {{#if this.unaffordable}}crw-store-unaffordable{{/if}}"
+           data-uuid="{{this.uuid}}">
+        <div class="crw-store-item-info">
+          <div class="crw-store-item-name">{{this.name}}</div>
+          <div class="crw-store-item-subtype">{{this.subtype}}</div>
+        </div>
+        <div class="crw-store-item-actions">
+          {{#if ../../../isGM}}
+          <button class="crw-store-btn-loot" data-action="lootItem" data-uuid="{{this.uuid}}"
+                  title="{{localize "crw.store.loot"}}">
+            <i class="fas fa-gift"></i>
+          </button>
+          {{/if}}
+          <button class="crw-store-btn-buy {{#if this.unaffordable}}crw-store-btn-disabled{{/if}}"
+                  data-action="buyItem" data-uuid="{{this.uuid}}"
+                  {{#if this.unaffordable}}disabled{{/if}}>
+            €$ {{this.finalPrice}}
+          </button>
+        </div>
+      </div>
+      {{/each}}
+      {{/each}}
+    </div>
+    {{/if}}
+  </div>
+</div>
