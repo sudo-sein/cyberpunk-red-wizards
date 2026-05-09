@@ -3,6 +3,10 @@ import CharacterCreatorApp from "./app/creator-app.js";
 const MODULE_ID = "cyberpunk-red-wizards";
 
 Hooks.once("init", () => {
+  Handlebars.registerHelper("eq", (a, b) => a === b);
+  Handlebars.registerHelper("lt", (a, b) => a < b);
+  Handlebars.registerHelper("gt", (a, b) => a > b);
+
   game.settings.register(MODULE_ID, "defaultMethod", {
     name: `crw.settings.defaultMethod.name`,
     hint: `crw.settings.defaultMethod.hint`,

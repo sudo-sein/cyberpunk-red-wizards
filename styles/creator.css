@@ -2,3 +2,83 @@
   font-family: var(--cpr-font-primary);
   font-size: var(--cpr-font-small);
 }
+
+.crw-wizard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--cpr-background-window);
+  color: var(--cpr-text-normal);
+  font-family: var(--cpr-font-primary);
+}
+
+.crw-step-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  background-color: var(--cpr-background-header);
+  font-size: var(--cpr-font-smaller);
+  flex-shrink: 0;
+}
+
+.crw-step-indicator {
+  padding: 3px 10px;
+  color: var(--cpr-text-icon-dimmed);
+}
+
+.crw-step-active {
+  background-color: var(--cpr-background-tab-active);
+  color: var(--cpr-text-header);
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.crw-step-done {
+  color: var(--cpr-text-header);
+}
+
+.crw-step-separator {
+  color: var(--cpr-text-icon-dimmed);
+}
+
+.crw-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+.crw-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-top: 1px solid var(--cpr-background-border);
+  background-color: var(--cpr-background-header);
+  flex-shrink: 0;
+}
+
+.crw-btn-back,
+.crw-btn-next {
+  font-family: var(--cpr-font-primary);
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: var(--cpr-font-small);
+}
+
+.crw-btn-back {
+  background-color: var(--cpr-background-box);
+  color: var(--cpr-text-normal);
+}
+
+.crw-btn-next {
+  background-color: var(--cpr-color-red);
+  color: var(--cpr-text-header);
+  font-weight: bold;
+}
+
+.crw-btn-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

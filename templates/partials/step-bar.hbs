@@ -1,0 +1,12 @@
+<nav class="crw-step-bar">
+  {{#each steps}}
+  <span class="crw-step-indicator {{#if (eq ../currentStep @index)}}crw-step-active{{else if (lt @index ../currentStep)}}crw-step-done{{/if}}">
+    {{#if (lt @index ../currentStep)}}
+      <i class="fas fa-check"></i>
+    {{else}}
+      {{this.label}}
+    {{/if}}
+  </span>
+  {{#unless @last}}<span class="crw-step-separator">&#x203A;</span>{{/unless}}
+  {{/each}}
+</nav>

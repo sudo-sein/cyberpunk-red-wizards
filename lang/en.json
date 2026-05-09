@@ -7,5 +7,14 @@
   "crw.settings.defaultMethod.hint": "Which creation method is pre-selected when opening the wizard.",
   "crw.methods.streetrat": "Streetrat",
   "crw.methods.edgerunner": "Edgerunner",
-  "crw.methods.complete": "Complete Package"
+  "crw.methods.complete": "Complete Package",
+  "crw.steps.start": "Start",
+  "crw.steps.lifepath": "Lifepath",
+  "crw.steps.stats": "Stats",
+  "crw.steps.derived": "Derived",
+  "crw.steps.skills": "Skills",
+  "crw.steps.gear": "Gear",
+  "crw.steps.summary": "Summary",
+  "crw.nav.back": "Back",
+  "crw.nav.next": "Next"
 }
