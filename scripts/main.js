@@ -1,4 +1,5 @@
 import CharacterCreatorApp from "./app/creator-app.js";
+import NpcGeneratorApp from "./app/npc-generator-app.js";
 
 const MODULE_ID = "cyberpunk-red-wizards";
 
@@ -24,7 +25,7 @@ Hooks.once("init", () => {
       edgerunner: "crw.methods.edgerunner",
       complete: "crw.methods.complete",
     },
-    default: "complete",
+    default: "streetrat",
   });
 });
 
@@ -48,7 +49,7 @@ Hooks.on("renderActorDirectory", (app, html) => {
   npcBtn.classList.add("crw-sidebar-btn");
   npcBtn.innerHTML = `<i class="fas fa-users"></i> ${game.i18n.localize("crw.buttons.npcTemplate")}`;
   npcBtn.addEventListener("click", () => {
-    ui.notifications.info(game.i18n.localize("crw.npcPlaceholder.content"));
+    NpcGeneratorApp.open();
   });
 
   headerActions.append(creatorBtn, npcBtn);
