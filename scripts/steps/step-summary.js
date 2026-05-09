@@ -98,12 +98,13 @@ export default class StepSummary extends StepBase {
     // Equipment items (Streetrat/Edgerunner only)
     if (state.method !== "complete" && roleData?.equipment) {
       const equipCategories = ["weapons", "armor", "gear", "ammo", "cyberware"];
+      let choiceIdx = 0;
       for (const cat of equipCategories) {
         const items = roleData.equipment[cat] ?? [];
         for (const item of items) {
           if (item.choice) {
-            const choiceIdx = items.indexOf(item);
             const chosenName = state.gear.choices?.[choiceIdx] ?? item.choice[0];
+            choiceIdx++;
             const compItem = await fetchCompendiumItem(item.packName, chosenName);
             if (compItem) itemsToCreate.push(compItem.toObject());
           } else {
