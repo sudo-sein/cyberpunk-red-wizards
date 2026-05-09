@@ -1,1 +1,156 @@
-[]
+[
+  {
+    "id": "bouncer",
+    "nameKey": "crw.npc.bouncer",
+    "tier": "everyday-people",
+    "stats": { "int": 3, "ref": 5, "dex": 5, "tech": 2, "cool": 4, "will": 4, "luck": 0, "move": 3, "body": 5, "emp": 2 },
+    "hp": 35,
+    "seriousWound": 18,
+    "deathSave": 6,
+    "armor": {
+      "head": { "name": "Leathers", "sp": 4, "packName": "core_armor", "itemName": "Leathers (Head)" },
+      "body": { "name": "Leathers", "sp": 4, "packName": "core_armor", "itemName": "Leathers (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "poor", "damage": "4d6" }
+    ],
+    "skills": [
+      { "name": "Brawling", "base": 10 },
+      { "name": "Handgun", "base": 10 },
+      { "name": "Perception", "base": 8 },
+      { "name": "Evasion", "base": 8 },
+      { "name": "Interrogation", "base": 8 },
+      { "name": "Athletics", "base": 8 },
+      { "name": "Endurance", "base": 8 },
+      { "name": "Conversation", "base": 6 },
+      { "name": "Human Perception", "base": 6 },
+      { "name": "First Aid", "base": 4 },
+      { "name": "Education", "base": 4 },
+      { "name": "Concentration", "base": 4 },
+      { "name": "Language (Streetslang)", "base": 4 },
+      { "name": "Local Expert", "base": 4 }
+    ],
+    "equipment": [
+      { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 30 },
+      { "packName": "core_gear", "itemName": "Flashlight", "quantity": 1 },
+      { "packName": "core_gear", "itemName": "Radio Communicator", "quantity": 1 }
+    ],
+    "cyberware": [],
+    "role": { "packName": "core_roles", "itemName": "Solo", "rank": 2 }
+  },
+  {
+    "id": "scavver",
+    "nameKey": "crw.npc.scavver",
+    "tier": "everyday-people",
+    "stats": { "int": 3, "ref": 5, "dex": 4, "tech": 3, "cool": 3, "will": 3, "luck": 0, "move": 4, "body": 5, "emp": 3 },
+    "hp": 30,
+    "seriousWound": 15,
+    "deathSave": 5,
+    "armor": {
+      "head": { "name": "Leathers", "sp": 4, "packName": "core_armor", "itemName": "Leathers (Head)" },
+      "body": { "name": "Leathers", "sp": 4, "packName": "core_armor", "itemName": "Leathers (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Light Melee", "quality": "poor", "damage": "1d6" },
+      { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "poor", "damage": "4d6" }
+    ],
+    "skills": [
+      { "name": "Stealth", "base": 8 },
+      { "name": "Melee Weapon", "base": 8 },
+      { "name": "Handgun", "base": 8 },
+      { "name": "Perception", "base": 8 },
+      { "name": "Evasion", "base": 6 },
+      { "name": "Athletics", "base": 6 },
+      { "name": "Brawling", "base": 6 },
+      { "name": "Conceal/Reveal Object", "base": 6 },
+      { "name": "Criminology", "base": 6 },
+      { "name": "First Aid", "base": 4 },
+      { "name": "Education", "base": 4 },
+      { "name": "Conversation", "base": 4 },
+      { "name": "Human Perception", "base": 4 },
+      { "name": "Language (Streetslang)", "base": 4 },
+      { "name": "Local Expert", "base": 4 },
+      { "name": "Endurance", "base": 4 }
+    ],
+    "equipment": [
+      { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 20 },
+      { "packName": "core_gear", "itemName": "Flashlight", "quantity": 1 },
+      { "packName": "core_gear", "itemName": "Disposable Cell Phone", "quantity": 1 }
+    ],
+    "cyberware": [],
+    "role": null
+  },
+  {
+    "id": "civilian",
+    "nameKey": "crw.npc.civilian",
+    "tier": "everyday-people",
+    "stats": { "int": 4, "ref": 3, "dex": 3, "tech": 3, "cool": 4, "will": 3, "luck": 0, "move": 3, "body": 4, "emp": 6 },
+    "hp": 25,
+    "seriousWound": 13,
+    "deathSave": 4,
+    "armor": {
+      "head": null,
+      "body": null
+    },
+    "weapons": [],
+    "skills": [
+      { "name": "Conversation", "base": 8 },
+      { "name": "Human Perception", "base": 8 },
+      { "name": "Persuasion", "base": 8 },
+      { "name": "Education", "base": 8 },
+      { "name": "Perception", "base": 6 },
+      { "name": "Concentration", "base": 6 },
+      { "name": "Brawling", "base": 6 },
+      { "name": "Evasion", "base": 6 },
+      { "name": "Language (Streetslang)", "base": 6 },
+      { "name": "Local Expert", "base": 6 },
+      { "name": "First Aid", "base": 4 },
+      { "name": "Athletics", "base": 4 }
+    ],
+    "equipment": [
+      { "packName": "core_gear", "itemName": "Agent", "quantity": 1 },
+      { "packName": "core_gear", "itemName": "Disposable Cell Phone", "quantity": 1 }
+    ],
+    "cyberware": [],
+    "role": null
+  },
+  {
+    "id": "driver",
+    "nameKey": "crw.npc.driver",
+    "tier": "everyday-people",
+    "stats": { "int": 4, "ref": 5, "dex": 4, "tech": 3, "cool": 3, "will": 3, "luck": 0, "move": 4, "body": 4, "emp": 3 },
+    "hp": 30,
+    "seriousWound": 15,
+    "deathSave": 4,
+    "armor": {
+      "head": { "name": "Leathers", "sp": 4, "packName": "core_armor", "itemName": "Leathers (Head)" },
+      "body": { "name": "Leathers", "sp": 4, "packName": "core_armor", "itemName": "Leathers (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "poor", "damage": "4d6" }
+    ],
+    "skills": [
+      { "name": "Land Vehicle", "base": 10 },
+      { "name": "Perception", "base": 8 },
+      { "name": "Handgun", "base": 8 },
+      { "name": "Athletics", "base": 6 },
+      { "name": "Evasion", "base": 6 },
+      { "name": "Land Vehicle Tech", "base": 6 },
+      { "name": "Conversation", "base": 6 },
+      { "name": "Human Perception", "base": 6 },
+      { "name": "Stealth", "base": 6 },
+      { "name": "First Aid", "base": 4 },
+      { "name": "Education", "base": 4 },
+      { "name": "Concentration", "base": 4 },
+      { "name": "Language (Streetslang)", "base": 4 },
+      { "name": "Local Expert", "base": 4 }
+    ],
+    "equipment": [
+      { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 20 },
+      { "packName": "core_gear", "itemName": "Agent", "quantity": 1 },
+      { "packName": "core_gear", "itemName": "Radio Communicator", "quantity": 1 }
+    ],
+    "cyberware": [],
+    "role": { "packName": "core_roles", "itemName": "Nomad", "rank": 2 }
+  }
+]
