@@ -1,7 +1,7 @@
 import StepBase from "./step-base.js";
 import { calculateAllDerived } from "../utils/derived-stats.js";
 import { runFullChecklist } from "../utils/validation.js";
-import { loadRole, fetchCompendiumItem, fetchCompendiumItems } from "../data/role-loader.js";
+import { loadRole, fetchCompendiumItem } from "../data/role-loader.js";
 
 const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
 
@@ -47,21 +47,13 @@ export default class StepSummary extends StepBase {
   }
 
   async createCharacter(state) {
-    const derived = calculateAllDerived(state.stats);
     const roleData = state.role?.id ? await loadRole(state.role.id) : null;
 
-    const statsData = {};
-    for (const key of STAT_KEYS) {
-      statsData[key] = { value: state.stats[key] };
-    }
-
-    const actorData = {
+    // Create actor WITHOUT system data so cpr-actor.create() auto-populates
+    // core skills and cyberware from internal compendium packs
+    const actor = await Actor.create({
       name: state.handle,
       type: "character",
-      system: {
-        stats: statsData,
-        lifepath: state.lifepath,
-      },
       prototypeToken: {
         name: state.handle,
         actorLink: true,
@@ -69,13 +61,37 @@ export default class StepSummary extends StepBase {
         sight: { enabled: true },
         bar1: { attribute: "derivedStats.hp" },
       },
+    });
+
+    // Set stats, lifepath, and wealth on the actor
+    const statsData = {};
+    for (const key of STAT_KEYS) {
+      statsData[key] = { value: state.stats[key] };
+    }
+    const updateData = {
+      "system.stats": statsData,
+      "system.lifepath": state.lifepath,
     };
+    if (roleData?.startingCash != null) {
+      updateData["system.wealth.value"] = roleData.startingCash;
+    } else if (state.method === "complete") {
+      updateData["system.wealth.value"] = 2550;
+    }
+    await actor.update(updateData);
 
-    const actor = await Actor.create(actorData);
+    // Update skill levels (core skills were auto-created above)
+    for (const skill of state.skills.filter(s => s.level > 0)) {
+      const skillItem = actor.items.getName(skill.name);
+      if (skillItem) {
+        await skillItem.update({ "system.level": skill.level });
+      } else {
+        console.warn(`Skill "${skill.name}" not found on actor`);
+      }
+    }
 
+    // Add role ability + equipment items
     const itemsToCreate = [];
 
-    // Role ability item from compendium
     if (state.role?.id) {
       const roleItem = await fetchCompendiumItem("core_roles", game.i18n.localize(`crw.roles.${state.role.id}`));
       if (roleItem) {
@@ -85,7 +101,6 @@ export default class StepSummary extends StepBase {
       }
     }
 
-    // Equipment items (Streetrat/Edgerunner only)
     if (state.method !== "complete" && roleData?.equipment) {
       const equipCategories = ["weapons", "armor", "gear", "ammo", "cyberware"];
       let choiceIdx = 0;
@@ -111,26 +126,6 @@ export default class StepSummary extends StepBase {
 
     if (itemsToCreate.length > 0) {
       await actor.createEmbeddedDocuments("Item", itemsToCreate);
-    }
-
-    // Create all skills from internal_skills compendium, setting levels from wizard state
-    const skillLevelMap = new Map(state.skills.map(s => [s.name, s.level]));
-    const allSkillDocs = await fetchCompendiumItems("internal_skills");
-    const skillItems = allSkillDocs.map(doc => {
-      const data = doc.toObject();
-      const level = skillLevelMap.get(data.name) ?? 0;
-      data.system.level = level;
-      return data;
-    });
-    if (skillItems.length > 0) {
-      await actor.createEmbeddedDocuments("Item", skillItems);
-    }
-
-    // Set wealth
-    if (roleData?.startingCash != null) {
-      await actor.update({ "system.wealth.value": roleData.startingCash });
-    } else if (state.method === "complete") {
-      await actor.update({ "system.wealth.value": 2550 });
     }
 
     return actor;
