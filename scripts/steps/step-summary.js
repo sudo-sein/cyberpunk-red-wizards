@@ -51,7 +51,9 @@ export default class StepSummary extends StepBase {
 
     // Create actor WITHOUT system data so cpr-actor.create() auto-populates
     // core skills and cyberware from internal compendium packs
-    const actor = await Actor.create({
+    // Use implementation class so CPRActor.create() runs and populates core items
+    const ActorClass = getDocumentClass("Actor");
+    const actor = await ActorClass.create({
       name: state.handle,
       type: "character",
       prototypeToken: {
