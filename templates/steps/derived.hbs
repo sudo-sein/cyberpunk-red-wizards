@@ -1,0 +1,14 @@
+<div class="crw-step-derived">
+  <h3 class="crw-section-title">{{localize "crw.derived.title"}}</h3>
+  <p class="crw-section-subtitle">{{localize "crw.derived.subtitle"}}</p>
+
+  <div class="crw-derived-grid">
+    {{#each derivedRows}}
+    <div class="crw-derived-card">
+      <div class="crw-derived-label">{{label}}</div>
+      <div class="crw-derived-value">{{value}}</div>
+      <div class="crw-derived-formula">{{formula}}</div>
+    </div>
+    {{/each}}
+  </div>
+</div>

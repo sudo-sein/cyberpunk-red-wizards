@@ -75,5 +75,19 @@
   "crw.stats.luckFull": "Luck",
   "crw.stats.moveFull": "Movement",
   "crw.stats.bodyFull": "Body",
-  "crw.stats.empFull": "Empathy"
+  "crw.stats.empFull": "Empathy",
+  "crw.derived.title": "Derived Statistics",
+  "crw.derived.subtitle": "Auto-calculated from your stats",
+  "crw.derived.hp": "Hit Points (HP)",
+  "crw.derived.hpFormula": "10 + 5 × ⌈(BODY + WILL) / 2⌉",
+  "crw.derived.seriousWound": "Serious Wound Threshold",
+  "crw.derived.seriousWoundFormula": "⌈HP / 2⌉",
+  "crw.derived.deathSave": "Death Save",
+  "crw.derived.deathSaveFormula": "BODY",
+  "crw.derived.humanity": "Humanity",
+  "crw.derived.humanityFormula": "EMP × 10",
+  "crw.derived.walk": "Walk (m/round)",
+  "crw.derived.walkFormula": "MOVE × 2",
+  "crw.derived.run": "Run (m/round)",
+  "crw.derived.runFormula": "MOVE × 4"
 }

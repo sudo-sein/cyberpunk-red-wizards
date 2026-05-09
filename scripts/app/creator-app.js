@@ -1,5 +1,6 @@
 import StepStart from "../steps/step-start.js";
 import StepStats from "../steps/step-stats.js";
+import StepDerived from "../steps/step-derived.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -60,6 +61,7 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
     this.registerSteps([
       new StepStart(),
       new StepStats(),
+      new StepDerived(),
     ]);
   }
 

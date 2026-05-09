@@ -352,3 +352,50 @@
   border-bottom: 1px solid var(--cpr-background-border);
   color: var(--cpr-text-normal);
 }
+
+/* Step 2: Derived Stats */
+.crw-section-title {
+  font-family: var(--cpr-font-hero);
+  font-size: var(--cpr-font-large);
+  margin: 0 0 4px 0;
+}
+
+.crw-section-subtitle {
+  font-size: var(--cpr-font-small);
+  color: var(--cpr-text-icon-dimmed);
+  margin: 0 0 16px 0;
+}
+
+.crw-derived-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.crw-derived-card {
+  background-color: var(--cpr-background-box);
+  border-radius: 6px;
+  padding: 14px;
+  text-align: center;
+}
+
+.crw-derived-label {
+  font-size: var(--cpr-font-smaller);
+  color: var(--cpr-text-icon-dimmed);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.crw-derived-value {
+  font-size: var(--cpr-font-largest);
+  font-weight: bold;
+  font-family: var(--cpr-font-hero);
+  color: var(--cpr-text-icon-highlight);
+}
+
+.crw-derived-formula {
+  font-size: var(--cpr-font-smallest);
+  color: var(--cpr-text-icon-dimmed);
+  margin-top: 4px;
+}
