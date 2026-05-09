@@ -1,0 +1,11 @@
+{
+  "crw.buttons.characterCreator": "Character Creator",
+  "crw.buttons.npcTemplate": "NPC Template",
+  "crw.npcPlaceholder.title": "NPC Template",
+  "crw.npcPlaceholder.content": "Coming soon — NPC template creation will be available in a future update.",
+  "crw.settings.defaultMethod.name": "Default Creation Method",
+  "crw.settings.defaultMethod.hint": "Which creation method is pre-selected when opening the wizard.",
+  "crw.methods.streetrat": "Streetrat",
+  "crw.methods.edgerunner": "Edgerunner",
+  "crw.methods.complete": "Complete Package"
+}

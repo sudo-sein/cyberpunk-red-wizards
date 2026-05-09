@@ -1,0 +1,20 @@
+{
+  "id": "cyberpunk-red-wizards",
+  "title": "Cyberpunk RED Wizards",
+  "description": "Character creation wizard for Cyberpunk RED.",
+  "version": "0.1.0",
+  "compatibility": { "minimum": "12", "verified": "12" },
+  "authors": [{ "name": "sein.adamczyk" }],
+  "relationships": {
+    "systems": [{
+      "id": "cyberpunk-red-core",
+      "type": "system",
+      "compatibility": { "verified": "0.92" }
+    }]
+  },
+  "esmodules": ["scripts/main.js"],
+  "styles": ["styles/creator.css"],
+  "languages": [
+    { "lang": "en", "name": "English", "path": "lang/en.json" }
+  ]
+}
