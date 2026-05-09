@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "cyberpsycho",
+    "nameKey": "crw.npc.cyberpsycho",
+    "tier": "boss",
+    "stats": { "int": 5, "ref": 8, "dex": 8, "tech": 5, "cool": 4, "will": 7, "luck": 0, "move": 8, "body": 10, "emp": 0 },
+    "hp": 55,
+    "seriousWound": 28,
+    "deathSave": 10,
+    "armor": {
+      "head": { "name": "Subdermal Armor", "sp": 11, "packName": "core_armor", "itemName": "Subdermal Armor (Head)" },
+      "body": { "name": "Subdermal Armor", "sp": 11, "packName": "core_armor", "itemName": "Subdermal Armor (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Grenade Launcher", "quality": "standard", "damage": "6d6" },
+      { "packName": "core_weapons", "itemName": "Heavy SMG", "quality": "standard", "damage": "3d6" }
+    ],
+    "skills": [
+      { "name": "Athletics", "base": 16 },
+      { "name": "Brawling", "base": 15 },
+      { "name": "Melee Weapon", "base": 17 },
+      { "name": "Heavy Weapons", "base": 14 },
+      { "name": "Handgun", "base": 12 },
+      { "name": "Autofire", "base": 14 },
+      { "name": "Resist Torture/Drugs", "base": 15 },
+      { "name": "Perception", "base": 9 },
+      { "name": "Interrogation", "base": 13 },
+      { "name": "Stealth", "base": 10 },
+      { "name": "Tracking", "base": 10 },
+      { "name": "Evasion", "base": 13 },
+      { "name": "Endurance", "base": 10 },
+      { "name": "Conversation", "base": 2 },
+      { "name": "Human Perception", "base": 2 },
+      { "name": "Persuasion", "base": 6 },
+      { "name": "First Aid", "base": 6 },
+      { "name": "Basic Tech", "base": 11 },
+      { "name": "Land Vehicle", "base": 10 },
+      { "name": "Concentration", "base": 6 },
+      { "name": "Language (Streetslang)", "base": 7 },
+      { "name": "Language (Streetslang)", "base": 7 },
+      { "name": "Local Expert", "base": 7 },
+      { "name": "Education", "base": 7 }
+    ],
+    "equipment": [
+      { "packName": "core_gear", "itemName": "Armor-Piercing Grenade", "quantity": 2 },
+      { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 100 }
+    ],
+    "cyberware": [
+      { "packName": "core_cyberware", "itemName": "Cyberarm" },
+      { "packName": "core_cyberware", "itemName": "Cyberarm" },
+      { "packName": "core_cyberware", "itemName": "Cyberleg" },
+      { "packName": "core_cyberware", "itemName": "Cyberleg" },
+      { "packName": "core_cyberware", "itemName": "Cybersnake" },
+      { "packName": "core_cyberware", "itemName": "Grafted Muscle and Bone Lace" },
+      { "packName": "core_cyberware", "itemName": "Neural Link" },
+      { "packName": "core_cyberware", "itemName": "Chipware Socket" },
+      { "packName": "core_cyberware", "itemName": "Pain Editor" },
+      { "packName": "core_cyberware", "itemName": "Subdermal Armor" }
+    ],
+    "role": null
+  }
+]
