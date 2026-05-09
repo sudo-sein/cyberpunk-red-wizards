@@ -320,7 +320,7 @@
       },
       {
         "packName": "core_cyberware",
-        "itemName": "Audio Vox",
+        "itemName": "AudioVox",
         "humanityLoss": 2
       }
     ]
