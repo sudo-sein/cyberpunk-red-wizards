@@ -99,7 +99,10 @@
           <div class="crw-store-hidden-item">
             <span class="crw-store-hidden-name">{{this.name}}</span>
             <span class="crw-store-hidden-type">{{this.typeLabel}}</span>
-            <button data-action="restoreItem" data-uuid="{{this.uuid}}">{{localize "crw.store.settings.restore"}}</button>
+            <button class="crw-store-btn-restore" data-action="restoreItem" data-uuid="{{this.uuid}}"
+                    title="{{localize "crw.store.settings.restore"}}">
+              <i class="fas fa-eye"></i>
+            </button>
           </div>
           {{/each}}
         </div>
@@ -134,17 +137,21 @@
           <div class="crw-store-item-subtype">{{this.subtype}}</div>
         </div>
         <div class="crw-store-item-actions">
-          {{#if ../../../isGM}}
-          <button class="crw-store-btn-loot" data-action="lootItem" data-uuid="{{this.uuid}}"
-                  title="{{localize "crw.store.loot"}}">
-            <i class="fas fa-gift"></i>
-          </button>
-          {{/if}}
           <button class="crw-store-btn-buy {{#if this.unaffordable}}crw-store-btn-disabled{{/if}}"
                   data-action="buyItem" data-uuid="{{this.uuid}}"
                   {{#if this.unaffordable}}disabled{{/if}}>
             €$ {{this.finalPrice}}
           </button>
+          {{#if ../../isGM}}
+          <button class="crw-store-btn-loot" data-action="lootItem" data-uuid="{{this.uuid}}"
+                  title="{{localize "crw.store.loot"}}">
+            <i class="fas fa-gift"></i>
+          </button>
+          <button class="crw-store-btn-hide" data-action="hideItem" data-uuid="{{this.uuid}}"
+                  title="{{localize "crw.store.settings.hide"}}">
+            <i class="fas fa-eye-slash"></i>
+          </button>
+          {{/if}}
         </div>
       </div>
       {{/each}}

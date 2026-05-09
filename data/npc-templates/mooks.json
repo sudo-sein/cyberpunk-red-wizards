@@ -2,14 +2,14 @@
   {
     "id": "bodyguard",
     "nameKey": "crw.npc.bodyguard",
-    "tier": "mook",
+    "tier": "mooks",
     "stats": { "int": 3, "ref": 6, "dex": 5, "tech": 2, "cool": 4, "will": 4, "luck": 0, "move": 4, "body": 6, "emp": 3 },
     "hp": 35,
     "seriousWound": 18,
     "deathSave": 6,
     "armor": {
-      "head": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar (Head)" },
-      "body": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar (Body)" }
+      "head": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar® (Head)" },
+      "body": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar® (Body)" }
     },
     "weapons": [
       { "packName": "core_weapons", "itemName": "Shotgun", "quality": "poor", "damage": "5d6" },
@@ -38,7 +38,7 @@
       { "name": "Education", "base": 5 }
     ],
     "equipment": [
-      { "packName": "core_ammo", "itemName": "Shotgun (Slug)", "quantity": 25 },
+      { "packName": "core_ammo", "itemName": "Shotgun Slug (Basic)", "quantity": 25 },
       { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 25 },
       { "packName": "core_gear", "itemName": "Radio Communicator", "quantity": 1 }
     ],
@@ -48,7 +48,7 @@
   {
     "id": "boosterganger",
     "nameKey": "crw.npc.boosterganger",
-    "tier": "mook",
+    "tier": "mooks",
     "stats": { "int": 2, "ref": 6, "dex": 5, "tech": 2, "cool": 4, "will": 2, "luck": 0, "move": 4, "body": 6, "emp": 3 },
     "hp": 20,
     "seriousWound": 10,
@@ -86,7 +86,7 @@
     "equipment": [
       { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 30 },
       { "packName": "core_gear", "itemName": "Disposable Cell Phone", "quantity": 1 },
-      { "packName": "core_cyberware", "itemName": "Techscrambler", "quantity": 1 }
+      { "packName": "core_gear", "itemName": "Techscanner", "quantity": 1 }
     ],
     "cyberware": [
       { "packName": "core_cyberware", "itemName": "Rippers" }
@@ -96,7 +96,7 @@
   {
     "id": "road-ganger",
     "nameKey": "crw.npc.road-ganger",
-    "tier": "mook",
+    "tier": "mooks",
     "stats": { "int": 4, "ref": 6, "dex": 4, "tech": 4, "cool": 3, "will": 3, "luck": 0, "move": 3, "body": 3, "emp": 3 },
     "hp": 25,
     "seriousWound": 13,
@@ -136,8 +136,8 @@
     ],
     "equipment": [
       { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 20 },
-      { "packName": "core_ammo", "itemName": "Crossbow Bolt (Basic)", "quantity": 20 },
-      { "packName": "core_gear", "itemName": "Rope", "quantity": 1 },
+      { "packName": "core_ammo", "itemName": "Arrow (Basic)", "quantity": 20 },
+      { "packName": "core_gear", "itemName": "Rope (60m/yd)", "quantity": 1 },
       { "packName": "core_gear", "itemName": "Flashlight", "quantity": 1 }
     ],
     "cyberware": [
@@ -149,14 +149,14 @@
   {
     "id": "security-operative",
     "nameKey": "crw.npc.security-operative",
-    "tier": "mook",
+    "tier": "mooks",
     "stats": { "int": 3, "ref": 7, "dex": 4, "tech": 2, "cool": 2, "will": 3, "luck": 0, "move": 3, "body": 5, "emp": 3 },
     "hp": 30,
     "seriousWound": 15,
     "deathSave": 5,
     "armor": {
-      "head": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar (Head)" },
-      "body": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar (Body)" }
+      "head": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar® (Head)" },
+      "body": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar® (Body)" }
     },
     "weapons": [
       { "packName": "core_weapons", "itemName": "Assault Rifle", "quality": "poor", "damage": "5d6" },
@@ -186,7 +186,7 @@
       { "name": "Education", "base": 5 }
     ],
     "equipment": [
-      { "packName": "core_ammo", "itemName": "Assault Rifle (Basic)", "quantity": 40 },
+      { "packName": "core_ammo", "itemName": "Rifle (Basic)", "quantity": 40 },
       { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 20 },
       { "packName": "core_gear", "itemName": "Radio Communicator", "quantity": 1 }
     ],

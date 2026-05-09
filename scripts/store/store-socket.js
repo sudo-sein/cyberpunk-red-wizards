@@ -1,3 +1,5 @@
+import StoreApp from "../app/store-app.js";
+
 const MODULE_ID = "cyberpunk-red-wizards";
 
 let socket = null;
@@ -18,7 +20,6 @@ export function broadcastStoreState() {
   socket.executeForOthers("updateStoreState", { markup, availability });
 }
 
-function onStoreStateReceived({ markup, availability }) {
-  const app = Object.values(ui.windows).find(w => w.id === "crw-store");
-  if (app) app.render(true);
+function onStoreStateReceived() {
+  StoreApp.refresh();
 }

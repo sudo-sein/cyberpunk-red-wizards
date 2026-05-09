@@ -6,10 +6,13 @@ import { loadRole, fetchCompendiumItem, fetchCompendiumItems } from "../data/rol
 const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
 
 // Specialty skills not in internal_skills — must be fetched from dedicated packs
-const SPECIALTY_SKILL_PACKS = {
-  "Local Expert": "core_skills-local-expert",
-  "Science": "core_skills-science",
-  "Play Instrument": "core_skills-play-instrument",
+// Specialty skills not in internal_skills — fetch from dedicated packs.
+// defaultName: specific item to look for; falls back to first item in pack.
+const SPECIALTY_SKILLS = {
+  "Local Expert": { pack: "core_skills-local-expert" },
+  "Science": { pack: "core_skills-science" },
+  "Play Instrument": { pack: "core_skills-play-instrument" },
+  "Martial Arts": { pack: "core_skills-martial-arts", defaultName: "Martial Arts (Karate)" },
 };
 
 export default class StepSummary extends StepBase {
@@ -94,10 +97,15 @@ export default class StepSummary extends StepBase {
       const skillItem = actor.items.getName(skill.name);
       if (skillItem) {
         await skillItem.update({ "system.level": skill.level });
-      } else if (SPECIALTY_SKILL_PACKS[skill.name]) {
-        const docs = await fetchCompendiumItems(SPECIALTY_SKILL_PACKS[skill.name]);
-        if (docs.length > 0) {
-          const data = docs[0].toObject();
+      } else if (SPECIALTY_SKILLS[skill.name]) {
+        const { pack, defaultName } = SPECIALTY_SKILLS[skill.name];
+        let doc = defaultName ? await fetchCompendiumItem(pack, defaultName) : null;
+        if (!doc) {
+          const docs = await fetchCompendiumItems(pack);
+          if (docs.length > 0) doc = docs[0];
+        }
+        if (doc) {
+          const data = doc.toObject();
           data.system.level = skill.level;
           specialtySkillsToCreate.push(data);
         }

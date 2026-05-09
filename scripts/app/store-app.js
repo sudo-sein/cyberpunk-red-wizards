@@ -40,6 +40,7 @@ export default class StoreApp extends HandlebarsApplicationMixin(ApplicationV2) 
       resetPriceRange: StoreApp.#onResetPriceRange,
       restoreItem: StoreApp.#onRestoreItem,
       restoreAllItems: StoreApp.#onRestoreAllItems,
+      hideItem: StoreApp.#onHideItem,
       clearSearch: StoreApp.#onClearSearch,
     },
   };
@@ -66,6 +67,10 @@ export default class StoreApp extends HandlebarsApplicationMixin(ApplicationV2) 
     StoreApp.#instance.render(true);
   }
 
+  static refresh() {
+    if (StoreApp.#instance) StoreApp.#instance.render(true);
+  }
+
   #getSelectedActor() {
     if (this.#state.selectedActorId) {
       const actor = game.actors.get(this.#state.selectedActorId);
@@ -74,6 +79,11 @@ export default class StoreApp extends HandlebarsApplicationMixin(ApplicationV2) 
     if (game.user.character) {
       this.#state.selectedActorId = game.user.character.id;
       return game.user.character;
+    }
+    const choices = this.#getActorChoices();
+    if (choices.length > 0) {
+      this.#state.selectedActorId = choices[0].id;
+      return game.actors.get(choices[0].id);
     }
     return null;
   }
@@ -90,7 +100,7 @@ export default class StoreApp extends HandlebarsApplicationMixin(ApplicationV2) 
   }
 
   async _prepareContext(options) {
-    const body = this.element?.querySelector(".crw-store-items");
+    const body = this.element?.querySelector(".crw-store-body");
     this._savedScrollTop = body?.scrollTop ?? null;
 
     if (!this.#allItems) {
@@ -182,8 +192,8 @@ export default class StoreApp extends HandlebarsApplicationMixin(ApplicationV2) 
     const el = this.element;
 
     if (this._savedScrollTop != null) {
-      const items = el.querySelector(".crw-store-items");
-      if (items) items.scrollTop = this._savedScrollTop;
+      const body = el.querySelector(".crw-store-body");
+      if (body) body.scrollTop = this._savedScrollTop;
       this._savedScrollTop = null;
     }
 
@@ -200,7 +210,13 @@ export default class StoreApp extends HandlebarsApplicationMixin(ApplicationV2) 
       });
     });
 
-    el.querySelector(".crw-store-search-input")?.addEventListener("input", (e) => {
+    const searchInput = el.querySelector(".crw-store-search-input");
+    if (searchInput && this.#state.searchValue) {
+      searchInput.focus();
+      searchInput.selectionStart = searchInput.selectionEnd = searchInput.value.length;
+    }
+
+    searchInput?.addEventListener("input", (e) => {
       this.#state.searchValue = e.target.value;
       this.render(true);
     });
@@ -237,23 +253,6 @@ export default class StoreApp extends HandlebarsApplicationMixin(ApplicationV2) 
       this.render(true);
     });
 
-    if (game.user.isGM) {
-      el.querySelectorAll(".crw-store-item").forEach(itemEl => {
-        itemEl.addEventListener("contextmenu", async (e) => {
-          e.preventDefault();
-          const uuid = itemEl.dataset.uuid;
-          const availability = foundry.utils.deepClone(
-            game.settings.get(MODULE_ID, "storeAvailability")
-          );
-          if (!availability.blockedItems.includes(uuid)) {
-            availability.blockedItems.push(uuid);
-            await game.settings.set(MODULE_ID, "storeAvailability", availability);
-            broadcastStoreState();
-            this.render(true);
-          }
-        });
-      });
-    }
   }
 
   #findItem(uuid) {
@@ -305,6 +304,19 @@ export default class StoreApp extends HandlebarsApplicationMixin(ApplicationV2) 
     await game.settings.set(MODULE_ID, "storeAvailability", availability);
     broadcastStoreState();
     this.render(true);
+  }
+
+  static async #onHideItem(event, target) {
+    const uuid = target.dataset.uuid;
+    const availability = foundry.utils.deepClone(
+      game.settings.get(MODULE_ID, "storeAvailability")
+    );
+    if (!availability.blockedItems.includes(uuid)) {
+      availability.blockedItems.push(uuid);
+      await game.settings.set(MODULE_ID, "storeAvailability", availability);
+      broadcastStoreState();
+      this.render(true);
+    }
   }
 
   static async #onRestoreItem(event, target) {

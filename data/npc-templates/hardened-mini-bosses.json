@@ -83,7 +83,7 @@
       { "name": "Tactics", "base": 14 }
     ],
     "equipment": [
-      { "packName": "core_ammo", "itemName": "Assault Rifle (Basic)", "quantity": 50 },
+      { "packName": "core_ammo", "itemName": "Rifle (Basic)", "quantity": 50 },
       { "packName": "core_ammo", "itemName": "Very Heavy Pistol (Basic)", "quantity": 25 }
     ],
     "cyberware": [
@@ -136,7 +136,7 @@
       { "name": "Survival", "base": 14 }
     ],
     "equipment": [
-      { "packName": "core_ammo", "itemName": "Assault Rifle (Basic)", "quantity": 50 }
+      { "packName": "core_ammo", "itemName": "Rifle (Basic)", "quantity": 50 }
     ],
     "cyberware": [
       { "packName": "core_cyberware", "itemName": "Neural Link" },

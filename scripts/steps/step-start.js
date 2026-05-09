@@ -34,7 +34,7 @@ export default class StepStart extends StepBase {
       roles: ROLES.map(r => ({
         id: r,
         label: game.i18n.localize(`crw.roles.${r}`),
-        ability: game.i18n.localize(`crw.roles.${r}.ability`),
+        ability: game.i18n.localize(`crw.roleAbility.${r}`),
       })),
     };
   }

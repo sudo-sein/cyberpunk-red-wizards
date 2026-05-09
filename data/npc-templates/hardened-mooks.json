@@ -36,7 +36,7 @@
       { "name": "Stealth", "base": 8 }
     ],
     "equipment": [
-      { "packName": "core_ammo", "itemName": "Shotgun (Slug)", "quantity": 25 },
+      { "packName": "core_ammo", "itemName": "Shotgun Slug (Basic)", "quantity": 25 },
       { "packName": "core_gear", "itemName": "Radio Communicator", "quantity": 1 }
     ],
     "cyberware": [],
@@ -98,8 +98,8 @@
     "seriousWound": 13,
     "deathSave": 3,
     "armor": {
-      "head": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar (Head)" },
-      "body": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar (Body)" }
+      "head": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar® (Head)" },
+      "body": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar® (Body)" }
     },
     "weapons": [
       { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "poor", "damage": "4d6" },
@@ -173,7 +173,7 @@
       { "name": "Stealth", "base": 6 }
     ],
     "equipment": [
-      { "packName": "core_ammo", "itemName": "Assault Rifle (Basic)", "quantity": 40 },
+      { "packName": "core_ammo", "itemName": "Rifle (Basic)", "quantity": 40 },
       { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 20 },
       { "packName": "core_gear", "itemName": "Radio Communicator", "quantity": 1 }
     ],

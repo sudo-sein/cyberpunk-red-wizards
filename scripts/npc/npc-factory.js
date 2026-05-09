@@ -9,6 +9,14 @@ export async function createNpcFromTemplate(template, overrides = {}) {
   const isEveryday = template.tier === "everyday-people";
 
   const ActorClass = getDocumentClass("Actor");
+
+  // CPRMookActor.create() has a missing-return bug: it awaits super.create()
+  // but doesn't return the result, so the caller gets undefined. Register a
+  // hook BEFORE calling create() so we can capture the actor when it arrives.
+  let hookResolve;
+  const hookPromise = new Promise(r => { hookResolve = r; });
+  const hookId = Hooks.once("createActor", (a) => hookResolve(a));
+
   let actor = await ActorClass.create({
     name,
     type: actorType,
@@ -21,15 +29,18 @@ export async function createNpcFromTemplate(template, overrides = {}) {
     },
   });
 
-  // Workaround for CPRMookActor.create() missing-return bug:
-  // The override awaits super.create() but doesn't return it, so the caller
-  // receives undefined. Fall back to finding the actor by name in game.actors.
   if (!actor) {
-    actor = game.actors.getName(name);
+    const created = await hookPromise;
+    // CPRActor.create() continues after the hook (installs cyberware).
+    // Wait for that to settle before we start modifying the actor.
+    await new Promise(r => setTimeout(r, 1000));
+    actor = game.actors.get(created.id);
     if (!actor) {
-      throw new Error(`[NPC Factory] Failed to create actor "${name}" — CPRMookActor.create() returned undefined and actor not found in game.actors.`);
+      throw new Error(`[NPC Factory] Failed to create actor "${name}" — not found after hook recovery.`);
     }
-    console.warn(`[NPC Factory] CPRMookActor.create() returned undefined; recovered actor "${name}" from game.actors.`);
+    console.warn(`[NPC Factory] CPRMookActor.create() returned undefined; recovered actor via createActor hook.`);
+  } else {
+    Hooks.off("createActor", hookId);
   }
 
   const statsData = {};
@@ -57,23 +68,39 @@ export async function createNpcFromTemplate(template, overrides = {}) {
   // Collect all items to add in one batch
   const itemsToCreate = [];
 
-  // Armor
-  if (template.armor.head) {
+  // Armor (skip entries without packName — SP may come from cyberware)
+  if (template.armor.head?.packName) {
     const armorRef = resolveAlternative(template.armor.head, overrides, "armor-head");
     const item = await fetchCompendiumItem(armorRef.packName, armorRef.itemName);
-    if (item) itemsToCreate.push(item.toObject());
+    if (item) {
+      const data = item.toObject();
+      data.system.equipped = "equipped";
+      itemsToCreate.push(data);
+    }
   }
-  if (template.armor.body) {
+  if (template.armor.body?.packName) {
     const armorRef = resolveAlternative(template.armor.body, overrides, "armor-body");
     const item = await fetchCompendiumItem(armorRef.packName, armorRef.itemName);
-    if (item) itemsToCreate.push(item.toObject());
+    if (item) {
+      const data = item.toObject();
+      data.system.equipped = "equipped";
+      itemsToCreate.push(data);
+    }
   }
 
-  // Weapons
+  // Weapons — compendium entries include quality suffix (e.g. "Shotgun (Poor)")
   for (let i = 0; i < template.weapons.length; i++) {
     const weaponRef = resolveAlternative(template.weapons[i], overrides, `weapon-${i}`);
-    const item = await fetchCompendiumItem(weaponRef.packName, weaponRef.itemName);
-    if (item) itemsToCreate.push(item.toObject());
+    const weaponName = qualifyWeaponName(weaponRef.itemName, weaponRef.quality);
+    let item = await fetchCompendiumItem(weaponRef.packName, weaponName);
+    if (!item && weaponName !== weaponRef.itemName) {
+      item = await fetchCompendiumItem(weaponRef.packName, weaponRef.itemName);
+    }
+    if (item) {
+      const data = item.toObject();
+      data.system.equipped = "equipped";
+      itemsToCreate.push(data);
+    }
   }
 
   // Equipment
@@ -87,12 +114,14 @@ export async function createNpcFromTemplate(template, overrides = {}) {
     }
   }
 
-  // Cyberware
+  // Cyberware — track count so we can install them after creation
+  const cyberwareStartIdx = itemsToCreate.length;
   for (let i = 0; i < template.cyberware.length; i++) {
     const cyberRef = resolveAlternative(template.cyberware[i], overrides, `cyber-${i}`);
     const item = await fetchCompendiumItem(cyberRef.packName, cyberRef.itemName);
     if (item) itemsToCreate.push(item.toObject());
   }
+  const cyberwareCount = itemsToCreate.length - cyberwareStartIdx;
 
   // Role ability
   if (template.role) {
@@ -105,10 +134,27 @@ export async function createNpcFromTemplate(template, overrides = {}) {
   }
 
   if (itemsToCreate.length > 0) {
-    await actor.createEmbeddedDocuments("Item", itemsToCreate);
+    const created = await actor.createEmbeddedDocuments("Item", itemsToCreate);
+
+    // Install cyberware into the actor so it counts as active
+    if (cyberwareCount > 0) {
+      const existingInstalled = actor.system.installedItems?.list ?? [];
+      const newCyberwareIds = created
+        .slice(cyberwareStartIdx, cyberwareStartIdx + cyberwareCount)
+        .map(item => item.id);
+      await actor.update({
+        "system.installedItems.list": [...existingInstalled, ...newCyberwareIds],
+      });
+    }
   }
 
   return actor;
+}
+
+function qualifyWeaponName(baseName, quality) {
+  if (!quality || quality === "standard") return baseName;
+  const suffix = quality === "poor" ? " (Poor)" : " (Excellent)";
+  return baseName + suffix;
 }
 
 function resolveAlternative(slot, overrides, key) {

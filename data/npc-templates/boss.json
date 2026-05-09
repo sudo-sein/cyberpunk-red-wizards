@@ -8,8 +8,8 @@
     "seriousWound": 28,
     "deathSave": 10,
     "armor": {
-      "head": { "name": "Subdermal Armor", "sp": 11, "packName": "core_armor", "itemName": "Subdermal Armor (Head)" },
-      "body": { "name": "Subdermal Armor", "sp": 11, "packName": "core_armor", "itemName": "Subdermal Armor (Body)" }
+      "head": { "name": "Subdermal Armor", "sp": 11 },
+      "body": { "name": "Subdermal Armor", "sp": 11 }
     },
     "weapons": [
       { "packName": "core_weapons", "itemName": "Grenade Launcher", "quality": "standard", "damage": "6d6" },
@@ -42,7 +42,7 @@
       { "name": "Education", "base": 7 }
     ],
     "equipment": [
-      { "packName": "core_gear", "itemName": "Armor-Piercing Grenade", "quantity": 2 },
+      { "packName": "core_ammo", "itemName": "Grenade (Armor-Piercing)", "quantity": 2 },
       { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 100 }
     ],
     "cyberware": [
@@ -58,5 +58,75 @@
       { "packName": "core_cyberware", "itemName": "Subdermal Armor" }
     ],
     "role": null
+  },
+  {
+    "id": "meatgrinder",
+    "nameKey": "crw.npc.meatgrinder",
+    "tier": "boss",
+    "stats": { "int": 6, "ref": 8, "dex": 8, "tech": 6, "cool": 5, "will": 8, "luck": 0, "move": 8, "body": 17, "emp": 0 },
+    "hp": 75,
+    "seriousWound": 38,
+    "deathSave": 17,
+    "armor": {
+      "head": { "name": "Metalgear®", "sp": 18, "packName": "core_armor", "itemName": "Metalgear® (Head)" },
+      "body": { "name": "Metalgear®", "sp": 18, "packName": "core_armor", "itemName": "Metalgear® (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Rocket Launcher (Excellent)", "quality": "excellent", "damage": "8d6" },
+      { "packName": "core_weapons", "itemName": "Shotgun (Excellent)", "quality": "excellent", "damage": "5d6" },
+      { "packName": "core_weapons", "itemName": "Rhinemetall EMG-86 Railgun", "quality": "standard", "damage": "5d6" }
+    ],
+    "skills": [
+      { "name": "Athletics", "base": 14 },
+      { "name": "Autofire", "base": 18 },
+      { "name": "Brawling", "base": 18 },
+      { "name": "Bureaucracy", "base": 10 },
+      { "name": "Conceal/Reveal Object", "base": 12 },
+      { "name": "Concentration", "base": 16 },
+      { "name": "Conversation", "base": 2 },
+      { "name": "Cybertech", "base": 16 },
+      { "name": "Land Vehicle", "base": 12 },
+      { "name": "Education", "base": 10 },
+      { "name": "Electronics/Security Tech", "base": 10 },
+      { "name": "Endurance", "base": 18 },
+      { "name": "Evasion", "base": 18 },
+      { "name": "First Aid", "base": 10 },
+      { "name": "Handgun", "base": 18 },
+      { "name": "Heavy Weapons", "base": 18 },
+      { "name": "Human Perception", "base": 3 },
+      { "name": "Interrogation", "base": 15 },
+      { "name": "Local Expert", "base": 8 },
+      { "name": "Melee Weapon", "base": 18 },
+      { "name": "Paramedic", "base": 10 },
+      { "name": "Perception", "base": 16 },
+      { "name": "Persuasion", "base": 8 },
+      { "name": "Resist Torture/Drugs", "base": 18 },
+      { "name": "Shoulder Arms", "base": 18 },
+      { "name": "Stealth", "base": 12 },
+      { "name": "Streetwise", "base": 10 },
+      { "name": "Tactics", "base": 13 },
+      { "name": "Wardrobe & Style", "base": 12 }
+    ],
+    "equipment": [
+      { "packName": "core_ammo", "itemName": "Rocket (Armor-Piercing)", "quantity": 4 },
+      { "packName": "core_ammo", "itemName": "Shotgun Slug (Armor-Piercing)", "quantity": 16 },
+      { "packName": "core_ammo", "itemName": "Rifle (Basic)", "quantity": 80 }
+    ],
+    "cyberware": [
+      { "packName": "core_cyberware", "itemName": "Neural Link" },
+      { "packName": "core_cyberware", "itemName": "Sandevistan" },
+      { "packName": "core_cyberware", "itemName": "Pain Editor" },
+      { "packName": "core_cyberware", "itemName": "Implanted Linear Frame β (Beta)" },
+      { "packName": "core_cyberware", "itemName": "Cyberarm" },
+      { "packName": "core_cyberware", "itemName": "Cyberarm" },
+      { "packName": "core_cyberware", "itemName": "Cyberleg" },
+      { "packName": "core_cyberware", "itemName": "Cyberleg" },
+      { "packName": "core_cyberware", "itemName": "Subdermal Armor" },
+      { "packName": "core_cyberware", "itemName": "Jump Booster" },
+      { "packName": "core_cyberware", "itemName": "Wolvers" },
+      { "packName": "core_cyberware", "itemName": "Popup Ranged Weapon" },
+      { "packName": "core_cyberware", "itemName": "Scrambler/Descrambler" }
+    ],
+    "role": { "packName": "core_roles", "itemName": "Solo", "rank": 9 }
   }
 ]

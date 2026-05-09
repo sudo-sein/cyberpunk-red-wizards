@@ -2,14 +2,14 @@
   {
     "id": "hacker",
     "nameKey": "crw.npc.hacker",
-    "tier": "lieutenant",
+    "tier": "lieutenants",
     "stats": { "int": 7, "ref": 5, "dex": 4, "tech": 7, "cool": 4, "will": 5, "luck": 0, "move": 5, "body": 3, "emp": 4 },
     "hp": 30,
     "seriousWound": 15,
     "deathSave": 3,
     "armor": {
-      "head": { "name": "Bodyweight Suit", "sp": 11, "packName": "core_armor", "itemName": "Bodyweight Suit (Head)" },
-      "body": { "name": "Bodyweight Suit", "sp": 11, "packName": "core_armor", "itemName": "Bodyweight Suit (Body)" }
+      "head": { "name": "Bodyweight Suit", "sp": 11 },
+      "body": { "name": "Bodyweight Suit", "sp": 11, "packName": "core_armor", "itemName": "Bodyweight Suit" }
     },
     "weapons": [
       { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "poor", "damage": "4d6" }
@@ -43,7 +43,7 @@
     "equipment": [
       { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 50 },
       { "packName": "core_gear", "itemName": "Flashlight", "quantity": 1 },
-      { "packName": "core_gear", "itemName": "Virtual Goggles", "quantity": 1 }
+      { "packName": "core_gear", "itemName": "Virtuality Goggles", "quantity": 1 }
     ],
     "cyberware": [
       { "packName": "core_cyberware", "itemName": "Neural Link" },
@@ -54,7 +54,7 @@
   {
     "id": "reclaimer-chief",
     "nameKey": "crw.npc.reclaimer-chief",
-    "tier": "lieutenant",
+    "tier": "lieutenants",
     "stats": { "int": 3, "ref": 6, "dex": 6, "tech": 5, "cool": 4, "will": 5, "luck": 0, "move": 4, "body": 6, "emp": 4 },
     "hp": 40,
     "seriousWound": 20,
@@ -100,13 +100,13 @@
       { "name": "Education", "base": 5 }
     ],
     "equipment": [
-      { "packName": "core_ammo", "itemName": "Shotgun (Slug)", "quantity": 25 },
+      { "packName": "core_ammo", "itemName": "Shotgun Slug (Basic)", "quantity": 25 },
       { "packName": "core_ammo", "itemName": "Very Heavy Pistol (Basic)", "quantity": 25 },
       { "packName": "core_gear", "itemName": "Agent", "quantity": 1 },
       { "packName": "core_gear", "itemName": "Grapple Gun", "quantity": 1 },
       { "packName": "core_gear", "itemName": "Radio Communicator", "quantity": 1 },
-      { "packName": "core_gear", "itemName": "Camping Equipment", "quantity": 1 },
-      { "packName": "core_gear", "itemName": "Nasal Filters", "quantity": 1 }
+      { "packName": "core_gear", "itemName": "Tent and Camping Equipment", "quantity": 1 },
+      { "packName": "core_cyberware", "itemName": "Nasal Filters", "quantity": 1 }
     ],
     "cyberware": [
       { "packName": "core_cyberware", "itemName": "Neural Link" },
@@ -118,7 +118,7 @@
   {
     "id": "security-officer",
     "nameKey": "crw.npc.security-officer",
-    "tier": "lieutenant",
+    "tier": "lieutenants",
     "stats": { "int": 4, "ref": 8, "dex": 6, "tech": 4, "cool": 6, "will": 5, "luck": 0, "move": 6, "body": 7, "emp": 4 },
     "hp": 40,
     "seriousWound": 20,
@@ -158,9 +158,9 @@
       { "name": "Local Expert", "base": 6 }
     ],
     "equipment": [
-      { "packName": "core_ammo", "itemName": "Assault Rifle (Basic)", "quantity": 50 },
+      { "packName": "core_ammo", "itemName": "Rifle (Basic)", "quantity": 50 },
       { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 30 },
-      { "packName": "core_gear", "itemName": "Bulletproof Shield", "quantity": 1 },
+      { "packName": "core_armor", "itemName": "Bullet Proof Shield", "quantity": 1 },
       { "packName": "core_gear", "itemName": "Disposable Cell Phone", "quantity": 1 },
       { "packName": "core_gear", "itemName": "Flashlight", "quantity": 1 },
       { "packName": "core_gear", "itemName": "Handcuffs", "quantity": 2 },

@@ -1,3 +1,5 @@
+import { isPackExcluded } from "../app/store-pack-config.js";
+
 const MODULE_ID = "cyberpunk-red-wizards";
 
 const STORE_ITEM_TYPES = new Set([
@@ -20,7 +22,7 @@ export async function loadStoreItems() {
 
   for (const pack of game.packs) {
     if (pack.metadata.type !== "Item") continue;
-    if (excludedPacks[pack.metadata.id]) continue;
+    if (isPackExcluded(pack.metadata.id, excludedPacks)) continue;
 
     const source = classifyPackSource(pack.metadata.id);
     if (source === null) continue;

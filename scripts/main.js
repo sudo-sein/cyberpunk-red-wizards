@@ -2,6 +2,7 @@ import CharacterCreatorApp from "./app/creator-app.js";
 import NpcGeneratorApp from "./app/npc-generator-app.js";
 import { initSocket } from "./store/store-socket.js";
 import StoreApp from "./app/store-app.js";
+import StorePackConfig from "./app/store-pack-config.js";
 
 const MODULE_ID = "cyberpunk-red-wizards";
 
@@ -60,6 +61,15 @@ Hooks.once("init", () => {
     config: false,
     type: Object,
     default: {},
+  });
+
+  game.settings.registerMenu(MODULE_ID, "storeExcludedPacksMenu", {
+    name: "crw.store.settings.excludedPacks",
+    label: "crw.store.settings.excludedPacksLabel",
+    hint: "crw.store.settings.excludedPacksHint",
+    icon: "fas fa-boxes-stacked",
+    type: StorePackConfig,
+    restricted: true,
   });
 });
 
