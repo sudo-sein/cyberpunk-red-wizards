@@ -1,1 +1,183 @@
-[]
+[
+  {
+    "id": "harder-bodyguard",
+    "nameKey": "crw.npc.harder-bodyguard",
+    "tier": "hardened-mooks",
+    "stats": { "int": 4, "ref": 6, "dex": 6, "tech": 2, "cool": 4, "will": 4, "luck": 0, "move": 5, "body": 7, "emp": 3 },
+    "hp": 40,
+    "seriousWound": 20,
+    "deathSave": 7,
+    "armor": {
+      "head": { "name": "Light Armorjack", "sp": 11, "packName": "core_armor", "itemName": "Light Armorjack (Head)" },
+      "body": { "name": "Light Armorjack", "sp": 11, "packName": "core_armor", "itemName": "Light Armorjack (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Shotgun", "quality": "poor", "damage": "5d6" }
+    ],
+    "skills": [
+      { "name": "Athletics", "base": 9 },
+      { "name": "Brawling", "base": 13 },
+      { "name": "Shoulder Arms", "base": 10 },
+      { "name": "Concentration", "base": 6 },
+      { "name": "Conversation", "base": 5 },
+      { "name": "Land Vehicle", "base": 10 },
+      { "name": "Education", "base": 6 },
+      { "name": "Endurance", "base": 9 },
+      { "name": "Evasion", "base": 8 },
+      { "name": "First Aid", "base": 4 },
+      { "name": "Human Perception", "base": 5 },
+      { "name": "Interrogation", "base": 6 },
+      { "name": "Language (Streetslang)", "base": 8 },
+      { "name": "Language (Streetslang)", "base": 6 },
+      { "name": "Local Expert", "base": 6 },
+      { "name": "Perception", "base": 10 },
+      { "name": "Persuasion", "base": 6 },
+      { "name": "Resist Torture/Drugs", "base": 8 },
+      { "name": "Stealth", "base": 8 }
+    ],
+    "equipment": [
+      { "packName": "core_ammo", "itemName": "Shotgun (Slug)", "quantity": 25 },
+      { "packName": "core_gear", "itemName": "Radio Communicator", "quantity": 1 }
+    ],
+    "cyberware": [],
+    "role": null
+  },
+  {
+    "id": "harder-boosterganger",
+    "nameKey": "crw.npc.harder-boosterganger",
+    "tier": "hardened-mooks",
+    "stats": { "int": 4, "ref": 6, "dex": 5, "tech": 2, "cool": 4, "will": 4, "luck": 0, "move": 6, "body": 4, "emp": 3 },
+    "hp": 30,
+    "seriousWound": 15,
+    "deathSave": 4,
+    "armor": {
+      "head": { "name": "Leathers", "sp": 4, "packName": "core_armor", "itemName": "Leathers (Head)" },
+      "body": { "name": "Leathers", "sp": 4, "packName": "core_armor", "itemName": "Leathers (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "poor", "damage": "4d6" }
+    ],
+    "skills": [
+      { "name": "Athletics", "base": 9 },
+      { "name": "Brawling", "base": 9 },
+      { "name": "Conceal/Reveal Object", "base": 6 },
+      { "name": "Concentration", "base": 8 },
+      { "name": "Conversation", "base": 5 },
+      { "name": "Land Vehicle", "base": 10 },
+      { "name": "Education", "base": 6 },
+      { "name": "Endurance", "base": 6 },
+      { "name": "Evasion", "base": 7 },
+      { "name": "First Aid", "base": 4 },
+      { "name": "Handgun", "base": 12 },
+      { "name": "Human Perception", "base": 5 },
+      { "name": "Interrogation", "base": 6 },
+      { "name": "Language (Streetslang)", "base": 8 },
+      { "name": "Language (Streetslang)", "base": 6 },
+      { "name": "Local Expert", "base": 6 },
+      { "name": "Melee Weapon", "base": 12 },
+      { "name": "Perception", "base": 8 },
+      { "name": "Persuasion", "base": 6 },
+      { "name": "Resist Torture/Drugs", "base": 8 },
+      { "name": "Stealth", "base": 7 }
+    ],
+    "equipment": [
+      { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 30 },
+      { "packName": "core_gear", "itemName": "Disposable Cell Phone", "quantity": 1 }
+    ],
+    "cyberware": [
+      { "packName": "core_cyberware", "itemName": "Wolvers" }
+    ],
+    "role": null
+  },
+  {
+    "id": "harder-road-ganger",
+    "nameKey": "crw.npc.harder-road-ganger",
+    "tier": "hardened-mooks",
+    "stats": { "int": 6, "ref": 6, "dex": 6, "tech": 4, "cool": 3, "will": 3, "luck": 0, "move": 5, "body": 3, "emp": 3 },
+    "hp": 25,
+    "seriousWound": 13,
+    "deathSave": 3,
+    "armor": {
+      "head": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar (Head)" },
+      "body": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "poor", "damage": "4d6" },
+      { "packName": "core_weapons", "itemName": "Very Heavy Melee", "quality": "poor", "damage": "4d6" }
+    ],
+    "skills": [
+      { "name": "Athletics", "base": 8 },
+      { "name": "Brawling", "base": 8 },
+      { "name": "Concentration", "base": 5 },
+      { "name": "Conversation", "base": 6 },
+      { "name": "Land Vehicle", "base": 12 },
+      { "name": "Education", "base": 8 },
+      { "name": "Endurance", "base": 5 },
+      { "name": "Evasion", "base": 11 },
+      { "name": "First Aid", "base": 6 },
+      { "name": "Handgun", "base": 10 },
+      { "name": "Human Perception", "base": 5 },
+      { "name": "Land Vehicle Tech", "base": 10 },
+      { "name": "Language (Streetslang)", "base": 10 },
+      { "name": "Language (Streetslang)", "base": 8 },
+      { "name": "Local Expert", "base": 8 },
+      { "name": "Melee Weapon", "base": 12 },
+      { "name": "Perception", "base": 10 },
+      { "name": "Persuasion", "base": 5 },
+      { "name": "Stealth", "base": 8 },
+      { "name": "Survival", "base": 8 },
+      { "name": "Tracking", "base": 10 }
+    ],
+    "equipment": [
+      { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 20 }
+    ],
+    "cyberware": [],
+    "role": null
+  },
+  {
+    "id": "harder-security-operative",
+    "nameKey": "crw.npc.harder-security-operative",
+    "tier": "hardened-mooks",
+    "stats": { "int": 5, "ref": 7, "dex": 4, "tech": 2, "cool": 2, "will": 3, "luck": 0, "move": 4, "body": 5, "emp": 3 },
+    "hp": 30,
+    "seriousWound": 15,
+    "deathSave": 5,
+    "armor": {
+      "head": { "name": "Light Armorjack", "sp": 11, "packName": "core_armor", "itemName": "Light Armorjack (Head)" },
+      "body": { "name": "Light Armorjack", "sp": 11, "packName": "core_armor", "itemName": "Light Armorjack (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Assault Rifle", "quality": "poor", "damage": "5d6" },
+      { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "poor", "damage": "4d6" }
+    ],
+    "skills": [
+      { "name": "Athletics", "base": 8 },
+      { "name": "Autofire", "base": 14 },
+      { "name": "Brawling", "base": 8 },
+      { "name": "Concentration", "base": 7 },
+      { "name": "Conversation", "base": 5 },
+      { "name": "Education", "base": 7 },
+      { "name": "Evasion", "base": 6 },
+      { "name": "First Aid", "base": 4 },
+      { "name": "Handgun", "base": 12 },
+      { "name": "Human Perception", "base": 5 },
+      { "name": "Interrogation", "base": 6 },
+      { "name": "Language (Streetslang)", "base": 9 },
+      { "name": "Language (Streetslang)", "base": 7 },
+      { "name": "Local Expert", "base": 7 },
+      { "name": "Melee Weapon", "base": 6 },
+      { "name": "Perception", "base": 8 },
+      { "name": "Persuasion", "base": 4 },
+      { "name": "Resist Torture/Drugs", "base": 8 },
+      { "name": "Shoulder Arms", "base": 12 },
+      { "name": "Stealth", "base": 6 }
+    ],
+    "equipment": [
+      { "packName": "core_ammo", "itemName": "Assault Rifle (Basic)", "quantity": 40 },
+      { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 20 },
+      { "packName": "core_gear", "itemName": "Radio Communicator", "quantity": 1 }
+    ],
+    "cyberware": [],
+    "role": null
+  }
+]
