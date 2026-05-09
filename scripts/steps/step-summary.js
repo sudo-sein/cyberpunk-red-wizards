@@ -85,16 +85,6 @@ export default class StepSummary extends StepBase {
       }
     }
 
-    // Skill items (only those with points allocated)
-    for (const skill of state.skills.filter(s => s.level > 0)) {
-      const skillItem = await this._findSkillInCompendia(skill.name);
-      if (skillItem) {
-        const itemData = skillItem.toObject();
-        itemData.system.level = skill.level;
-        itemsToCreate.push(itemData);
-      }
-    }
-
     // Equipment items (Streetrat/Edgerunner only)
     if (state.method !== "complete" && roleData?.equipment) {
       const equipCategories = ["weapons", "armor", "gear", "ammo", "cyberware"];
@@ -123,6 +113,16 @@ export default class StepSummary extends StepBase {
       await actor.createEmbeddedDocuments("Item", itemsToCreate);
     }
 
+    // Update skill levels on the actor (skills are auto-created by the system)
+    for (const skill of state.skills.filter(s => s.level > 0)) {
+      const skillItem = actor.items.getName(skill.name);
+      if (skillItem) {
+        await skillItem.update({ "system.level": skill.level });
+      } else {
+        console.warn(`Skill "${skill.name}" not found on actor`);
+      }
+    }
+
     // Set wealth
     if (roleData?.startingCash != null) {
       await actor.update({ "system.wealth.value": roleData.startingCash });
@@ -133,24 +133,4 @@ export default class StepSummary extends StepBase {
     return actor;
   }
 
-  async _findSkillInCompendia(skillName) {
-    const packNames = [
-      "core_skills-awareness", "core_skills-body", "core_skills-control",
-      "core_skills-education", "core_skills-fighting", "core_skills-performance",
-      "core_skills-ranged-weapon", "core_skills-social", "core_skills-technique"
-    ];
-    for (const packName of packNames) {
-      const item = await fetchCompendiumItem(packName, skillName);
-      if (item) return item;
-    }
-    if (typeof QuickInsert !== "undefined") {
-      const results = QuickInsert.search(skillName);
-      const match = results.find(r => r.item.name === skillName);
-      if (match) {
-        const doc = await match.item.get();
-        if (doc?.type === "skill") return doc;
-      }
-    }
-    return null;
-  }
 }
