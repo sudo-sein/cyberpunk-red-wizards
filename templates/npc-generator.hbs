@@ -1,0 +1,201 @@
+<div class="crw-npc-generator">
+  {{!-- Left panel: template list --}}
+  <div class="crw-npc-list-panel">
+    <div class="crw-npc-filters">
+      <select class="crw-npc-tier-filter crw-input">
+        <option value="all">{{localize "crw.npc.ui.filterAll"}}</option>
+        {{#each tiers}}
+        <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+      <input type="text" class="crw-npc-search crw-input" placeholder="{{localize "crw.npc.ui.search"}}" value="{{searchValue}}" />
+    </div>
+    <div class="crw-npc-template-list">
+      {{#each tierGroups}}
+      <div class="crw-npc-tier-group" data-tier="{{this.id}}">
+        <div class="crw-npc-tier-header">
+          <span class="crw-npc-tier-name">{{this.label}}</span>
+          <span class="crw-npc-tier-count">{{this.count}}</span>
+        </div>
+        {{#each this.templates}}
+        <div class="crw-npc-template-item {{#if this.selected}}crw-selected{{/if}}" data-template-id="{{this.id}}">
+          <div class="crw-npc-template-name">{{this.displayName}}</div>
+          <div class="crw-npc-template-summary">HP {{this.hp}} · SP {{this.sp}} · {{this.topWeapon}}</div>
+        </div>
+        {{/each}}
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  {{!-- Right panel: preview & edit --}}
+  <div class="crw-npc-preview-panel">
+    {{#if selected}}
+    <div class="crw-npc-preview-content">
+      {{!-- Name --}}
+      <div class="crw-field-group">
+        <label class="crw-label">{{localize "crw.npc.ui.name"}}</label>
+        <input type="text" class="crw-npc-name-input crw-input" value="{{selected.name}}" />
+      </div>
+
+      {{!-- Actor type toggle --}}
+      <div class="crw-field-group crw-npc-type-toggle">
+        <label class="crw-label">{{localize "crw.npc.ui.actorType"}}</label>
+        <label class="crw-npc-radio"><input type="radio" name="actorType" value="mook" {{#if selected.isMook}}checked{{/if}} /> {{localize "crw.npc.ui.actorTypeMook"}}</label>
+        <label class="crw-npc-radio"><input type="radio" name="actorType" value="character" {{#unless selected.isMook}}checked{{/unless}} /> {{localize "crw.npc.ui.actorTypeCharacter"}}</label>
+      </div>
+
+      {{!-- Stats --}}
+      <div class="crw-npc-section">
+        <div class="crw-category-title">{{localize "crw.npc.ui.stats"}}</div>
+        <div class="crw-stat-grid">
+          {{#each selected.stats}}
+          <div class="crw-stat-cell">
+            <div class="crw-stat-abbr">{{this.abbr}}</div>
+            <input type="number" class="crw-stat-cell-value crw-npc-stat-input" data-stat="{{this.key}}" value="{{this.value}}" min="1" max="10" />
+          </div>
+          {{/each}}
+        </div>
+      </div>
+
+      {{!-- Derived --}}
+      <div class="crw-npc-section crw-npc-derived-row">
+        <span><strong>{{localize "crw.npc.ui.hp"}}:</strong> {{selected.hp}}</span>
+        <span><strong>{{localize "crw.npc.ui.seriousWound"}}:</strong> {{selected.seriousWound}}</span>
+        <span><strong>{{localize "crw.npc.ui.deathSave"}}:</strong> {{selected.deathSave}}</span>
+      </div>
+
+      {{!-- Armor --}}
+      <div class="crw-npc-section">
+        <div class="crw-category-title">{{localize "crw.npc.ui.armor"}}</div>
+        <div class="crw-npc-armor-row">
+          {{#with selected.armorHead}}
+          {{#if this.alternatives}}
+          <select class="crw-npc-gear-select crw-input" data-gear-key="armor-head">
+            {{#each this.alternatives}}
+            <option value="{{@index}}" {{#if this.selected}}selected{{/if}}>{{localize "crw.npc.ui.head"}}: {{this.name}} (SP {{this.sp}})</option>
+            {{/each}}
+          </select>
+          {{else}}
+          <span>{{localize "crw.npc.ui.head"}}: {{this.name}} (SP {{this.sp}})</span>
+          {{/if}}
+          {{/with}}
+          {{#with selected.armorBody}}
+          {{#if this.alternatives}}
+          <select class="crw-npc-gear-select crw-input" data-gear-key="armor-body">
+            {{#each this.alternatives}}
+            <option value="{{@index}}" {{#if this.selected}}selected{{/if}}>{{localize "crw.npc.ui.body"}}: {{this.name}} (SP {{this.sp}})</option>
+            {{/each}}
+          </select>
+          {{else}}
+          <span>{{localize "crw.npc.ui.body"}}: {{this.name}} (SP {{this.sp}})</span>
+          {{/if}}
+          {{/with}}
+        </div>
+      </div>
+
+      {{!-- Weapons --}}
+      <div class="crw-npc-section">
+        <div class="crw-category-title">{{localize "crw.npc.ui.weapons"}}</div>
+        {{#each selected.weapons}}
+        <div class="crw-npc-gear-row">
+          {{#if this.alternatives}}
+          <select class="crw-npc-gear-select crw-input" data-gear-key="weapon-{{@index}}">
+            {{#each this.alternatives}}
+            <option value="{{@index}}" {{#if this.selected}}selected{{/if}}>{{this.itemName}} ({{this.damage}})</option>
+            {{/each}}
+          </select>
+          {{else}}
+          <span class="crw-npc-gear-name">{{this.itemName}}</span>
+          <span class="crw-npc-gear-detail">{{this.damage}}</span>
+          {{/if}}
+        </div>
+        {{/each}}
+      </div>
+
+      {{!-- Skills --}}
+      <div class="crw-npc-section">
+        <div class="crw-category-title">{{localize "crw.npc.ui.skills"}}</div>
+        <div class="crw-npc-skills-list">
+          {{#each selected.visibleSkills}}
+          <div class="crw-npc-skill-row">
+            <span class="crw-skill-name">{{this.name}}</span>
+            <span class="crw-skill-level-badge">{{this.base}}</span>
+          </div>
+          {{/each}}
+          {{#if selected.hasMoreSkills}}
+          <button type="button" class="crw-npc-skills-toggle">
+            {{#if selected.showAllSkills}}
+            {{localize "crw.npc.ui.skillsShowLess"}}
+            {{else}}
+            {{localize "crw.npc.ui.skillsShowAll"}} ({{selected.totalSkillCount}})
+            {{/if}}
+          </button>
+          {{/if}}
+        </div>
+      </div>
+
+      {{!-- Equipment --}}
+      {{#if selected.equipment.length}}
+      <div class="crw-npc-section">
+        <div class="crw-category-title">{{localize "crw.npc.ui.equipment"}}</div>
+        {{#each selected.equipment}}
+        <div class="crw-npc-gear-row">
+          {{#if this.alternatives}}
+          <select class="crw-npc-gear-select crw-input" data-gear-key="equip-{{@index}}">
+            {{#each this.alternatives}}
+            <option value="{{@index}}" {{#if this.selected}}selected{{/if}}>{{this.itemName}}{{#if this.quantity}} ×{{this.quantity}}{{/if}}</option>
+            {{/each}}
+          </select>
+          {{else}}
+          <span class="crw-npc-gear-name">{{this.itemName}}</span>
+          {{#if this.quantity}}<span class="crw-npc-gear-detail">×{{this.quantity}}</span>{{/if}}
+          {{/if}}
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+
+      {{!-- Cyberware --}}
+      {{#if selected.cyberware.length}}
+      <div class="crw-npc-section">
+        <div class="crw-category-title">{{localize "crw.npc.ui.cyberware"}}</div>
+        {{#each selected.cyberware}}
+        <div class="crw-npc-gear-row">
+          {{#if this.alternatives}}
+          <select class="crw-npc-gear-select crw-input" data-gear-key="cyber-{{@index}}">
+            {{#each this.alternatives}}
+            <option value="{{@index}}" {{#if this.selected}}selected{{/if}}>{{this.itemName}}</option>
+            {{/each}}
+          </select>
+          {{else}}
+          <span class="crw-npc-gear-name">{{this.itemName}}</span>
+          {{/if}}
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+
+      {{!-- Role --}}
+      {{#if selected.role}}
+      <div class="crw-npc-section">
+        <div class="crw-category-title">{{localize "crw.npc.ui.role"}}</div>
+        <div class="crw-npc-role-display">{{selected.role.itemName}} (Rank {{selected.role.rank}})</div>
+      </div>
+      {{/if}}
+    </div>
+
+    {{!-- Create button --}}
+    <div class="crw-npc-create-bar">
+      <button type="button" class="crw-btn-create" data-action="createNpc">
+        <i class="fas fa-plus"></i> {{localize "crw.npc.ui.create"}}
+      </button>
+    </div>
+    {{else}}
+    <div class="crw-npc-empty-state">
+      <i class="fas fa-users crw-npc-empty-icon"></i>
+      <p>{{localize "crw.npc.ui.emptyState"}}</p>
+    </div>
+    {{/if}}
+  </div>
+</div>
