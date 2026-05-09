@@ -1,0 +1,68 @@
+{
+  "id": "netrunner",
+  "nameKey": "crw.roles.netrunner",
+  "abilityKey": "crw.roles.netrunner.ability",
+  "statTemplates": [
+    [8, 5, 4, 7, 5, 5, 4, 4, 3, 7],
+    [8, 4, 4, 8, 4, 4, 5, 4, 3, 6],
+    [7, 5, 5, 8, 4, 5, 3, 4, 4, 7],
+    [8, 6, 4, 7, 4, 4, 4, 4, 3, 6],
+    [9, 4, 4, 7, 3, 5, 5, 4, 3, 6],
+    [7, 5, 5, 8, 5, 4, 4, 4, 4, 5],
+    [8, 4, 4, 8, 5, 5, 3, 4, 4, 7],
+    [8, 5, 5, 7, 4, 4, 4, 4, 3, 6],
+    [9, 4, 4, 8, 3, 4, 5, 4, 3, 6],
+    [7, 5, 5, 8, 4, 5, 4, 4, 4, 6]
+  ],
+  "skills": [
+    { "name": "Athletics", "fixedLevel": 2, "stat": "dex", "category": "bodySkills", "difficulty": "typical" },
+    { "name": "Basic Tech", "fixedLevel": 4, "stat": "tech", "category": "techniqueSkills", "difficulty": "typical" },
+    { "name": "Concentration", "fixedLevel": 4, "stat": "will", "category": "awarenessSkills", "difficulty": "typical" },
+    { "name": "Conversation", "fixedLevel": 2, "stat": "emp", "category": "socialSkills", "difficulty": "typical" },
+    { "name": "Cryptography", "fixedLevel": 6, "stat": "int", "category": "educationSkills", "difficulty": "x2" },
+    { "name": "Cyberdeck Design", "fixedLevel": 4, "stat": "tech", "category": "techniqueSkills", "difficulty": "x2" },
+    { "name": "Cybertech", "fixedLevel": 4, "stat": "tech", "category": "techniqueSkills", "difficulty": "typical" },
+    { "name": "Education", "fixedLevel": 4, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
+    { "name": "Electronics/Security Tech", "fixedLevel": 6, "stat": "tech", "category": "techniqueSkills", "difficulty": "x2" },
+    { "name": "Evasion", "fixedLevel": 2, "stat": "dex", "category": "bodySkills", "difficulty": "typical" },
+    { "name": "First Aid", "fixedLevel": 2, "stat": "tech", "category": "techniqueSkills", "difficulty": "typical" },
+    { "name": "Handgun", "fixedLevel": 4, "stat": "ref", "category": "fightingSkills", "difficulty": "typical" },
+    { "name": "Human Perception", "fixedLevel": 2, "stat": "emp", "category": "socialSkills", "difficulty": "typical" },
+    { "name": "Interface", "fixedLevel": 6, "stat": "int", "category": "educationSkills", "difficulty": "x2" },
+    { "name": "Language (Streetslang)", "fixedLevel": 2, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
+    { "name": "Local Expert", "fixedLevel": 2, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
+    { "name": "Perception", "fixedLevel": 4, "stat": "int", "category": "awarenessSkills", "difficulty": "typical" },
+    { "name": "Resist Torture/Drugs", "fixedLevel": 2, "stat": "will", "category": "bodySkills", "difficulty": "typical" },
+    { "name": "Science", "fixedLevel": 4, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
+    { "name": "Stealth", "fixedLevel": 4, "stat": "dex", "category": "bodySkills", "difficulty": "typical" }
+  ],
+  "equipment": {
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Medium Pistol" },
+      { "choice": ["Light Melee Weapon", "Medium Melee Weapon"], "packName": "core_weapons" }
+    ],
+    "armor": [
+      { "packName": "core_armor", "itemName": "Leathers Body" },
+      { "packName": "core_armor", "itemName": "Leathers Head" }
+    ],
+    "gear": [
+      { "packName": "core_gear", "itemName": "Agent" },
+      { "packName": "core_gear", "itemName": "Cyberdeck" },
+      { "packName": "core_gear", "itemName": "Programs (x3)" }
+    ],
+    "ammo": [
+      { "packName": "core_ammo", "itemName": "Basic (Pistol/SMG)", "quantity": 50 }
+    ],
+    "cyberware": [
+      { "packName": "core_cyberware", "itemName": "Neural Link", "humanityLoss": 2 },
+      { "packName": "core_cyberware", "itemName": "Interface Plugs", "humanityLoss": 3 },
+      { "packName": "core_cyberware", "itemName": "Chipware Socket", "humanityLoss": 2 },
+      { "choice": ["Cybereye (Low Light)", "Subdermal Pocket"], "packName": "core_cyberware" }
+    ]
+  },
+  "startingCash": 500,
+  "lifestyle": {
+    "housing": { "description": "Cube Hotel", "cost": 1000 },
+    "lifeStyle": { "description": "Kibble", "cost": 100 }
+  }
+}

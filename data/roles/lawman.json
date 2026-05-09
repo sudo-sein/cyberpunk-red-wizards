@@ -1,0 +1,69 @@
+{
+  "id": "lawman",
+  "nameKey": "crw.roles.lawman",
+  "abilityKey": "crw.roles.lawman.ability",
+  "statTemplates": [
+    [5, 7, 6, 5, 7, 6, 5, 6, 6, 5],
+    [4, 7, 7, 4, 6, 6, 4, 6, 7, 5],
+    [5, 8, 6, 4, 7, 5, 5, 6, 6, 4],
+    [6, 7, 7, 4, 6, 6, 4, 6, 7, 5],
+    [5, 7, 6, 5, 7, 5, 5, 6, 7, 5],
+    [4, 8, 7, 4, 6, 6, 4, 6, 7, 4],
+    [5, 7, 7, 4, 7, 5, 5, 5, 7, 5],
+    [6, 7, 6, 5, 6, 6, 4, 6, 6, 4],
+    [5, 8, 6, 4, 7, 5, 5, 6, 7, 5],
+    [4, 7, 7, 5, 7, 6, 4, 5, 7, 4]
+  ],
+  "skills": [
+    { "name": "Athletics", "fixedLevel": 4, "stat": "dex", "category": "bodySkills", "difficulty": "typical" },
+    { "name": "Autofire", "fixedLevel": 4, "stat": "ref", "category": "fightingSkills", "difficulty": "x2" },
+    { "name": "Brawling", "fixedLevel": 4, "stat": "dex", "category": "bodySkills", "difficulty": "typical" },
+    { "name": "Concentration", "fixedLevel": 2, "stat": "will", "category": "awarenessSkills", "difficulty": "typical" },
+    { "name": "Conversation", "fixedLevel": 2, "stat": "emp", "category": "socialSkills", "difficulty": "typical" },
+    { "name": "Criminology", "fixedLevel": 4, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
+    { "name": "Deduction", "fixedLevel": 4, "stat": "int", "category": "awarenessSkills", "difficulty": "typical" },
+    { "name": "Education", "fixedLevel": 2, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
+    { "name": "Evasion", "fixedLevel": 4, "stat": "dex", "category": "bodySkills", "difficulty": "typical" },
+    { "name": "First Aid", "fixedLevel": 2, "stat": "tech", "category": "techniqueSkills", "difficulty": "typical" },
+    { "name": "Handgun", "fixedLevel": 6, "stat": "ref", "category": "fightingSkills", "difficulty": "typical" },
+    { "name": "Human Perception", "fixedLevel": 2, "stat": "emp", "category": "socialSkills", "difficulty": "typical" },
+    { "name": "Interrogation", "fixedLevel": 6, "stat": "cool", "category": "socialSkills", "difficulty": "typical" },
+    { "name": "Language (Streetslang)", "fixedLevel": 2, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
+    { "name": "Local Expert", "fixedLevel": 4, "stat": "int", "category": "educationSkills", "difficulty": "typical" },
+    { "name": "Perception", "fixedLevel": 6, "stat": "int", "category": "awarenessSkills", "difficulty": "typical" },
+    { "name": "Resist Torture/Drugs", "fixedLevel": 4, "stat": "will", "category": "bodySkills", "difficulty": "typical" },
+    { "name": "Shoulder Arms", "fixedLevel": 4, "stat": "ref", "category": "fightingSkills", "difficulty": "typical" },
+    { "name": "Stealth", "fixedLevel": 4, "stat": "dex", "category": "bodySkills", "difficulty": "typical" },
+    { "name": "Tracking", "fixedLevel": 4, "stat": "int", "category": "awarenessSkills", "difficulty": "typical" }
+  ],
+  "equipment": {
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Heavy Pistol" },
+      { "packName": "core_weapons", "itemName": "Shotgun" },
+      { "choice": ["Light Melee Weapon", "Medium Melee Weapon"], "packName": "core_weapons" }
+    ],
+    "armor": [
+      { "packName": "core_armor", "itemName": "Light Armorjack Body" },
+      { "packName": "core_armor", "itemName": "Light Armorjack Head" }
+    ],
+    "gear": [
+      { "packName": "core_gear", "itemName": "Agent" },
+      { "packName": "core_gear", "itemName": "Handcuffs" },
+      { "packName": "core_gear", "itemName": "Radio Communicator" }
+    ],
+    "ammo": [
+      { "packName": "core_ammo", "itemName": "Basic (Pistol/SMG)", "quantity": 50 },
+      { "packName": "core_ammo", "itemName": "Shotgun Shells", "quantity": 30 }
+    ],
+    "cyberware": [
+      { "packName": "core_cyberware", "itemName": "Neural Link", "humanityLoss": 2 },
+      { "packName": "core_cyberware", "itemName": "Cybereye", "humanityLoss": 7 },
+      { "choice": ["Targeting Scope", "Low Light / Infrared / UV"], "packName": "core_cyberware" }
+    ]
+  },
+  "startingCash": 500,
+  "lifestyle": {
+    "housing": { "description": "Cargo Container", "cost": 1000 },
+    "lifeStyle": { "description": "Kibble", "cost": 100 }
+  }
+}
