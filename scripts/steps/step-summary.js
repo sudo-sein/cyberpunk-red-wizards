@@ -44,7 +44,7 @@ export default class StepSummary extends StepBase {
         { label: game.i18n.localize("crw.derived.run"), value: derived.run },
       ],
       skills: state.skills.filter(s => s.level > 0).map(s => ({ name: s.name, level: s.level })),
-      remainingEd: roleData?.startingCash ?? (state.method === "complete" ? 2550 : 0),
+      remainingEd: state.method === "complete" ? (state.gear.startingBudget ?? 2550) : (roleData?.startingCash ?? 0),
     };
   }
 
@@ -81,10 +81,10 @@ export default class StepSummary extends StepBase {
       "system.stats": statsData,
       "system.lifepath": state.lifepath,
     };
-    if (roleData?.startingCash != null) {
+    if (state.method === "complete") {
+      updateData["system.wealth.value"] = state.gear.startingBudget ?? 2550;
+    } else if (roleData?.startingCash != null) {
       updateData["system.wealth.value"] = roleData.startingCash;
-    } else if (state.method === "complete") {
-      updateData["system.wealth.value"] = 2550;
     }
     await actor.update(updateData);
 

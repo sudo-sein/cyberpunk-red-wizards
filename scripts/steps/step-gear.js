@@ -29,7 +29,8 @@ export default class StepGear extends StepBase {
 
   async prepareContext(state) {
     if (state.method === "complete") {
-      return {};
+      if (!state.gear.startingBudget) state.gear.startingBudget = 2550;
+      return { startingBudget: state.gear.startingBudget };
     }
 
     const roleData = await loadRole(state.role.id);
@@ -84,7 +85,14 @@ export default class StepGear extends StepBase {
   }
 
   activate(html, state, app) {
-    if (state.method === "complete") return;
+    if (state.method === "complete") {
+      html.querySelectorAll("input[name='startingBudget']").forEach(radio => {
+        radio.addEventListener("change", (e) => {
+          state.gear.startingBudget = parseInt(e.target.value);
+        });
+      });
+      return;
+    }
 
     html.querySelectorAll("input[type='radio']").forEach(radio => {
       radio.addEventListener("change", (e) => {

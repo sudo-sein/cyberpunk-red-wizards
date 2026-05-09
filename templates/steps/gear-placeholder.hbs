@@ -3,6 +3,16 @@
   <div class="crw-gear-placeholder-box">
     <i class="fas fa-shopping-cart crw-gear-placeholder-icon"></i>
     <p>{{localize "crw.gear.placeholderDesc"}}</p>
+    <div class="crw-budget-choice">
+      <label class="crw-budget-option">
+        <input type="radio" name="startingBudget" value="2550" {{#if (eq startingBudget 2550)}}checked{{/if}} />
+        {{localize "crw.gear.budget2550"}}
+      </label>
+      <label class="crw-budget-option">
+        <input type="radio" name="startingBudget" value="3350" {{#if (eq startingBudget 3350)}}checked{{/if}} />
+        {{localize "crw.gear.budget3350"}}
+      </label>
+    </div>
     <p class="crw-gear-fashion-note">{{localize "crw.gear.fashionNote"}}</p>
   </div>
 </div>
