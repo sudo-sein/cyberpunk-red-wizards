@@ -87,6 +87,9 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
   }
 
   async _prepareContext(options) {
+    const content = this.element?.querySelector(".crw-content");
+    this._savedScrollTop = content?.scrollTop ?? null;
+
     const step = this.#steps[this.#currentStep];
     const stepContext = step ? await step.prepareContext(this.state) : {};
     let stepHtml = "";
@@ -110,6 +113,11 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
     const step = this.#steps[this.#currentStep];
     if (step) {
       step.activate(this.element, this.state, this);
+    }
+    if (this._savedScrollTop != null) {
+      const content = this.element.querySelector(".crw-content");
+      if (content) content.scrollTop = this._savedScrollTop;
+      this._savedScrollTop = null;
     }
   }
 
