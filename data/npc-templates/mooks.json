@@ -1,0 +1,33 @@
+[
+  {
+    "id": "bodyguard",
+    "nameKey": "crw.npc.bodyguard",
+    "tier": "mook",
+    "stats": { "int": 3, "ref": 6, "dex": 5, "tech": 2, "cool": 4, "will": 4, "luck": 0, "move": 4, "body": 6, "emp": 3 },
+    "hp": 35,
+    "seriousWound": 18,
+    "deathSave": 6,
+    "armor": {
+      "head": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar (Head)" },
+      "body": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Shotgun", "quality": "poor", "damage": "5d6" },
+      { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "poor", "damage": "4d6" }
+    ],
+    "skills": [
+      { "name": "Athletics", "base": 9 },
+      { "name": "Brawling", "base": 11 },
+      { "name": "Shoulder Arms", "base": 10 },
+      { "name": "Handgun", "base": 10 },
+      { "name": "Perception", "base": 9 }
+    ],
+    "equipment": [
+      { "packName": "core_ammo", "itemName": "Shotgun (Slug)", "quantity": 25 },
+      { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 25 },
+      { "packName": "core_gear", "itemName": "Radio Communicator" }
+    ],
+    "cyberware": [],
+    "role": null
+  }
+]
