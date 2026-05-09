@@ -1,7 +1,7 @@
 [
   {
-    "id": "outrider",
-    "nameKey": "crw.npc.outrider",
+    "id": "wastelander",
+    "nameKey": "crw.npc.wastelander",
     "tier": "mini-bosses",
     "stats": { "int": 6, "ref": 8, "dex": 8, "tech": 3, "cool": 5, "will": 6, "luck": 0, "move": 6, "body": 6, "emp": 6 },
     "hp": 40,
@@ -51,8 +51,8 @@
     "role": { "packName": "core_roles", "itemName": "Nomad", "rank": 4 }
   },
   {
-    "id": "pyro",
-    "nameKey": "crw.npc.pyro",
+    "id": "firestarter",
+    "nameKey": "crw.npc.firestarter",
     "tier": "mini-bosses",
     "stats": { "int": 5, "ref": 8, "dex": 6, "tech": 7, "cool": 4, "will": 4, "luck": 0, "move": 6, "body": 5, "emp": 3 },
     "hp": 35,

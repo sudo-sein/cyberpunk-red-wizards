@@ -52,8 +52,8 @@
     "role": { "packName": "core_roles", "itemName": "Netrunner", "rank": 4 }
   },
   {
-    "id": "reclaimer-chief",
-    "nameKey": "crw.npc.reclaimer-chief",
+    "id": "salvage-boss",
+    "nameKey": "crw.npc.salvage-boss",
     "tier": "lieutenants",
     "stats": { "int": 3, "ref": 6, "dex": 6, "tech": 5, "cool": 4, "will": 5, "luck": 0, "move": 4, "body": 6, "emp": 4 },
     "hp": 40,
@@ -116,8 +116,8 @@
     "role": null
   },
   {
-    "id": "security-officer",
-    "nameKey": "crw.npc.security-officer",
+    "id": "corp-marshal",
+    "nameKey": "crw.npc.corp-marshal",
     "tier": "lieutenants",
     "stats": { "int": 4, "ref": 8, "dex": 6, "tech": 4, "cool": 6, "will": 5, "luck": 0, "move": 6, "body": 7, "emp": 4 },
     "hp": 40,

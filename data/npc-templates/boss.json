@@ -1,7 +1,7 @@
 [
   {
-    "id": "cyberpsycho",
-    "nameKey": "crw.npc.cyberpsycho",
+    "id": "cybermaniac",
+    "nameKey": "crw.npc.cybermaniac",
     "tier": "boss",
     "stats": { "int": 5, "ref": 8, "dex": 8, "tech": 5, "cool": 4, "will": 7, "luck": 0, "move": 8, "body": 10, "emp": 0 },
     "hp": 55,

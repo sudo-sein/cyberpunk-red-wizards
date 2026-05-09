@@ -1,7 +1,7 @@
 [
   {
-    "id": "bodyguard",
-    "nameKey": "crw.npc.bodyguard",
+    "id": "enforcer",
+    "nameKey": "crw.npc.enforcer",
     "tier": "mooks",
     "stats": { "int": 3, "ref": 6, "dex": 5, "tech": 2, "cool": 4, "will": 4, "luck": 0, "move": 4, "body": 6, "emp": 3 },
     "hp": 35,
@@ -46,8 +46,8 @@
     "role": null
   },
   {
-    "id": "boosterganger",
-    "nameKey": "crw.npc.boosterganger",
+    "id": "chrome-thug",
+    "nameKey": "crw.npc.chrome-thug",
     "tier": "mooks",
     "stats": { "int": 2, "ref": 6, "dex": 5, "tech": 2, "cool": 4, "will": 2, "luck": 0, "move": 4, "body": 6, "emp": 3 },
     "hp": 20,
@@ -94,8 +94,8 @@
     "role": null
   },
   {
-    "id": "road-ganger",
-    "nameKey": "crw.npc.road-ganger",
+    "id": "badlander",
+    "nameKey": "crw.npc.badlander",
     "tier": "mooks",
     "stats": { "int": 4, "ref": 6, "dex": 4, "tech": 4, "cool": 3, "will": 3, "luck": 0, "move": 3, "body": 3, "emp": 3 },
     "hp": 25,
@@ -147,8 +147,8 @@
     "role": null
   },
   {
-    "id": "security-operative",
-    "nameKey": "crw.npc.security-operative",
+    "id": "corp-grunt",
+    "nameKey": "crw.npc.corp-grunt",
     "tier": "mooks",
     "stats": { "int": 3, "ref": 7, "dex": 4, "tech": 2, "cool": 2, "will": 3, "luck": 0, "move": 3, "body": 5, "emp": 3 },
     "hp": 30,

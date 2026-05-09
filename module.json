@@ -2,9 +2,9 @@
   "id": "cyberpunk-red-wizards",
   "title": "Cyberpunk RED Wizards",
   "description": "Character creation wizard for Cyberpunk RED.",
-  "version": "1.0.0",
+  "version": "#{VERSION}#",
   "compatibility": { "minimum": "12", "verified": "12" },
-  "authors": [{ "name": "sein.adamczyk" }],
+  "authors": [{ "name": "sudo-sein", "url": "https://github.com/sudo-sein" }],
   "relationships": {
     "systems": [{
       "id": "cyberpunk-red-core",
@@ -23,5 +23,10 @@
     { "lang": "en", "name": "English", "path": "languages/en.json" },
     { "lang": "pl", "name": "Polish", "path": "languages/pl.json" }
   ],
-  "socket": true
+  "socket": true,
+  "url": "#{URL}#",
+  "manifest": "#{MANIFEST}#",
+  "download": "#{DOWNLOAD}#",
+  "readme": "https://github.com/sudo-sein/cyberpunk-red-wizards/blob/main/README.md",
+  "license": "LICENSE"
 }

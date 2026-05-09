@@ -1,7 +1,7 @@
 [
   {
-    "id": "harder-bodyguard",
-    "nameKey": "crw.npc.harder-bodyguard",
+    "id": "harder-enforcer",
+    "nameKey": "crw.npc.harder-enforcer",
     "tier": "hardened-mooks",
     "stats": { "int": 4, "ref": 6, "dex": 6, "tech": 2, "cool": 4, "will": 4, "luck": 0, "move": 5, "body": 7, "emp": 3 },
     "hp": 40,
@@ -43,8 +43,8 @@
     "role": null
   },
   {
-    "id": "harder-boosterganger",
-    "nameKey": "crw.npc.harder-boosterganger",
+    "id": "harder-chrome-thug",
+    "nameKey": "crw.npc.harder-chrome-thug",
     "tier": "hardened-mooks",
     "stats": { "int": 4, "ref": 6, "dex": 5, "tech": 2, "cool": 4, "will": 4, "luck": 0, "move": 6, "body": 4, "emp": 3 },
     "hp": 30,
@@ -90,8 +90,8 @@
     "role": null
   },
   {
-    "id": "harder-road-ganger",
-    "nameKey": "crw.npc.harder-road-ganger",
+    "id": "harder-badlander",
+    "nameKey": "crw.npc.harder-badlander",
     "tier": "hardened-mooks",
     "stats": { "int": 6, "ref": 6, "dex": 6, "tech": 4, "cool": 3, "will": 3, "luck": 0, "move": 5, "body": 3, "emp": 3 },
     "hp": 25,
@@ -135,8 +135,8 @@
     "role": null
   },
   {
-    "id": "harder-security-operative",
-    "nameKey": "crw.npc.harder-security-operative",
+    "id": "harder-corp-grunt",
+    "nameKey": "crw.npc.harder-corp-grunt",
     "tier": "hardened-mooks",
     "stats": { "int": 5, "ref": 7, "dex": 4, "tech": 2, "cool": 2, "will": 3, "luck": 0, "move": 4, "body": 5, "emp": 3 },
     "hp": 30,

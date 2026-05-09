@@ -106,8 +106,8 @@
     "role": { "packName": "core_roles", "itemName": "Netrunner", "rank": 4 }
   },
   {
-    "id": "harder-reclaimer-chief",
-    "nameKey": "crw.npc.harder-reclaimer-chief",
+    "id": "harder-salvage-boss",
+    "nameKey": "crw.npc.harder-salvage-boss",
     "tier": "hardened-lieutenants",
     "stats": { "int": 3, "ref": 8, "dex": 6, "tech": 5, "cool": 4, "will": 5, "luck": 0, "move": 6, "body": 6, "emp": 4 },
     "hp": 40,
@@ -170,8 +170,8 @@
     "role": null
   },
   {
-    "id": "harder-security-officer",
-    "nameKey": "crw.npc.harder-security-officer",
+    "id": "harder-corp-marshal",
+    "nameKey": "crw.npc.harder-corp-marshal",
     "tier": "hardened-lieutenants",
     "stats": { "int": 5, "ref": 8, "dex": 6, "tech": 4, "cool": 6, "will": 5, "luck": 0, "move": 6, "body": 7, "emp": 5 },
     "hp": 40,
