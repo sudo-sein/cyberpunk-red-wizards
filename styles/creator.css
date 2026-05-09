@@ -495,3 +495,93 @@
   font-weight: bold;
   margin-left: 4px;
 }
+
+/* Gear */
+.crw-gear-category {
+  margin-bottom: 12px;
+}
+
+.crw-gear-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  gap: 8px;
+}
+
+.crw-gear-name {
+  flex: 1;
+  font-size: var(--cpr-font-small);
+}
+
+.crw-gear-qty {
+  font-size: var(--cpr-font-smallest);
+  color: var(--cpr-text-icon-dimmed);
+}
+
+.crw-gear-hl {
+  font-size: var(--cpr-font-smallest);
+  color: var(--cpr-color-red);
+  font-weight: bold;
+}
+
+.crw-gear-choice {
+  padding: 8px 10px;
+  background-color: var(--cpr-background-box);
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.crw-gear-choice-label {
+  display: block;
+  font-size: var(--cpr-font-smallest);
+  color: var(--cpr-text-icon-dimmed);
+  margin-bottom: 4px;
+}
+
+.crw-gear-radio {
+  display: block;
+  font-size: var(--cpr-font-small);
+  padding: 2px 0;
+  cursor: pointer;
+}
+
+.crw-gear-summary {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: var(--cpr-background-box);
+  border: 1px solid var(--cpr-background-border);
+  border-radius: 6px;
+}
+
+.crw-gear-summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: var(--cpr-font-small);
+}
+
+.crw-gear-summary-value {
+  font-weight: bold;
+  font-family: var(--cpr-font-hero);
+}
+
+.crw-gear-placeholder-box {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: var(--cpr-background-box);
+  border-radius: 6px;
+  margin-top: 16px;
+}
+
+.crw-gear-placeholder-icon {
+  font-size: 48px;
+  color: var(--cpr-text-icon-dimmed);
+  margin-bottom: 16px;
+}
+
+.crw-gear-fashion-note {
+  font-size: var(--cpr-font-smaller);
+  color: var(--cpr-text-icon-dimmed);
+  margin-top: 12px;
+  font-style: italic;
+}

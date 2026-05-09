@@ -105,5 +105,20 @@
   "crw.skills.category.performanceSkills": "Performance",
   "crw.skills.category.rangedWeaponSkills": "Ranged Weapon",
   "crw.skills.category.socialSkills": "Social",
-  "crw.skills.category.techniqueSkills": "Technique"
+  "crw.skills.category.techniqueSkills": "Technique",
+  "crw.gear.presetTitle": "Equipment & Cyberware",
+  "crw.gear.presetHint": "Pre-assigned from your role template. Choose alternatives where available.",
+  "crw.gear.placeholderTitle": "Equipment — Manual",
+  "crw.gear.placeholderDesc": "You have 2550 ed to spend on weapons, armor, gear, and cyberware. Add equipment manually after character creation via the character sheet.",
+  "crw.gear.fashionNote": "Additionally: 800 ed for Fashion/Cyberfashion (unspent = lost).",
+  "crw.gear.weapons": "Weapons",
+  "crw.gear.armor": "Armor",
+  "crw.gear.gear": "Gear",
+  "crw.gear.ammo": "Ammo",
+  "crw.gear.cyberware": "Cyberware",
+  "crw.gear.humanityLoss": "Humanity Loss",
+  "crw.gear.totalHL": "Total Humanity Loss",
+  "crw.gear.currentEmp": "Current EMP",
+  "crw.gear.remaining": "Remaining ed",
+  "crw.gear.chooseOne": "Choose one:"
 }
