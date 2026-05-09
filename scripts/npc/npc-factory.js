@@ -1,77 +1,124 @@
-// =============================================================================
-// Mook actor findings (from cyberpunk-red-core system inspection):
-// =============================================================================
-//
-// CPRActor.create() (cpr-actor.js, line 33):
-//   - Checks `typeof data.system === "undefined"` to decide if this is a new actor.
-//   - If data.system IS defined (even partially), skips auto-population and calls
-//     super.create() directly — same pitfall as characters.
-//   - When system is undefined (fresh actor), auto-populates: core skills (from
-//     internal_skills pack) and core cyberware (from internal_cyberware pack).
-//
-// CPRMookActor.create() (cpr-mook.js, line 21):
-//   - Overrides CPRActor.create() to set prototypeToken defaults (bar1=hp, no actorLink).
-//   - Calls super.create() (CPRActor.create()) for the actual item auto-population.
-//   - BUG: Missing `return` keyword on the super.create() call (line 30). The promise
-//     is awaited by the parent but not returned to the caller. This means
-//     getDocumentClass("Actor").create({ type: "mook", ... }) resolves to `undefined`.
-//   - Workaround: use CPRActor.create() directly, OR call the base Foundry
-//     Actor.create() which goes through the entity-factory Proxy and routes to
-//     CPRMookActor.create(). Test at runtime whether the return is actually undefined.
-//
-// Mook stats — SAME path as characters (both use CommonSchema):
-//   - system.stats.int.value, system.stats.ref.value, system.stats.dex.value
-//   - system.stats.tech.value, system.stats.cool.value, system.stats.will.value
-//   - system.stats.luck.value / system.stats.luck.max
-//   - system.stats.move.value, system.stats.body.value
-//   - system.stats.emp.value / system.stats.emp.max
-//   Stat values default to 6. Update via actor.update({ "system.stats.body.value": N }).
-//
-// Mook skills — stored as EMBEDDED ITEMS (type "skill"), NOT flat fields:
-//   - Same as characters: auto-populated by CPRActor.create() from the internal_skills pack.
-//   - Read via actor.itemTypes.skill (array of Item documents).
-//   - Computed accessor actor.system.skills returns a flat object keyed by slugified name:
-//       { "athletics": { level, stat, mods }, ... }
-//   - To update a skill level: find the item by name and call item.update({ "system.level": N }).
-//   - Core skills (system.core === true) cannot be added via createEmbeddedDocuments().
-//     They are auto-populated on create — do NOT pass data.system in the create() call.
-//
-// Mook HP:
-//   - Stored at system.derivedStats.hp.max and system.derivedStats.hp.value.
-//   - HP max is NOT auto-calculated on create — it defaults to 40 (from HpSchema initial).
-//   - The formula (from CPRActor.calcMaxHp()) is:
-//       maxHp = 10 + 5 * Math.ceil((WILL + BODY) / 2)
-//   - Must be calculated and set manually after setting stats:
-//       const maxHp = actor.calcMaxHp();
-//       await actor.update({
-//         "system.derivedStats.hp.max": maxHp,
-//         "system.derivedStats.hp.value": maxHp,
-//       });
-//
-// Mook vs Character differences:
-//   - Both use CommonSchema: identical stat/skill/HP paths.
-//   - MookDataModel is simpler — no lifepath, lifestyle, or wealth fields.
-//   - Mook token defaults: no actorLink, neutral disposition, sight enabled.
-//   - Character token defaults: actorLink=true, friendly disposition.
-//
-// Recommendation:
-//   - Use the SAME flow as characters for mooks:
-//       1. getDocumentClass("Actor").create({ name, type: "mook" }) — no system field.
-//       2. After creation, actor.update() for stats and hp.
-//       3. createEmbeddedDocuments() for non-core items (weapons, armor, role, etc.).
-//   - Watch for the missing-return bug in CPRMookActor.create(). At runtime, if the
-//     returned actor is undefined, fall back to finding the actor by name in game.actors
-//     or patch the call chain.
-//   - No branching logic needed for mook vs character in the factory for skills/stats/HP —
-//     the data model paths are identical.
-//
-// =============================================================================
+import { fetchCompendiumItem } from "../data/role-loader.js";
 
-/**
- * NPC Factory — creates Foundry Actors for the NPC generator.
- *
- * Stub — full implementation in Task 3.
- */
-export class NPCFactory {
-  // Implementation coming in Task 3.
+const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
+
+export async function createNpcFromTemplate(template, overrides = {}) {
+  const name = overrides.name || game.i18n.localize(template.nameKey);
+  const actorType = overrides.actorType || "mook";
+
+  const isEveryday = template.tier === "everyday-people";
+
+  const ActorClass = getDocumentClass("Actor");
+  let actor = await ActorClass.create({
+    name,
+    type: actorType,
+    prototypeToken: {
+      name,
+      actorLink: false,
+      disposition: isEveryday ? 0 : -1,
+      sight: { enabled: true },
+      bar1: { attribute: "derivedStats.hp" },
+    },
+  });
+
+  // Workaround for CPRMookActor.create() missing-return bug:
+  // The override awaits super.create() but doesn't return it, so the caller
+  // receives undefined. Fall back to finding the actor by name in game.actors.
+  if (!actor) {
+    actor = game.actors.getName(name);
+    if (!actor) {
+      throw new Error(`[NPC Factory] Failed to create actor "${name}" — CPRMookActor.create() returned undefined and actor not found in game.actors.`);
+    }
+    console.warn(`[NPC Factory] CPRMookActor.create() returned undefined; recovered actor "${name}" from game.actors.`);
+  }
+
+  const statsData = {};
+  for (const key of STAT_KEYS) {
+    const value = overrides.stats?.[key] ?? template.stats[key];
+    statsData[key] = { value };
+  }
+  await actor.update({
+    "system.stats": statsData,
+    "system.derivedStats.hp.value": template.hp,
+    "system.derivedStats.hp.max": template.hp,
+  });
+
+  // Update auto-populated skill levels
+  for (const skill of template.skills) {
+    const statKey = findStatForSkill(skill.name, actor);
+    const statValue = overrides.stats?.[statKey] ?? template.stats[statKey] ?? 0;
+    const level = Math.max(0, skill.base - statValue);
+    const skillItem = actor.items.getName(skill.name);
+    if (skillItem) {
+      await skillItem.update({ "system.level": level });
+    }
+  }
+
+  // Collect all items to add in one batch
+  const itemsToCreate = [];
+
+  // Armor
+  if (template.armor.head) {
+    const armorRef = resolveAlternative(template.armor.head, overrides, "armor-head");
+    const item = await fetchCompendiumItem(armorRef.packName, armorRef.itemName);
+    if (item) itemsToCreate.push(item.toObject());
+  }
+  if (template.armor.body) {
+    const armorRef = resolveAlternative(template.armor.body, overrides, "armor-body");
+    const item = await fetchCompendiumItem(armorRef.packName, armorRef.itemName);
+    if (item) itemsToCreate.push(item.toObject());
+  }
+
+  // Weapons
+  for (let i = 0; i < template.weapons.length; i++) {
+    const weaponRef = resolveAlternative(template.weapons[i], overrides, `weapon-${i}`);
+    const item = await fetchCompendiumItem(weaponRef.packName, weaponRef.itemName);
+    if (item) itemsToCreate.push(item.toObject());
+  }
+
+  // Equipment
+  for (let i = 0; i < template.equipment.length; i++) {
+    const equipRef = resolveAlternative(template.equipment[i], overrides, `equip-${i}`);
+    const item = await fetchCompendiumItem(equipRef.packName, equipRef.itemName);
+    if (item) {
+      const data = item.toObject();
+      if (equipRef.quantity) data.system.amount = equipRef.quantity;
+      itemsToCreate.push(data);
+    }
+  }
+
+  // Cyberware
+  for (let i = 0; i < template.cyberware.length; i++) {
+    const cyberRef = resolveAlternative(template.cyberware[i], overrides, `cyber-${i}`);
+    const item = await fetchCompendiumItem(cyberRef.packName, cyberRef.itemName);
+    if (item) itemsToCreate.push(item.toObject());
+  }
+
+  // Role ability
+  if (template.role) {
+    const roleItem = await fetchCompendiumItem(template.role.packName, template.role.itemName);
+    if (roleItem) {
+      const roleData = roleItem.toObject();
+      roleData.system.rank = template.role.rank;
+      itemsToCreate.push(roleData);
+    }
+  }
+
+  if (itemsToCreate.length > 0) {
+    await actor.createEmbeddedDocuments("Item", itemsToCreate);
+  }
+
+  return actor;
+}
+
+function resolveAlternative(slot, overrides, key) {
+  if (!slot.alternatives || !overrides.gear?.[key]) return slot;
+  const idx = overrides.gear[key];
+  return slot.alternatives[idx] ?? slot;
+}
+
+function findStatForSkill(skillName, actor) {
+  const skillItem = actor.items.getName(skillName);
+  if (skillItem) return skillItem.system?.stat ?? "int";
+  return "int";
 }
