@@ -7,6 +7,12 @@ Hooks.once("init", () => {
   Handlebars.registerHelper("lt", (a, b) => a < b);
   Handlebars.registerHelper("gt", (a, b) => a > b);
 
+  loadTemplates([
+    "modules/cyberpunk-red-wizards/templates/partials/step-bar.hbs",
+    "modules/cyberpunk-red-wizards/templates/partials/stat-row.hbs",
+    "modules/cyberpunk-red-wizards/templates/partials/skill-row.hbs",
+  ]);
+
   game.settings.register(MODULE_ID, "defaultMethod", {
     name: `crw.settings.defaultMethod.name`,
     hint: `crw.settings.defaultMethod.hint`,
