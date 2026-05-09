@@ -45,7 +45,7 @@ export default class StepStats extends StepBase {
       statRows,
       method: state.method,
       roleName: roleData ? game.i18n.localize(roleData.nameKey) : "",
-      rollResult: this._rollResult,
+      rollResult: Array.isArray(this._rollResult) ? this._rollResult.join(", ") : this._rollResult,
     };
   }
 
@@ -101,8 +101,8 @@ export default class StepStats extends StepBase {
             state.stats[STAT_KEYS[i]] = row[i];
             rolls.push(roll.total);
           }
-          await new Roll("0").toMessage({
-            flavor: `${game.i18n.localize(roleData.nameKey)} — Edgerunner Stat Rolls: [${rolls.join(", ")}]`
+          await ChatMessage.create({
+            content: `<strong>${game.i18n.localize(roleData.nameKey)} — Edgerunner Stat Rolls:</strong> [${rolls.join(", ")}]`
           });
           this._rollResult = rolls;
         }

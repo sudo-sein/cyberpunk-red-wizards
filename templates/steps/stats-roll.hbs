@@ -17,6 +17,8 @@
     {{#if (eq method "streetrat")}}
     <span class="crw-roll-value">{{rollResult}}</span>
     <span class="crw-roll-row">→ {{localize "crw.stats.row"}} {{rollResult}}</span>
+    {{else}}
+    <span class="crw-roll-value">[{{rollResult}}]</span>
     {{/if}}
   </div>
   {{/if}}
