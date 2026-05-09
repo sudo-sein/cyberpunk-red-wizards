@@ -1,5 +1,6 @@
 import CharacterCreatorApp from "./app/creator-app.js";
 import NpcGeneratorApp from "./app/npc-generator-app.js";
+import { initSocket } from "./store/store-socket.js";
 
 const MODULE_ID = "cyberpunk-red-wizards";
 
@@ -27,6 +28,42 @@ Hooks.once("init", () => {
     },
     default: "streetrat",
   });
+
+  game.settings.register(MODULE_ID, "storeMarkup", {
+    name: "crw.store.settings.costModifier",
+    scope: "world",
+    config: false,
+    type: Number,
+    default: 100,
+  });
+
+  game.settings.register(MODULE_ID, "storeAvailability", {
+    name: "crw.store.settings.categories",
+    scope: "world",
+    config: false,
+    type: Object,
+    default: {
+      categoryEnabled: {
+        ammo: true, armor: true, clothing: true, cyberware: true,
+        gear: true, program: true, itemUpgrade: true, vehicle: true, weapon: true,
+      },
+      blockedItems: [],
+      priceMin: 0,
+      priceMax: 0,
+    },
+  });
+
+  game.settings.register(MODULE_ID, "storeExcludedPacks", {
+    name: "crw.store.settings.excludedPacks",
+    scope: "world",
+    config: false,
+    type: Object,
+    default: {},
+  });
+});
+
+Hooks.once("ready", () => {
+  initSocket();
 });
 
 Hooks.on("renderActorDirectory", (app, html) => {
