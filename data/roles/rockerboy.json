@@ -1,7 +1,7 @@
 {
   "id": "rockerboy",
   "nameKey": "crw.roles.rockerboy",
-  "abilityKey": "crw.roles.rockerboy.ability",
+  "abilityKey": "crw.roleAbility.rockerboy",
   "statTemplates": [
     [5, 5, 5, 4, 8, 6, 6, 5, 4, 8],
     [6, 4, 5, 3, 7, 5, 4, 4, 5, 7],

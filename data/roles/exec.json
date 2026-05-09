@@ -1,7 +1,7 @@
 {
   "id": "exec",
   "nameKey": "crw.roles.exec",
-  "abilityKey": "crw.roles.exec.ability",
+  "abilityKey": "crw.roleAbility.exec",
   "statTemplates": [
     [7, 5, 4, 4, 8, 6, 5, 4, 4, 7],
     [8, 4, 4, 4, 7, 6, 4, 4, 4, 7],

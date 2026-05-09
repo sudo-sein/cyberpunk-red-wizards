@@ -1,7 +1,7 @@
 {
   "id": "tech",
   "nameKey": "crw.roles.tech",
-  "abilityKey": "crw.roles.tech.ability",
+  "abilityKey": "crw.roleAbility.tech",
   "statTemplates": [
     [6, 4, 5, 8, 5, 5, 5, 4, 5, 5],
     [5, 5, 4, 8, 4, 6, 4, 4, 5, 5],

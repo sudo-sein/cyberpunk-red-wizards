@@ -1,7 +1,7 @@
 {
   "id": "solo",
   "nameKey": "crw.roles.solo",
-  "abilityKey": "crw.roles.solo.ability",
+  "abilityKey": "crw.roleAbility.solo",
   "statTemplates": [
     [7, 8, 8, 5, 7, 6, 6, 6, 6, 7],
     [5, 8, 8, 4, 4, 4, 2, 6, 8, 6],

@@ -1,7 +1,7 @@
 {
   "id": "lawman",
   "nameKey": "crw.roles.lawman",
-  "abilityKey": "crw.roles.lawman.ability",
+  "abilityKey": "crw.roleAbility.lawman",
   "statTemplates": [
     [5, 7, 6, 5, 7, 6, 5, 6, 6, 5],
     [4, 7, 7, 4, 6, 6, 4, 6, 7, 5],

@@ -1,7 +1,7 @@
 {
   "id": "fixer",
   "nameKey": "crw.roles.fixer",
-  "abilityKey": "crw.roles.fixer.ability",
+  "abilityKey": "crw.roleAbility.fixer",
   "statTemplates": [
     [6, 5, 4, 4, 8, 6, 7, 5, 4, 7],
     [5, 5, 5, 4, 7, 5, 7, 5, 4, 7],

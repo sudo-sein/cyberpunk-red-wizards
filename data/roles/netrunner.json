@@ -1,7 +1,7 @@
 {
   "id": "netrunner",
   "nameKey": "crw.roles.netrunner",
-  "abilityKey": "crw.roles.netrunner.ability",
+  "abilityKey": "crw.roleAbility.netrunner",
   "statTemplates": [
     [8, 5, 4, 7, 5, 5, 4, 4, 3, 7],
     [8, 4, 4, 8, 4, 4, 5, 4, 3, 6],
