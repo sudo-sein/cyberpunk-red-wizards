@@ -1,6 +1,7 @@
 import CharacterCreatorApp from "./app/creator-app.js";
 import NpcGeneratorApp from "./app/npc-generator-app.js";
 import { initSocket } from "./store/store-socket.js";
+import StoreApp from "./app/store-app.js";
 
 const MODULE_ID = "cyberpunk-red-wizards";
 
@@ -90,4 +91,20 @@ Hooks.on("renderActorDirectory", (app, html) => {
   });
 
   headerActions.append(creatorBtn, npcBtn);
+});
+
+Hooks.on("renderItemDirectory", (app, html) => {
+  const headerActions = html[0]?.querySelector(".header-actions")
+    ?? html.querySelector?.(".header-actions");
+  if (!headerActions) return;
+
+  const storeBtn = document.createElement("button");
+  storeBtn.type = "button";
+  storeBtn.classList.add("crw-sidebar-btn");
+  storeBtn.innerHTML = `<i class="fas fa-store"></i> ${game.i18n.localize("crw.store.buttons.store")}`;
+  storeBtn.addEventListener("click", () => {
+    StoreApp.open();
+  });
+
+  headerActions.append(storeBtn);
 });
