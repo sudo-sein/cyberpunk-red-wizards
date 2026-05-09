@@ -399,3 +399,99 @@
   color: var(--cpr-text-icon-dimmed);
   margin-top: 4px;
 }
+
+/* Skills */
+.crw-skills-fixed-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.crw-skill-fixed-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  background-color: var(--cpr-background-box);
+  border-radius: 4px;
+}
+
+.crw-skill-fixed-item .crw-skill-name {
+  font-size: var(--cpr-font-small);
+}
+
+.crw-skill-level-badge {
+  background-color: var(--cpr-color-red);
+  color: var(--cpr-text-header);
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: bold;
+  font-family: var(--cpr-font-hero);
+  font-size: var(--cpr-font-small);
+}
+
+.crw-filter-group {
+  margin-bottom: 12px;
+}
+
+.crw-skill-categories {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.crw-category-title {
+  font-family: var(--cpr-font-hero);
+  font-size: var(--cpr-font-small);
+  text-transform: uppercase;
+  color: var(--cpr-text-icon-highlight);
+  letter-spacing: 1px;
+  margin: 12px 0 6px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--cpr-background-border);
+}
+
+.crw-skill-row {
+  display: flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+
+.crw-skill-row:nth-child(even) {
+  background-color: var(--cpr-background-row-even, var(--cpr-background-box));
+}
+
+.crw-skill-row:nth-child(odd) {
+  background-color: var(--cpr-background-row-odd, transparent);
+}
+
+.crw-skill-name {
+  flex: 1;
+  font-size: var(--cpr-font-small);
+}
+
+.crw-skill-stat {
+  width: 40px;
+  font-size: var(--cpr-font-smallest);
+  color: var(--cpr-text-icon-dimmed);
+  text-align: center;
+}
+
+.crw-skill-level {
+  width: 30px;
+  text-align: center;
+  font-weight: bold;
+  font-family: var(--cpr-font-hero);
+  font-size: var(--cpr-font-normal);
+}
+
+.crw-skill-x2 {
+  border-left: 3px solid var(--cpr-color-red);
+}
+
+.crw-skill-cost-tag {
+  font-size: var(--cpr-font-smallest);
+  color: var(--cpr-color-red);
+  font-weight: bold;
+  margin-left: 4px;
+}

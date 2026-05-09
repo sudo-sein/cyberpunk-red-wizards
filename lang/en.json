@@ -89,5 +89,21 @@
   "crw.derived.walk": "Walk (m/round)",
   "crw.derived.walkFormula": "MOVE × 2",
   "crw.derived.run": "Run (m/round)",
-  "crw.derived.runFormula": "MOVE × 4"
+  "crw.derived.runFormula": "MOVE × 4",
+  "crw.skills.title": "Skill Points",
+  "crw.skills.remaining": "remaining",
+  "crw.skills.hint": "86 points total. Min 2, max 6 per skill. ×2 skills cost double.",
+  "crw.skills.fixedTitle": "Role Skills",
+  "crw.skills.fixedHint": "Pre-assigned skills for your role template.",
+  "crw.skills.filter": "Search skills...",
+  "crw.skills.x2": "×2",
+  "crw.skills.category.awarenessSkills": "Awareness",
+  "crw.skills.category.bodySkills": "Body",
+  "crw.skills.category.controlSkills": "Control",
+  "crw.skills.category.educationSkills": "Education",
+  "crw.skills.category.fightingSkills": "Fighting",
+  "crw.skills.category.performanceSkills": "Performance",
+  "crw.skills.category.rangedWeaponSkills": "Ranged Weapon",
+  "crw.skills.category.socialSkills": "Social",
+  "crw.skills.category.techniqueSkills": "Technique"
 }
