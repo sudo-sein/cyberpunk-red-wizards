@@ -1,8 +1,8 @@
 import StepBase from "./step-base.js";
-import { loadRole, fetchCompendiumItems } from "../data/role-loader.js";
+import { loadRole } from "../data/role-loader.js";
 
+const MODULE_PATH = "modules/cyberpunk-red-wizards";
 const TOTAL_POINTS = 86;
-const MIN_LEVEL = 2;
 const MAX_LEVEL = 6;
 
 const CATEGORY_ORDER = [
@@ -11,10 +11,26 @@ const CATEGORY_ORDER = [
   "socialSkills", "techniqueSkills"
 ];
 
+let allSkillsCache = null;
+
+async function loadAllSkills() {
+  if (allSkillsCache) return allSkillsCache;
+  const resp = await fetch(`${MODULE_PATH}/data/all-skills.json`);
+  if (!resp.ok) throw new Error("Failed to load all-skills.json");
+  const data = await resp.json();
+  const flat = [];
+  for (const [category, skills] of Object.entries(data)) {
+    for (const s of skills) {
+      flat.push({ ...s, category, level: 0 });
+    }
+  }
+  allSkillsCache = flat;
+  return flat;
+}
+
 export default class StepSkills extends StepBase {
   constructor() {
     super("skills", "crw.steps.skills");
-    this._compendiumSkills = null;
   }
 
   get template() {
@@ -55,19 +71,18 @@ export default class StepSkills extends StepBase {
 
   async _preparePointBuy(state) {
     if (state.skills.length === 0) {
+      const allSkills = await loadAllSkills();
+      state.skills = allSkills.map(s => ({ ...s }));
+
       if (state.method === "edgerunner") {
         const roleData = await loadRole(state.role.id);
         if (roleData?.skills) {
-          state.skills = roleData.skills.map(s => ({
-            name: s.name,
-            level: MIN_LEVEL,
-            stat: s.stat,
-            category: s.category,
-            difficulty: s.difficulty,
-          }));
+          const roleMap = new Map(roleData.skills.map(s => [s.name, s]));
+          for (const skill of state.skills) {
+            const rs = roleMap.get(skill.name);
+            if (rs) skill.level = 2;
+          }
         }
-      } else {
-        await this._loadCompendiumSkills(state);
       }
     }
 
@@ -77,34 +92,9 @@ export default class StepSkills extends StepBase {
     return {
       remaining: TOTAL_POINTS - spent,
       spentPercent: Math.min(100, Math.round((spent / TOTAL_POINTS) * 100)),
-      showFilter: state.method === "complete",
+      showFilter: true,
       categories: grouped,
     };
-  }
-
-  async _loadCompendiumSkills(state) {
-    if (!this._compendiumSkills) {
-      const packNames = [
-        "core_skills-awareness", "core_skills-body", "core_skills-control",
-        "core_skills-education", "core_skills-fighting", "core_skills-performance",
-        "core_skills-ranged-weapon", "core_skills-social", "core_skills-technique"
-      ];
-      const allSkills = [];
-      for (const packName of packNames) {
-        const items = await fetchCompendiumItems(packName);
-        for (const item of items) {
-          allSkills.push({
-            name: item.name,
-            level: MIN_LEVEL,
-            stat: item.system?.stat ?? "",
-            category: item.system?.category ?? "",
-            difficulty: item.system?.difficulty ?? "typical",
-          });
-        }
-      }
-      this._compendiumSkills = allSkills;
-    }
-    state.skills = this._compendiumSkills.map(s => ({ ...s }));
   }
 
   _calculateSpent(skills) {
@@ -166,7 +156,7 @@ export default class StepSkills extends StepBase {
         const skillName = btn.dataset.skill;
         const skill = state.skills.find(s => s.name === skillName);
         if (!skill) return;
-        if (skill.level > MIN_LEVEL) {
+        if (skill.level > 0) {
           skill.level--;
           app.render(true);
         }
@@ -194,9 +184,7 @@ export default class StepSkills extends StepBase {
       return state.skills.length > 0;
     }
     const spent = this._calculateSpent(state.skills);
-    const allMin = state.skills.every(s => s.level >= MIN_LEVEL);
-    const allMax = state.skills.every(s => s.level <= MAX_LEVEL);
-    return spent === TOTAL_POINTS && allMin && allMax;
+    return spent === TOTAL_POINTS && state.skills.every(s => s.level >= 0 && s.level <= MAX_LEVEL);
   }
 
   serialize(html, state) {

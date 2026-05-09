@@ -1,0 +1,86 @@
+{
+  "awarenessSkills": [
+    { "name": "Concentration", "stat": "will", "difficulty": "typical" },
+    { "name": "Conceal/Reveal Object", "stat": "int", "difficulty": "typical" },
+    { "name": "Lip Reading", "stat": "int", "difficulty": "typical" },
+    { "name": "Perception", "stat": "int", "difficulty": "typical" },
+    { "name": "Tracking", "stat": "int", "difficulty": "typical" }
+  ],
+  "bodySkills": [
+    { "name": "Athletics", "stat": "dex", "difficulty": "typical" },
+    { "name": "Contortionist", "stat": "dex", "difficulty": "typical" },
+    { "name": "Dance", "stat": "dex", "difficulty": "typical" },
+    { "name": "Endurance", "stat": "will", "difficulty": "typical" },
+    { "name": "Resist Torture/Drugs", "stat": "will", "difficulty": "typical" },
+    { "name": "Stealth", "stat": "dex", "difficulty": "typical" }
+  ],
+  "controlSkills": [
+    { "name": "Driving", "stat": "ref", "difficulty": "typical" },
+    { "name": "Piloting", "stat": "ref", "difficulty": "x2" },
+    { "name": "Riding", "stat": "ref", "difficulty": "typical" },
+    { "name": "Sailing", "stat": "ref", "difficulty": "typical" }
+  ],
+  "educationSkills": [
+    { "name": "Accounting", "stat": "int", "difficulty": "typical" },
+    { "name": "Animal Handling", "stat": "int", "difficulty": "typical" },
+    { "name": "Bureaucracy", "stat": "int", "difficulty": "typical" },
+    { "name": "Business", "stat": "int", "difficulty": "typical" },
+    { "name": "Composition", "stat": "int", "difficulty": "typical" },
+    { "name": "Criminology", "stat": "int", "difficulty": "typical" },
+    { "name": "Cryptography", "stat": "int", "difficulty": "typical" },
+    { "name": "Deduction", "stat": "int", "difficulty": "typical" },
+    { "name": "Education", "stat": "int", "difficulty": "typical" },
+    { "name": "Gamble", "stat": "int", "difficulty": "typical" },
+    { "name": "Language (Streetslang)", "stat": "int", "difficulty": "typical" },
+    { "name": "Library Search", "stat": "int", "difficulty": "typical" },
+    { "name": "Local Expert", "stat": "int", "difficulty": "typical" },
+    { "name": "Science", "stat": "int", "difficulty": "typical" },
+    { "name": "Tactics", "stat": "int", "difficulty": "typical" },
+    { "name": "Wilderness Survival", "stat": "int", "difficulty": "typical" }
+  ],
+  "fightingSkills": [
+    { "name": "Brawling", "stat": "dex", "difficulty": "typical" },
+    { "name": "Evasion", "stat": "dex", "difficulty": "typical" },
+    { "name": "Martial Arts", "stat": "dex", "difficulty": "x2" },
+    { "name": "Melee Weapon", "stat": "dex", "difficulty": "typical" }
+  ],
+  "performanceSkills": [
+    { "name": "Acting", "stat": "cool", "difficulty": "typical" },
+    { "name": "Play Instrument", "stat": "tech", "difficulty": "typical" }
+  ],
+  "rangedWeaponSkills": [
+    { "name": "Archery", "stat": "ref", "difficulty": "typical" },
+    { "name": "Autofire", "stat": "ref", "difficulty": "x2" },
+    { "name": "Handgun", "stat": "ref", "difficulty": "typical" },
+    { "name": "Heavy Weapons", "stat": "ref", "difficulty": "x2" },
+    { "name": "Shoulder Arms", "stat": "ref", "difficulty": "typical" }
+  ],
+  "socialSkills": [
+    { "name": "Bribery", "stat": "cool", "difficulty": "typical" },
+    { "name": "Conversation", "stat": "emp", "difficulty": "typical" },
+    { "name": "Human Perception", "stat": "emp", "difficulty": "typical" },
+    { "name": "Interrogation", "stat": "cool", "difficulty": "typical" },
+    { "name": "Persuasion", "stat": "cool", "difficulty": "typical" },
+    { "name": "Personal Grooming", "stat": "cool", "difficulty": "typical" },
+    { "name": "Streetwise", "stat": "cool", "difficulty": "typical" },
+    { "name": "Trading", "stat": "cool", "difficulty": "typical" },
+    { "name": "Wardrobe & Style", "stat": "cool", "difficulty": "typical" }
+  ],
+  "techniqueSkills": [
+    { "name": "Air Vehicle Tech", "stat": "tech", "difficulty": "typical" },
+    { "name": "Basic Tech", "stat": "tech", "difficulty": "typical" },
+    { "name": "Cybertech", "stat": "tech", "difficulty": "typical" },
+    { "name": "Demolitions", "stat": "tech", "difficulty": "x2" },
+    { "name": "Electronics/Security Tech", "stat": "tech", "difficulty": "x2" },
+    { "name": "First Aid", "stat": "tech", "difficulty": "typical" },
+    { "name": "Forgery", "stat": "tech", "difficulty": "typical" },
+    { "name": "Land Vehicle Tech", "stat": "tech", "difficulty": "typical" },
+    { "name": "Paint/Draw/Sculpt", "stat": "tech", "difficulty": "typical" },
+    { "name": "Paramedic", "stat": "tech", "difficulty": "x2" },
+    { "name": "Photography/Film", "stat": "tech", "difficulty": "typical" },
+    { "name": "Pick Lock", "stat": "tech", "difficulty": "typical" },
+    { "name": "Pickpocket", "stat": "tech", "difficulty": "typical" },
+    { "name": "Sea Vehicle Tech", "stat": "tech", "difficulty": "typical" },
+    { "name": "Weaponstech", "stat": "tech", "difficulty": "typical" }
+  ]
+}

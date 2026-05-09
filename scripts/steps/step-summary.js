@@ -36,7 +36,7 @@ export default class StepSummary extends StepBase {
         { label: game.i18n.localize("crw.derived.walk"), value: derived.walk },
         { label: game.i18n.localize("crw.derived.run"), value: derived.run },
       ],
-      skills: state.skills.map(s => ({ name: s.name, level: s.level })),
+      skills: state.skills.filter(s => s.level > 0).map(s => ({ name: s.name, level: s.level })),
       remainingEd: roleData?.startingCash ?? (state.method === "complete" ? 2550 : 0),
     };
   }
@@ -85,8 +85,8 @@ export default class StepSummary extends StepBase {
       }
     }
 
-    // Skill items
-    for (const skill of state.skills) {
+    // Skill items (only those with points allocated)
+    for (const skill of state.skills.filter(s => s.level > 0)) {
       const skillItem = await this._findSkillInCompendia(skill.name);
       if (skillItem) {
         const itemData = skillItem.toObject();

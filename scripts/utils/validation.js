@@ -12,17 +12,15 @@ export function validateStatsRolled(stats) {
 
 export function validateSkillsPointBuy(skills, totalPoints = 86) {
   let spent = 0;
-  let allMinimums = true;
-  let allMaximums = true;
+  let allInRange = true;
 
   for (const skill of skills) {
     const cost = skill.difficulty === "x2" ? skill.level * 2 : skill.level;
     spent += cost;
-    if (skill.level < 2) allMinimums = false;
-    if (skill.level > 6) allMaximums = false;
+    if (skill.level < 0 || skill.level > 6) allInRange = false;
   }
 
-  return { valid: spent === totalPoints && allMinimums && allMaximums, spent, allMinimums, allMaximums };
+  return { valid: spent === totalPoints && allInRange, spent, allInRange };
 }
 
 export function validateHumanity(humanity, humanityLoss) {
