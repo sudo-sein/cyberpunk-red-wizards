@@ -653,6 +653,31 @@
   font-size: var(--cpr-font-small);
 }
 
+.crw-summary-relationship-group {
+  margin-bottom: 6px;
+}
+
+.crw-summary-relationship-group:last-child {
+  margin-bottom: 0;
+}
+
+.crw-summary-relationship-label {
+  font-weight: bold;
+  font-size: var(--cpr-font-small);
+  color: var(--cpr-text-icon-highlight);
+}
+
+.crw-summary-relationship-list {
+  margin: 2px 0 0 16px;
+  padding: 0;
+  list-style: disc;
+  font-size: var(--cpr-font-small);
+}
+
+.crw-summary-relationship-list li {
+  padding: 1px 0;
+}
+
 .crw-btn-create {
   background-color: #4caf50;
   color: white;
@@ -1008,8 +1033,10 @@
   color: var(--cpr-text-icon-dimmed);
 }
 
-.crw-relationships-count {
+.crw-step-relationships .crw-relationships-count {
   width: 44px;
+  height: auto;
+  line-height: normal;
   background-color: var(--cpr-background-header);
   border: 1px solid var(--cpr-background-border);
   color: var(--cpr-text-normal);
@@ -1020,16 +1047,24 @@
   font-family: var(--cpr-font-primary);
 }
 
-.crw-relationships-roll-count {
+.crw-step-relationships .crw-relationships-roll-count {
   background-color: var(--cpr-background-header);
   color: var(--cpr-text-normal);
   border: 1px solid var(--cpr-background-border);
-  padding: 5px 10px;
+  padding: 3px 8px;
   border-radius: 4px;
   font-size: var(--cpr-font-smallest);
   cursor: pointer;
   font-family: var(--cpr-font-primary);
   white-space: nowrap;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.crw-step-relationships .crw-relationships-roll-count > i {
+  margin: 0;
 }
 
 .crw-relationships-body {
@@ -1079,8 +1114,11 @@
   color: var(--cpr-text-icon-dimmed);
 }
 
-.crw-relationships-select {
+.crw-step-relationships .crw-relationships-select {
   flex: 1;
+  width: auto;
+  height: auto;
+  line-height: normal;
   background-color: var(--cpr-background-header);
   border: 1px solid var(--cpr-background-border);
   color: var(--cpr-text-normal);
@@ -1090,15 +1128,24 @@
   font-family: var(--cpr-font-primary);
 }
 
-.crw-relationships-roll-field {
+.crw-step-relationships .crw-relationships-roll-field {
   background-color: var(--cpr-background-header);
   color: var(--cpr-text-normal);
   border: 1px solid var(--cpr-background-border);
-  padding: 4px 8px;
+  padding: 4px 6px;
   border-radius: 4px;
   cursor: pointer;
   font-size: var(--cpr-font-smallest);
   flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crw-step-relationships .crw-relationships-roll-field > i {
+  margin: 0;
 }
 
 .crw-relationships-enemy-card {
@@ -1122,7 +1169,7 @@
   font-size: var(--cpr-font-small);
 }
 
-.crw-relationships-roll-all-fields {
+.crw-step-relationships .crw-relationships-roll-all-fields {
   background-color: #3a3a5a;
   color: #a0a0e0;
   border: none;
@@ -1131,6 +1178,14 @@
   font-size: var(--cpr-font-smallest);
   cursor: pointer;
   font-family: var(--cpr-font-primary);
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.crw-step-relationships .crw-relationships-roll-all-fields > i {
+  margin: 0;
 }
 
 .crw-relationships-enemy-grid {
@@ -1151,4 +1206,46 @@
   color: var(--cpr-text-icon-dimmed);
   font-style: italic;
   font-size: var(--cpr-font-smaller);
+}
+
+/* Override Foundry global .application button hover/focus */
+.crw-step-relationships .crw-relationships-roll-count:hover,
+.crw-step-relationships .crw-relationships-roll-field:hover {
+  background-color: var(--cpr-background-border);
+  border-color: var(--cpr-background-border);
+  color: var(--cpr-text-normal);
+}
+
+.crw-step-relationships .crw-relationships-roll-all-fields:hover {
+  background-color: #4a4a6a;
+  border: none;
+  color: #c0c0f0;
+}
+
+.crw-step-relationships .crw-relationships-roll-count:focus,
+.crw-step-relationships .crw-relationships-roll-field:focus,
+.crw-step-relationships .crw-relationships-roll-all-fields:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.crw-step-relationships .crw-btn-roll {
+  background-color: var(--cpr-color-red);
+  color: var(--cpr-text-header);
+  border: none;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.crw-step-relationships .crw-btn-roll > i {
+  margin: 0;
+}
+
+.crw-step-relationships .crw-btn-roll:hover {
+  background-color: var(--cpr-color-red);
+  filter: brightness(1.2);
+  border: none;
+  color: var(--cpr-text-header);
 }

@@ -152,9 +152,8 @@ export default class StepRelationships extends StepBase {
     const roll = await new Roll(typeDef.countDie).evaluate();
     const count = Math.max(0, roll.total + typeDef.countOffset);
 
-    await roll.toMessage({
-      flavor: `${game.i18n.localize(typeDef.labelKey)} — ${game.i18n.localize("crw.relationships.count")}`,
-    });
+    const typeName = game.i18n.localize(typeDef.labelKey);
+    ui.notifications.info(game.i18n.format("crw.relationships.rolledCount", { count, type: typeName }));
 
     this._adjustEntries(state, typeId, count);
     if (rerender) app.render(true);
@@ -166,7 +165,7 @@ export default class StepRelationships extends StepBase {
     const tableDef = typeDef.tables.find(t => t.id === tableId);
 
     const roll = await new Roll(tableDef.die).evaluate();
-    await roll.toMessage({ flavor: game.i18n.localize(tableDef.labelKey) });
+
 
     const entry = tableDef.entries.find(e => e.roll === roll.total);
     if (entry && state.relationships[typeId]?.[entryIndex]) {

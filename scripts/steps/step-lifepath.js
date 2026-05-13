@@ -73,7 +73,6 @@ export default class StepLifepath extends StepBase {
     if (!table) return;
 
     const roll = await new Roll(die).evaluate();
-    await roll.toMessage({ flavor: game.i18n.localize(table.labelKey) });
 
     const entry = table.entries.find(e => e.roll === roll.total);
     if (entry) {

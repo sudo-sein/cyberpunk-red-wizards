@@ -109,6 +109,24 @@
       ]
     },
     {
+      "id": "valuedPerson",
+      "stateKey": "valuedPerson",
+      "labelKey": "CPR.characterSheet.bottomPane.lifepath.valuedPerson",
+      "die": "1d10",
+      "entries": [
+        { "roll": 1, "labelKey": "crw.lifepath.valuedPerson_1" },
+        { "roll": 2, "labelKey": "crw.lifepath.valuedPerson_2" },
+        { "roll": 3, "labelKey": "crw.lifepath.valuedPerson_3" },
+        { "roll": 4, "labelKey": "crw.lifepath.valuedPerson_4" },
+        { "roll": 5, "labelKey": "crw.lifepath.valuedPerson_5" },
+        { "roll": 6, "labelKey": "crw.lifepath.valuedPerson_6" },
+        { "roll": 7, "labelKey": "crw.lifepath.valuedPerson_7" },
+        { "roll": 8, "labelKey": "crw.lifepath.valuedPerson_8" },
+        { "roll": 9, "labelKey": "crw.lifepath.valuedPerson_9" },
+        { "roll": 10, "labelKey": "crw.lifepath.valuedPerson_10" }
+      ]
+    },
+    {
       "id": "aboutPeople",
       "stateKey": "aboutPeople",
       "labelKey": "CPR.characterSheet.bottomPane.lifepath.peopleFeelings",

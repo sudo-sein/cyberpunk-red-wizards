@@ -57,31 +57,31 @@ export default class StepSummary extends StepBase {
     if (!rel) return [];
     const sections = [];
 
-    const friendsText = rel.friends.map(f => f.character).filter(Boolean).join(", ");
-    if (friendsText) {
+    const friends = rel.friends.map(f => f.character).filter(Boolean);
+    if (friends.length) {
       sections.push({
         label: game.i18n.localize("CPR.characterSheet.bottomPane.lifepath.friends"),
-        value: friendsText,
+        items: friends,
       });
     }
 
-    const loveText = rel.loveAffairs.map(l => l.story).filter(Boolean).join(", ");
-    if (loveText) {
+    const love = rel.loveAffairs.map(l => l.story).filter(Boolean);
+    if (love.length) {
       sections.push({
         label: game.i18n.localize("crw.relationships.loveAffairs"),
-        value: loveText,
+        items: love,
       });
     }
 
-    const enemiesText = rel.enemies.map(e => {
+    const enemies = rel.enemies.map(e => {
       if (!e.who) return null;
       const details = [e.cause, e.resources, e.revenge].filter(Boolean).join(", ");
       return details ? `${e.who} (${details})` : e.who;
-    }).filter(Boolean).join("; ");
-    if (enemiesText) {
+    }).filter(Boolean);
+    if (enemies.length) {
       sections.push({
         label: game.i18n.localize("CPR.characterSheet.bottomPane.lifepath.enemies"),
-        value: enemiesText,
+        items: enemies,
       });
     }
 
