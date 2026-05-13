@@ -1,0 +1,76 @@
+<div class="crw-step-relationships">
+  <div class="crw-relationships-top">
+    <div>
+      <h3 class="crw-section-title">{{localize "crw.relationships.title"}}</h3>
+      <p class="crw-section-subtitle">{{localize "crw.relationships.subtitle"}}</p>
+    </div>
+    <button type="button" class="crw-btn-roll" data-action="rollAll">
+      <i class="fas fa-dice-d20"></i> {{localize "crw.relationships.rollAll"}}
+    </button>
+  </div>
+
+  {{#each types}}
+  <div class="crw-relationships-section crw-relationships-section--{{colorClass}}" data-type="{{id}}">
+    <div class="crw-relationships-header">
+      <span class="crw-relationships-chevron">▼</span>
+      <span class="crw-relationships-section-title">{{label}}</span>
+      <span class="crw-relationships-controls">
+        <label>{{localize "crw.relationships.count"}}</label>
+        <input type="number" class="crw-relationships-count" value="{{count}}" min="0" max="3" data-type="{{id}}">
+        <button type="button" class="crw-relationships-roll-count" data-type="{{id}}">
+          <i class="fas fa-dice"></i> {{localize "crw.relationships.rollCount"}}
+        </button>
+      </span>
+    </div>
+    <div class="crw-relationships-body">
+      {{#if hasEntries}}
+        {{#if isComplex}}
+          {{#each entries}}
+          <div class="crw-relationships-enemy-card" data-type="{{typeId}}" data-index="{{index}}">
+            <div class="crw-relationships-enemy-header">
+              <span>{{localize "crw.relationships.enemy"}} #{{displayIndex}}</span>
+              <button type="button" class="crw-relationships-roll-all-fields" data-type="{{typeId}}" data-index="{{index}}">
+                <i class="fas fa-dice"></i> {{localize "crw.relationships.rollAllFields"}}
+              </button>
+            </div>
+            <div class="crw-relationships-enemy-grid">
+              {{#each fields}}
+              <span class="crw-relationships-field-label">{{label}}:</span>
+              <select class="crw-relationships-select" data-type="{{typeId}}" data-index="{{entryIndex}}" data-table="{{tableId}}">
+                <option value="">{{localize "crw.relationships.select"}}</option>
+                {{#each options}}
+                <option value="{{value}}" {{#if (eq value ../currentValue)}}selected{{/if}}>{{label}}</option>
+                {{/each}}
+              </select>
+              <button type="button" class="crw-relationships-roll-field" data-type="{{typeId}}" data-index="{{entryIndex}}" data-table="{{tableId}}">
+                <i class="fas fa-dice"></i>
+              </button>
+              {{/each}}
+            </div>
+          </div>
+          {{/each}}
+        {{else}}
+          {{#each entries}}
+          <div class="crw-relationships-entry" data-type="{{typeId}}" data-index="{{index}}">
+            <span class="crw-relationships-index">#{{displayIndex}}</span>
+            {{#each fields}}
+            <select class="crw-relationships-select" data-type="{{typeId}}" data-index="{{entryIndex}}" data-table="{{tableId}}">
+              <option value="">{{localize "crw.relationships.select"}}</option>
+              {{#each options}}
+              <option value="{{value}}" {{#if (eq value ../currentValue)}}selected{{/if}}>{{label}}</option>
+              {{/each}}
+            </select>
+            <button type="button" class="crw-relationships-roll-field" data-type="{{typeId}}" data-index="{{entryIndex}}" data-table="{{tableId}}">
+              <i class="fas fa-dice"></i>
+            </button>
+            {{/each}}
+          </div>
+          {{/each}}
+        {{/if}}
+      {{else}}
+        <div class="crw-relationships-empty">{{emptyMessage}}</div>
+      {{/if}}
+    </div>
+  </div>
+  {{/each}}
+</div>
