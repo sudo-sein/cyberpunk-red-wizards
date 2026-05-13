@@ -895,6 +895,27 @@
   padding: 12px 16px;
 }
 
+.crw-npc-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.crw-npc-stat-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 4px;
+  background-color: var(--cpr-background-box);
+  border-radius: 4px;
+}
+
+.crw-npc-stat-value {
+  font-size: var(--cpr-font-large);
+  font-weight: bold;
+  font-family: var(--cpr-font-hero);
+}
+
 .crw-npc-section {
   margin-bottom: 12px;
 }
