@@ -1,6 +1,6 @@
 <div class="crw-step-stats">
   <div class="crw-roll-header">
-    <span class="crw-label">{{roleName}} — Stat Template</span>
+    <span class="crw-label">{{roleName}} — {{localize "crw.stats.title"}}</span>
     <button type="button" class="crw-btn-roll" data-action="rollStats">
       <i class="fas fa-dice-d20"></i>
       {{#if (eq method "streetrat")}}
@@ -11,31 +11,30 @@
     </button>
   </div>
 
-  {{#if rollResult}}
-  <div class="crw-roll-result">
-    <span class="crw-roll-label">{{localize "crw.stats.rollResult"}}:</span>
-    {{#if (eq method "streetrat")}}
-    <span class="crw-roll-value">{{rollResult}}</span>
-    <span class="crw-roll-row">→ {{localize "crw.stats.row"}} {{rollResult}}</span>
-    {{else}}
-    <span class="crw-roll-value">[{{rollResult}}]</span>
-    {{/if}}
-  </div>
-  {{/if}}
-
-  <div class="crw-stat-grid">
-    {{#each statRows}}
-    <div class="crw-stat-cell">
-      <div class="crw-stat-abbr">{{abbr}}</div>
-      <input type="number" class="crw-stat-cell-value" data-stat="{{key}}" value="{{value}}" min="1" max="10">
-    </div>
-    {{/each}}
-  </div>
-
-  <div class="crw-hint">
-    <i class="fas fa-pencil-alt"></i> {{localize "crw.stats.overrideHint"}}
-    {{#if (eq method "edgerunner")}}
-    <br>{{localize "crw.stats.edgerunnerHint"}}
-    {{/if}}
-  </div>
+  <table class="crw-stat-table">
+    <thead>
+      <tr>
+        <th></th>
+        {{#each templateCols}}
+        <th class="{{#if this.selected}}crw-selected-col{{/if}}">{{this.label}}</th>
+        {{/each}}
+        {{#if (eq method "edgerunner")}}
+        <th></th>
+        {{/if}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each statRows}}
+      <tr class="{{#if this.dimmed}}crw-dimmed{{/if}}">
+        <td class="crw-stat-label">{{this.abbr}}</td>
+        {{#each this.values}}
+        <td class="crw-val{{#if this.selected}} crw-selected{{/if}}" data-stat="{{../key}}" data-col="{{this.col}}">{{this.value}}</td>
+        {{/each}}
+        {{#if (eq ../method "edgerunner")}}
+        <td><button type="button" class="crw-stat-dice-btn" data-action="rollStat" data-stat="{{this.key}}"><i class="fas fa-dice-d6"></i></button></td>
+        {{/if}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>

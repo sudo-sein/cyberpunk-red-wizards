@@ -230,31 +230,11 @@
   transition: width 0.2s;
 }
 
-.crw-stat-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.crw-stat-row {
-  display: flex;
-  align-items: center;
-  padding: 6px 10px;
-  background-color: var(--cpr-background-box);
-  border-radius: 4px;
-}
-
 .crw-stat-abbr {
   width: 40px;
   font-size: var(--cpr-font-smallest);
   color: var(--cpr-text-icon-highlight);
   font-weight: bold;
-}
-
-.crw-stat-name {
-  flex: 1;
-  font-size: var(--cpr-font-small);
-  color: var(--cpr-text-icon-dimmed);
 }
 
 .crw-stat-btn {
@@ -268,14 +248,6 @@
   font-size: var(--cpr-font-small);
 }
 
-.crw-stat-value {
-  width: 36px;
-  text-align: center;
-  font-size: var(--cpr-font-large);
-  font-weight: bold;
-  font-family: var(--cpr-font-hero);
-}
-
 .crw-hint {
   margin-top: 12px;
   padding: 8px 12px;
@@ -287,7 +259,7 @@
   line-height: 1.5;
 }
 
-/* Stats: roll mode */
+/* Stats: roll mode — transposed table */
 .crw-roll-header {
   display: flex;
   justify-content: space-between;
@@ -307,50 +279,109 @@
   cursor: pointer;
 }
 
-.crw-roll-result {
-  text-align: center;
-  padding: 12px;
-  margin-bottom: 14px;
-  background-color: var(--cpr-background-box);
-  border: 1px solid var(--cpr-color-red);
-  border-radius: 6px;
-}
-
-.crw-roll-value {
-  font-size: var(--cpr-font-largest);
-  font-weight: bold;
-  font-family: var(--cpr-font-hero);
-  margin: 0 8px;
-}
-
-.crw-roll-row {
+.crw-stat-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 2px;
   font-size: var(--cpr-font-small);
+}
+
+.crw-stat-table th {
+  padding: 4px 3px;
+  font-weight: normal;
+  color: var(--cpr-text-icon-dimmed);
+  font-size: var(--cpr-font-smallest);
+  text-align: center;
+}
+
+.crw-stat-table th.crw-selected-col {
+  color: var(--cpr-color-red);
+  font-weight: bold;
+}
+
+.crw-stat-table td {
+  text-align: center;
+  padding: 5px 3px;
+}
+
+.crw-stat-table td.crw-stat-label {
+  text-align: left;
+  padding-left: 6px;
+  width: 50px;
+  color: var(--cpr-text-icon-highlight);
+  font-weight: bold;
+}
+
+.crw-stat-table td.crw-val {
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.crw-stat-table td.crw-val:hover {
+  background-color: var(--cpr-background-box);
+}
+
+.crw-stat-table td.crw-selected {
+  background-color: var(--cpr-color-red);
+  color: var(--cpr-text-header);
+  font-weight: bold;
+}
+
+.crw-stat-table tr.crw-dimmed td {
   color: var(--cpr-text-icon-dimmed);
 }
 
-.crw-stat-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
+.crw-stat-table tr.crw-dimmed td.crw-stat-label {
+  color: var(--cpr-text-icon-dimmed);
 }
 
-.crw-stat-cell {
+.crw-stat-table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.crw-stat-table .crw-stat-dice-btn {
+  background: none;
+  border: 1px solid var(--cpr-background-border);
+  color: var(--cpr-text-icon-dimmed);
+  border-radius: 3px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: var(--cpr-font-small);
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+}
+
+.crw-stat-table .crw-stat-dice-btn:hover {
   background-color: var(--cpr-background-box);
-  border-radius: 4px;
-  padding: 8px 4px;
-  text-align: center;
+  color: var(--cpr-text-normal);
 }
 
-.crw-stat-cell-value {
-  width: 50px;
-  text-align: center;
+/* Stats: point-buy table overrides */
+.crw-stat-table--pointbuy {
+  border-spacing: 0 3px;
+}
+
+.crw-stat-table--pointbuy td {
+  padding: 8px 6px;
+}
+
+.crw-stat-table--pointbuy td.crw-stat-name {
+  text-align: left;
+  color: var(--cpr-text-icon-dimmed);
+  font-size: var(--cpr-font-small);
+}
+
+.crw-stat-table--pointbuy td.crw-stat-btn-cell {
+  width: 30px;
+  padding: 4px;
+}
+
+.crw-stat-table--pointbuy td.crw-stat-value {
+  width: 40px;
   font-size: var(--cpr-font-large);
   font-weight: bold;
   font-family: var(--cpr-font-hero);
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--cpr-background-border);
-  color: var(--cpr-text-normal);
 }
 
 /* Step 2: Derived Stats */
@@ -1065,6 +1096,14 @@
 
 .crw-step-relationships .crw-relationships-roll-count > i {
   margin: 0;
+}
+
+.crw-roll-header > button,
+.crw-lifepath-header > button,
+.crw-relationships-top > button {
+  flex-grow: 0;
+  flex-shrink: 1;
+  width: auto;
 }
 
 .crw-relationships-body {
