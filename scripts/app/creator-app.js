@@ -1,5 +1,6 @@
 import StepStart from "../steps/step-start.js";
 import StepLifepath from "../steps/step-lifepath.js";
+import StepRelationships from "../steps/step-relationships.js";
 import StepStats from "../steps/step-stats.js";
 import StepDerived from "../steps/step-derived.js";
 import StepSkills from "../steps/step-skills.js";
@@ -59,6 +60,7 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
       method: game.settings.get("cyberpunk-red-wizards", "defaultMethod"),
       role: null,
       lifepath: {},
+      relationships: { friends: [], loveAffairs: [], enemies: [] },
       stats: { int: 2, ref: 2, dex: 2, tech: 2, cool: 2, will: 2, luck: 2, move: 2, body: 2, emp: 2 },
       skills: [],
       gear: {},
@@ -67,6 +69,7 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
     this.registerSteps([
       new StepStart(),
       new StepLifepath(),
+      new StepRelationships(),
       new StepStats(),
       new StepDerived(),
       new StepSkills(),

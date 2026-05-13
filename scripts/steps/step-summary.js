@@ -48,7 +48,44 @@ export default class StepSummary extends StepBase {
       ],
       skills: state.skills.filter(s => s.level > 0).map(s => ({ name: s.name, level: s.level })),
       remainingEd: state.method === "complete" ? (state.gear.startingBudget ?? 2550) : (roleData?.startingCash ?? 0),
+      relationshipSummary: this._buildRelationshipSummary(state),
     };
+  }
+
+  _buildRelationshipSummary(state) {
+    const rel = state.relationships;
+    if (!rel) return [];
+    const sections = [];
+
+    const friendsText = rel.friends.map(f => f.character).filter(Boolean).join(", ");
+    if (friendsText) {
+      sections.push({
+        label: game.i18n.localize("CPR.characterSheet.bottomPane.lifepath.friends"),
+        value: friendsText,
+      });
+    }
+
+    const loveText = rel.loveAffairs.map(l => l.story).filter(Boolean).join(", ");
+    if (loveText) {
+      sections.push({
+        label: game.i18n.localize("crw.relationships.loveAffairs"),
+        value: loveText,
+      });
+    }
+
+    const enemiesText = rel.enemies.map(e => {
+      if (!e.who) return null;
+      const details = [e.cause, e.resources, e.revenge].filter(Boolean).join(", ");
+      return details ? `${e.who} (${details})` : e.who;
+    }).filter(Boolean).join("; ");
+    if (enemiesText) {
+      sections.push({
+        label: game.i18n.localize("CPR.characterSheet.bottomPane.lifepath.enemies"),
+        value: enemiesText,
+      });
+    }
+
+    return sections;
   }
 
   validate(state) {
@@ -82,7 +119,7 @@ export default class StepSummary extends StepBase {
     }
     const updateData = {
       "system.stats": statsData,
-      "system.lifepath": state.lifepath,
+      "system.lifepath": { ...state.lifepath, relationships: state.relationships },
     };
     if (state.method === "complete") {
       updateData["system.wealth.value"] = state.gear.startingBudget ?? 2550;

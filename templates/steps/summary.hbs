@@ -51,6 +51,15 @@
     </div>
   </div>
 
+  {{#if relationshipSummary.length}}
+  <div class="crw-summary-section">
+    <h4 class="crw-category-title">{{localize "crw.summary.relationshipsSection"}}</h4>
+    {{#each relationshipSummary}}
+    <div class="crw-summary-row"><span>{{label}}</span><span>{{value}}</span></div>
+    {{/each}}
+  </div>
+  {{/if}}
+
   <div class="crw-summary-section">
     <h4 class="crw-category-title">{{localize "crw.summary.financesSection"}}</h4>
     <div class="crw-summary-row">
