@@ -88,6 +88,28 @@ export default class StepSummary extends StepBase {
     return sections;
   }
 
+  _formatFriends(state) {
+    const rel = state.relationships;
+    if (!rel?.friends?.length) return "";
+    return rel.friends.map(f => f.character).filter(Boolean).join(", ");
+  }
+
+  _formatLoveAffairs(state) {
+    const rel = state.relationships;
+    if (!rel?.loveAffairs?.length) return "";
+    return rel.loveAffairs.map(l => l.story).filter(Boolean).join(", ");
+  }
+
+  _formatEnemies(state) {
+    const rel = state.relationships;
+    if (!rel?.enemies?.length) return "";
+    return rel.enemies.map(e => {
+      if (!e.who) return null;
+      const details = [e.cause, e.resources, e.revenge].filter(Boolean).join(", ");
+      return details ? `${e.who} (${details})` : e.who;
+    }).filter(Boolean).join("; ");
+  }
+
   validate(state) {
     const checks = runFullChecklist(state);
     return checks.every(c => c.passed);
@@ -119,7 +141,12 @@ export default class StepSummary extends StepBase {
     }
     const updateData = {
       "system.stats": statsData,
-      "system.lifepath": { ...state.lifepath, relationships: state.relationships },
+      "system.lifepath": {
+        ...state.lifepath,
+        friends: this._formatFriends(state),
+        tragicLoveAffairs: this._formatLoveAffairs(state),
+        enemies: this._formatEnemies(state),
+      },
     };
     if (state.method === "complete") {
       updateData["system.wealth.value"] = state.gear.startingBudget ?? 2550;

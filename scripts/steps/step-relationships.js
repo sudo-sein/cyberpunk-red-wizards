@@ -138,6 +138,7 @@ export default class StepRelationships extends StepBase {
 
   _adjustEntries(state, typeId, count) {
     const data = relationshipTables;
+    if (!data) return;
     const typeDef = data.types.find(t => t.id === typeId);
     while (state.relationships[typeId].length < count) {
       state.relationships[typeId].push(this._emptyEntry(typeDef));
