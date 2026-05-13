@@ -10,11 +10,19 @@
     <div class="crw-budget-fill" style="width: {{spentPercent}}%"></div>
   </div>
 
-  <div class="crw-stat-list">
-    {{#each statRows}}
-    {{> "modules/cyberpunk-red-wizards/templates/partials/stat-row.hbs"}}
-    {{/each}}
-  </div>
+  <table class="crw-stat-table crw-stat-table--pointbuy">
+    <tbody>
+      {{#each statRows}}
+      <tr>
+        <td class="crw-stat-label">{{abbr}}</td>
+        <td class="crw-stat-name">{{fullName}}</td>
+        <td class="crw-stat-btn-cell"><button type="button" class="crw-stat-btn" data-action="statDec" data-stat="{{key}}">−</button></td>
+        <td class="crw-stat-value">{{value}}</td>
+        <td class="crw-stat-btn-cell"><button type="button" class="crw-stat-btn" data-action="statInc" data-stat="{{key}}">+</button></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 
   <div class="crw-hint">{{localize "crw.stats.hint"}}</div>
 </div>

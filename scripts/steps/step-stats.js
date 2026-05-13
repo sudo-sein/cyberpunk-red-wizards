@@ -9,7 +9,8 @@ const MAX_STAT = 8;
 export default class StepStats extends StepBase {
   constructor() {
     super("stats", "crw.steps.stats");
-    this._rollResult = null;
+    this._selectedColumn = null;
+    this._selectedColumns = {};
   }
 
   get template() {
@@ -24,14 +25,13 @@ export default class StepStats extends StepBase {
   }
 
   async prepareContext(state) {
-    const statRows = STAT_KEYS.map(key => ({
-      key,
-      abbr: game.i18n.localize(`crw.stats.${key}`),
-      fullName: game.i18n.localize(`crw.stats.${key}Full`),
-      value: state.stats[key],
-    }));
-
     if (state.method === "complete") {
+      const statRows = STAT_KEYS.map(key => ({
+        key,
+        abbr: game.i18n.localize(`crw.stats.${key}`),
+        fullName: game.i18n.localize(`crw.stats.${key}Full`),
+        value: state.stats[key],
+      }));
       const spent = STAT_KEYS.reduce((sum, k) => sum + state.stats[k], 0);
       return {
         statRows,
@@ -41,11 +41,34 @@ export default class StepStats extends StepBase {
     }
 
     const roleData = state.role?.id ? await loadRole(state.role.id) : null;
+    const templates = roleData?.statTemplates ?? [];
+
+    const templateCols = Array.from({ length: 10 }, (_, i) => ({
+      label: String(i + 1),
+      selected: state.method === "streetrat" && this._selectedColumn === i,
+    }));
+
+    const statRows = STAT_KEYS.map((key, statIdx) => {
+      const selectedCol = state.method === "streetrat"
+        ? this._selectedColumn
+        : (this._selectedColumns[key] ?? null);
+
+      const values = Array.from({ length: 10 }, (_, colIdx) => ({
+        value: templates[colIdx]?.[statIdx] ?? 0,
+        col: colIdx,
+        selected: selectedCol === colIdx,
+      }));
+
+      const dimmed = state.method === "edgerunner" && selectedCol === null;
+
+      return { key, abbr: game.i18n.localize(`crw.stats.${key}`), values, dimmed };
+    });
+
     return {
       statRows,
+      templateCols,
       method: state.method,
       roleName: roleData ? game.i18n.localize(roleData.nameKey) : "",
-      rollResult: Array.isArray(this._rollResult) ? this._rollResult.join(", ") : this._rollResult,
     };
   }
 
@@ -81,6 +104,27 @@ export default class StepStats extends StepBase {
   }
 
   _activateRoll(html, state, app) {
+    html.querySelectorAll("td.crw-val").forEach(cell => {
+      cell.addEventListener("click", async () => {
+        const key = cell.dataset.stat;
+        const col = parseInt(cell.dataset.col);
+        const roleData = await loadRole(state.role.id);
+        if (!roleData?.statTemplates) return;
+
+        if (state.method === "streetrat") {
+          this._selectedColumn = col;
+          STAT_KEYS.forEach((k, i) => {
+            state.stats[k] = roleData.statTemplates[col][i];
+          });
+        } else {
+          this._selectedColumns[key] = col;
+          const statIdx = STAT_KEYS.indexOf(key);
+          state.stats[key] = roleData.statTemplates[col][statIdx];
+        }
+        app.render(true);
+      });
+    });
+
     const rollBtn = html.querySelector("[data-action='rollStats']");
     if (rollBtn) {
       rollBtn.addEventListener("click", async () => {
@@ -90,32 +134,43 @@ export default class StepStats extends StepBase {
         if (state.method === "streetrat") {
           const roll = await new Roll("1d10").evaluate();
           await roll.toMessage({ flavor: `${game.i18n.localize(roleData.nameKey)} — Stat Template Roll` });
-          const row = roleData.statTemplates[roll.total - 1];
-          STAT_KEYS.forEach((key, i) => { state.stats[key] = row[i]; });
-          this._rollResult = roll.total;
+          const col = roll.total - 1;
+          this._selectedColumn = col;
+          STAT_KEYS.forEach((k, i) => {
+            state.stats[k] = roleData.statTemplates[col][i];
+          });
         } else {
-          const rolls = [];
-          for (let i = 0; i < STAT_KEYS.length; i++) {
+          const unselected = STAT_KEYS.filter(k => !(k in this._selectedColumns));
+          const keysToRoll = unselected.length > 0 ? unselected : [...STAT_KEYS];
+          const results = [];
+          for (const k of keysToRoll) {
             const roll = await new Roll("1d10").evaluate();
-            const row = roleData.statTemplates[roll.total - 1];
-            state.stats[STAT_KEYS[i]] = row[i];
-            rolls.push(roll.total);
+            const col = roll.total - 1;
+            const statIdx = STAT_KEYS.indexOf(k);
+            this._selectedColumns[k] = col;
+            state.stats[k] = roleData.statTemplates[col][statIdx];
+            results.push(`${game.i18n.localize(`crw.stats.${k}`)}: ${roll.total}`);
           }
           await ChatMessage.create({
-            content: `<strong>${game.i18n.localize(roleData.nameKey)} — Edgerunner Stat Rolls:</strong> [${rolls.join(", ")}]`
+            content: `<strong>${game.i18n.localize(roleData.nameKey)} — Edgerunner Stat Rolls:</strong><br>${results.join(", ")}`
           });
-          this._rollResult = rolls;
         }
-
         app.render(true);
       });
     }
 
-    html.querySelectorAll(".crw-stat-cell-value").forEach(input => {
-      input.addEventListener("change", (e) => {
-        const key = e.target.dataset.stat;
-        const val = parseInt(e.target.value) || 2;
-        state.stats[key] = Math.max(1, Math.min(10, val));
+    html.querySelectorAll("[data-action='rollStat']").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const key = btn.dataset.stat;
+        const roleData = await loadRole(state.role.id);
+        if (!roleData?.statTemplates) return;
+
+        const roll = await new Roll("1d10").evaluate();
+        await roll.toMessage({ flavor: `${game.i18n.localize(roleData.nameKey)} — ${game.i18n.localize(`crw.stats.${key}`)} Roll` });
+        const col = roll.total - 1;
+        const statIdx = STAT_KEYS.indexOf(key);
+        this._selectedColumns[key] = col;
+        state.stats[key] = roleData.statTemplates[col][statIdx];
         app.render(true);
       });
     });
@@ -126,16 +181,13 @@ export default class StepStats extends StepBase {
       const spent = STAT_KEYS.reduce((sum, k) => sum + state.stats[k], 0);
       return spent === TOTAL_POINTS && STAT_KEYS.every(k => state.stats[k] >= MIN_STAT && state.stats[k] <= MAX_STAT);
     }
-    return STAT_KEYS.every(k => state.stats[k] > 0);
+    if (state.method === "streetrat") {
+      return this._selectedColumn !== null;
+    }
+    return STAT_KEYS.every(k => k in this._selectedColumns);
   }
 
   serialize(html, state) {
-    if (state.method !== "complete") {
-      html.querySelectorAll(".crw-stat-cell-value").forEach(input => {
-        const key = input.dataset.stat;
-        state.stats[key] = parseInt(input.value) || state.stats[key];
-      });
-    }
     return state;
   }
 }

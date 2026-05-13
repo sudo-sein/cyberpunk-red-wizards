@@ -14,7 +14,6 @@ Hooks.once("init", () => {
 
   loadTemplates([
     "modules/cyberpunk-red-wizards/templates/partials/step-bar.hbs",
-    "modules/cyberpunk-red-wizards/templates/partials/stat-row.hbs",
     "modules/cyberpunk-red-wizards/templates/partials/skill-row.hbs",
   ]);
 
