@@ -927,3 +927,228 @@
   font-size: 48px;
   margin-bottom: 16px;
 }
+
+/* Relationships */
+.crw-relationships-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.crw-relationships-section {
+  margin-bottom: 14px;
+  border: 1px solid var(--cpr-background-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.crw-relationships-section--friends {
+  border-color: #3a5a3a;
+}
+
+.crw-relationships-section--love {
+  border-color: #5a3a3a;
+}
+
+.crw-relationships-section--enemies {
+  border-color: #3a3a5a;
+}
+
+.crw-relationships-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  background-color: var(--cpr-background-box);
+}
+
+.crw-relationships-section--friends .crw-relationships-header {
+  background-color: #2a3a2a;
+}
+
+.crw-relationships-section--love .crw-relationships-header {
+  background-color: #3a2a2a;
+}
+
+.crw-relationships-section--enemies .crw-relationships-header {
+  background-color: #2a2a3a;
+}
+
+.crw-relationships-chevron {
+  color: var(--cpr-text-icon-dimmed);
+  font-size: 11px;
+  width: 14px;
+}
+
+.crw-relationships-section-title {
+  font-weight: bold;
+  font-size: 14px;
+  flex: 1;
+}
+
+.crw-relationships-section--friends .crw-relationships-section-title {
+  color: #a0e0a0;
+}
+
+.crw-relationships-section--love .crw-relationships-section-title {
+  color: #e0a0a0;
+}
+
+.crw-relationships-section--enemies .crw-relationships-section-title {
+  color: #a0a0e0;
+}
+
+.crw-relationships-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--cpr-font-smaller);
+  color: var(--cpr-text-icon-dimmed);
+}
+
+.crw-relationships-count {
+  width: 44px;
+  background-color: var(--cpr-background-header);
+  border: 1px solid var(--cpr-background-border);
+  color: var(--cpr-text-normal);
+  border-radius: 4px;
+  padding: 3px 4px;
+  text-align: center;
+  font-size: var(--cpr-font-small);
+  font-family: var(--cpr-font-primary);
+}
+
+.crw-relationships-roll-count {
+  background-color: var(--cpr-background-header);
+  color: var(--cpr-text-normal);
+  border: 1px solid var(--cpr-background-border);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: var(--cpr-font-smallest);
+  cursor: pointer;
+  font-family: var(--cpr-font-primary);
+  white-space: nowrap;
+}
+
+.crw-relationships-body {
+  padding: 10px;
+}
+
+.crw-relationships-body.collapsed {
+  display: none;
+}
+
+.crw-relationships-section--friends .crw-relationships-body {
+  background-color: #1e2e1e;
+}
+
+.crw-relationships-section--love .crw-relationships-body {
+  background-color: #2e1e1e;
+}
+
+.crw-relationships-section--enemies .crw-relationships-body {
+  background-color: #1e1e2e;
+}
+
+.crw-relationships-entry {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 5px;
+  margin-bottom: 6px;
+}
+
+.crw-relationships-entry:last-child {
+  margin-bottom: 0;
+}
+
+.crw-relationships-section--friends .crw-relationships-entry {
+  background-color: #253525;
+}
+
+.crw-relationships-section--love .crw-relationships-entry {
+  background-color: #352525;
+}
+
+.crw-relationships-index {
+  font-weight: bold;
+  min-width: 22px;
+  color: var(--cpr-text-icon-dimmed);
+}
+
+.crw-relationships-select {
+  flex: 1;
+  background-color: var(--cpr-background-header);
+  border: 1px solid var(--cpr-background-border);
+  color: var(--cpr-text-normal);
+  padding: 5px;
+  border-radius: 4px;
+  font-size: var(--cpr-font-smaller);
+  font-family: var(--cpr-font-primary);
+}
+
+.crw-relationships-roll-field {
+  background-color: var(--cpr-background-header);
+  color: var(--cpr-text-normal);
+  border: 1px solid var(--cpr-background-border);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: var(--cpr-font-smallest);
+  flex-shrink: 0;
+}
+
+.crw-relationships-enemy-card {
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background-color: #252538;
+}
+
+.crw-relationships-enemy-card:last-child {
+  margin-bottom: 0;
+}
+
+.crw-relationships-enemy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #b0b0e0;
+  font-size: var(--cpr-font-small);
+}
+
+.crw-relationships-roll-all-fields {
+  background-color: #3a3a5a;
+  color: #a0a0e0;
+  border: none;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: var(--cpr-font-smallest);
+  cursor: pointer;
+  font-family: var(--cpr-font-primary);
+}
+
+.crw-relationships-enemy-grid {
+  display: grid;
+  grid-template-columns: 90px 1fr 30px;
+  gap: 5px;
+  align-items: center;
+  font-size: var(--cpr-font-smaller);
+}
+
+.crw-relationships-field-label {
+  color: var(--cpr-text-icon-dimmed);
+}
+
+.crw-relationships-empty {
+  text-align: center;
+  padding: 12px;
+  color: var(--cpr-text-icon-dimmed);
+  font-style: italic;
+  font-size: var(--cpr-font-smaller);
+}
