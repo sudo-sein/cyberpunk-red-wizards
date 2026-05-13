@@ -273,5 +273,8 @@
   "crw.store.categories.program": "Programs",
   "crw.store.categories.itemUpgrade": "Upgrades",
   "crw.store.categories.vehicle": "Vehicles",
-  "crw.store.categories.weapon": "Weapons"
+  "crw.store.categories.weapon": "Weapons",
+  "crw.creator.gmOffline": "The GM must be online to create a character.",
+  "crw.creator.assigned": "Character {name} created and assigned to you.",
+  "crw.creator.alreadyHasCharacter": "You already have a character assigned."
 }

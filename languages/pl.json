@@ -273,5 +273,8 @@
   "crw.store.categories.program": "Programy",
   "crw.store.categories.itemUpgrade": "Ulepszenia",
   "crw.store.categories.vehicle": "Pojazdy",
-  "crw.store.categories.weapon": "Broń"
+  "crw.store.categories.weapon": "Broń",
+  "crw.creator.gmOffline": "GM musi być online, aby stworzyć postać.",
+  "crw.creator.assigned": "Postać {name} została stworzona i przypisana do Ciebie.",
+  "crw.creator.alreadyHasCharacter": "Masz już przypisaną postać."
 }
