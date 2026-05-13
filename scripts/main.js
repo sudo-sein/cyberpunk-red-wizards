@@ -1,6 +1,7 @@
 import CharacterCreatorApp from "./app/creator-app.js";
 import NpcGeneratorApp from "./app/npc-generator-app.js";
 import { initSocket } from "./store/store-socket.js";
+import { initCreatorSocket } from "./creator/creator-socket.js";
 import StoreApp from "./app/store-app.js";
 import StorePackConfig from "./app/store-pack-config.js";
 
@@ -75,32 +76,38 @@ Hooks.once("init", () => {
 
 Hooks.once("ready", () => {
   initSocket();
+  initCreatorSocket();
 });
 
 Hooks.on("renderActorDirectory", (app, html) => {
-  if (!game.user.can("ACTOR_CREATE")) return;
-
   const headerActions = html[0]?.querySelector(".header-actions")
     ?? html.querySelector?.(".header-actions");
   if (!headerActions) return;
 
-  const creatorBtn = document.createElement("button");
-  creatorBtn.type = "button";
-  creatorBtn.classList.add("crw-sidebar-btn");
-  creatorBtn.innerHTML = `<i class="fas fa-user-plus"></i> ${game.i18n.localize("crw.buttons.characterCreator")}`;
-  creatorBtn.addEventListener("click", () => {
-    CharacterCreatorApp.open();
-  });
+  const showCreator = game.user.isGM || !game.user.character;
+  const showNpc = game.user.isGM;
 
-  const npcBtn = document.createElement("button");
-  npcBtn.type = "button";
-  npcBtn.classList.add("crw-sidebar-btn");
-  npcBtn.innerHTML = `<i class="fas fa-users"></i> ${game.i18n.localize("crw.buttons.npcTemplate")}`;
-  npcBtn.addEventListener("click", () => {
-    NpcGeneratorApp.open();
-  });
+  if (showCreator) {
+    const creatorBtn = document.createElement("button");
+    creatorBtn.type = "button";
+    creatorBtn.classList.add("crw-sidebar-btn");
+    creatorBtn.innerHTML = `<i class="fas fa-user-plus"></i> ${game.i18n.localize("crw.buttons.characterCreator")}`;
+    creatorBtn.addEventListener("click", () => {
+      CharacterCreatorApp.open();
+    });
+    headerActions.append(creatorBtn);
+  }
 
-  headerActions.append(creatorBtn, npcBtn);
+  if (showNpc) {
+    const npcBtn = document.createElement("button");
+    npcBtn.type = "button";
+    npcBtn.classList.add("crw-sidebar-btn");
+    npcBtn.innerHTML = `<i class="fas fa-users"></i> ${game.i18n.localize("crw.buttons.npcTemplate")}`;
+    npcBtn.addEventListener("click", () => {
+      NpcGeneratorApp.open();
+    });
+    headerActions.append(npcBtn);
+  }
 });
 
 Hooks.on("renderItemDirectory", (app, html) => {
