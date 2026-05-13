@@ -30,7 +30,10 @@ export default class StepLifepath extends StepBase {
         stateKey: t.stateKey,
         label: game.i18n.localize(t.labelKey),
         die: t.die,
-        entries: t.entries,
+        entries: t.entries.map(e => ({
+          ...e,
+          label: game.i18n.localize(e.labelKey)
+        })),
         currentValue: state.lifepath[t.stateKey] ?? "",
       })),
     };
@@ -74,7 +77,7 @@ export default class StepLifepath extends StepBase {
 
     const entry = table.entries.find(e => e.roll === roll.total);
     if (entry) {
-      this._setLifepathValue(state, tableId, entry.label);
+      this._setLifepathValue(state, tableId, game.i18n.localize(entry.labelKey));
       if (entry.language) {
         this._addLanguageSkill(state, entry.language);
       }
