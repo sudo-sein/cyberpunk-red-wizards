@@ -1,0 +1,1 @@
+- [ ] Add NPC generator based on skill / attr points

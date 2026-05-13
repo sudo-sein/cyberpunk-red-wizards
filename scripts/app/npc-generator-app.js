@@ -42,6 +42,7 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
   static #instance = null;
 
   #templates = [];
+  #uiState = { scrollTop: 0, searchFocused: false, searchSelStart: 0, searchSelEnd: 0 };
   #state = {
     selectedTemplateId: null,
     filter: { tier: "all", search: "" },
@@ -62,6 +63,15 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
   }
 
   async _prepareContext(options) {
+    const listEl = this.element?.querySelector(".crw-npc-template-list");
+    const searchEl = this.element?.querySelector(".crw-npc-search");
+    this.#uiState = {
+      scrollTop: listEl?.scrollTop ?? 0,
+      searchFocused: searchEl === document.activeElement,
+      searchSelStart: searchEl?.selectionStart ?? 0,
+      searchSelEnd: searchEl?.selectionEnd ?? 0,
+    };
+
     if (this.#templates.length === 0) {
       this.#templates = await loadAllTemplates();
     }
@@ -198,12 +208,6 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
       });
     });
 
-    el.querySelectorAll(".crw-npc-stat-input").forEach(input => {
-      input.addEventListener("change", (e) => {
-        this.#state.overrides.stats[e.target.dataset.stat] = Number(e.target.value);
-      });
-    });
-
     el.querySelectorAll(".crw-npc-gear-select").forEach(select => {
       select.addEventListener("change", (e) => {
         this.#state.overrides.gear[e.target.dataset.gearKey] = Number(e.target.value);
@@ -215,6 +219,17 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
       this.#state.showAllSkills = !this.#state.showAllSkills;
       this.render(true);
     });
+
+    const listEl = el.querySelector(".crw-npc-template-list");
+    if (listEl) listEl.scrollTop = this.#uiState.scrollTop;
+
+    if (this.#uiState.searchFocused) {
+      const searchEl = el.querySelector(".crw-npc-search");
+      if (searchEl) {
+        searchEl.focus();
+        searchEl.setSelectionRange(this.#uiState.searchSelStart, this.#uiState.searchSelEnd);
+      }
+    }
   }
 
   static async #onCreateNpc() {
