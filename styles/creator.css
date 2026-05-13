@@ -277,6 +277,21 @@
   font-weight: bold;
   font-family: var(--cpr-font-primary);
   cursor: pointer;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.crw-btn-roll > i {
+  margin: 0;
+}
+
+.crw-btn-roll:hover {
+  background-color: var(--cpr-color-red);
+  filter: brightness(1.2);
+  border: none;
+  color: var(--cpr-text-header);
 }
 
 .crw-stat-table {
@@ -1268,23 +1283,3 @@
   box-shadow: none;
 }
 
-.crw-step-relationships .crw-btn-roll {
-  background-color: var(--cpr-color-red);
-  color: var(--cpr-text-header);
-  border: none;
-  height: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.crw-step-relationships .crw-btn-roll > i {
-  margin: 0;
-}
-
-.crw-step-relationships .crw-btn-roll:hover {
-  background-color: var(--cpr-color-red);
-  filter: brightness(1.2);
-  border: none;
-  color: var(--cpr-text-header);
-}
