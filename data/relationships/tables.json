@@ -1,0 +1,130 @@
+{
+  "types": [
+    {
+      "id": "friends",
+      "labelKey": "CPR.characterSheet.bottomPane.lifepath.friends",
+      "countDie": "1d10",
+      "countOffset": -7,
+      "tables": [
+        {
+          "id": "character",
+          "labelKey": "crw.relationships.friends_character",
+          "die": "1d10",
+          "entries": [
+            { "roll": 1, "labelKey": "crw.relationships.friends_character_1" },
+            { "roll": 2, "labelKey": "crw.relationships.friends_character_2" },
+            { "roll": 3, "labelKey": "crw.relationships.friends_character_3" },
+            { "roll": 4, "labelKey": "crw.relationships.friends_character_4" },
+            { "roll": 5, "labelKey": "crw.relationships.friends_character_5" },
+            { "roll": 6, "labelKey": "crw.relationships.friends_character_6" },
+            { "roll": 7, "labelKey": "crw.relationships.friends_character_7" },
+            { "roll": 8, "labelKey": "crw.relationships.friends_character_8" },
+            { "roll": 9, "labelKey": "crw.relationships.friends_character_9" },
+            { "roll": 10, "labelKey": "crw.relationships.friends_character_10" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "loveAffairs",
+      "labelKey": "crw.relationships.loveAffairs",
+      "countDie": "1d10",
+      "countOffset": -7,
+      "tables": [
+        {
+          "id": "story",
+          "labelKey": "crw.relationships.loveAffairs_story",
+          "die": "1d10",
+          "entries": [
+            { "roll": 1, "labelKey": "crw.relationships.loveAffairs_story_1" },
+            { "roll": 2, "labelKey": "crw.relationships.loveAffairs_story_2" },
+            { "roll": 3, "labelKey": "crw.relationships.loveAffairs_story_3" },
+            { "roll": 4, "labelKey": "crw.relationships.loveAffairs_story_4" },
+            { "roll": 5, "labelKey": "crw.relationships.loveAffairs_story_5" },
+            { "roll": 6, "labelKey": "crw.relationships.loveAffairs_story_6" },
+            { "roll": 7, "labelKey": "crw.relationships.loveAffairs_story_7" },
+            { "roll": 8, "labelKey": "crw.relationships.loveAffairs_story_8" },
+            { "roll": 9, "labelKey": "crw.relationships.loveAffairs_story_9" },
+            { "roll": 10, "labelKey": "crw.relationships.loveAffairs_story_10" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enemies",
+      "labelKey": "CPR.characterSheet.bottomPane.lifepath.enemies",
+      "countDie": "1d10",
+      "countOffset": -7,
+      "tables": [
+        {
+          "id": "who",
+          "labelKey": "crw.relationships.enemies_who",
+          "die": "1d10",
+          "entries": [
+            { "roll": 1, "labelKey": "crw.relationships.enemies_who_1" },
+            { "roll": 2, "labelKey": "crw.relationships.enemies_who_2" },
+            { "roll": 3, "labelKey": "crw.relationships.enemies_who_3" },
+            { "roll": 4, "labelKey": "crw.relationships.enemies_who_4" },
+            { "roll": 5, "labelKey": "crw.relationships.enemies_who_5" },
+            { "roll": 6, "labelKey": "crw.relationships.enemies_who_6" },
+            { "roll": 7, "labelKey": "crw.relationships.enemies_who_7" },
+            { "roll": 8, "labelKey": "crw.relationships.enemies_who_8" },
+            { "roll": 9, "labelKey": "crw.relationships.enemies_who_9" },
+            { "roll": 10, "labelKey": "crw.relationships.enemies_who_10" }
+          ]
+        },
+        {
+          "id": "cause",
+          "labelKey": "crw.relationships.enemies_cause",
+          "die": "1d10",
+          "entries": [
+            { "roll": 1, "labelKey": "crw.relationships.enemies_cause_1" },
+            { "roll": 2, "labelKey": "crw.relationships.enemies_cause_2" },
+            { "roll": 3, "labelKey": "crw.relationships.enemies_cause_3" },
+            { "roll": 4, "labelKey": "crw.relationships.enemies_cause_4" },
+            { "roll": 5, "labelKey": "crw.relationships.enemies_cause_5" },
+            { "roll": 6, "labelKey": "crw.relationships.enemies_cause_6" },
+            { "roll": 7, "labelKey": "crw.relationships.enemies_cause_7" },
+            { "roll": 8, "labelKey": "crw.relationships.enemies_cause_8" },
+            { "roll": 9, "labelKey": "crw.relationships.enemies_cause_9" },
+            { "roll": 10, "labelKey": "crw.relationships.enemies_cause_10" }
+          ]
+        },
+        {
+          "id": "resources",
+          "labelKey": "crw.relationships.enemies_resources",
+          "die": "1d10",
+          "entries": [
+            { "roll": 1, "labelKey": "crw.relationships.enemies_resources_1" },
+            { "roll": 2, "labelKey": "crw.relationships.enemies_resources_2" },
+            { "roll": 3, "labelKey": "crw.relationships.enemies_resources_3" },
+            { "roll": 4, "labelKey": "crw.relationships.enemies_resources_4" },
+            { "roll": 5, "labelKey": "crw.relationships.enemies_resources_5" },
+            { "roll": 6, "labelKey": "crw.relationships.enemies_resources_6" },
+            { "roll": 7, "labelKey": "crw.relationships.enemies_resources_7" },
+            { "roll": 8, "labelKey": "crw.relationships.enemies_resources_8" },
+            { "roll": 9, "labelKey": "crw.relationships.enemies_resources_9" },
+            { "roll": 10, "labelKey": "crw.relationships.enemies_resources_10" }
+          ]
+        },
+        {
+          "id": "revenge",
+          "labelKey": "crw.relationships.enemies_revenge",
+          "die": "1d10",
+          "entries": [
+            { "roll": 1, "labelKey": "crw.relationships.enemies_revenge_1" },
+            { "roll": 2, "labelKey": "crw.relationships.enemies_revenge_1" },
+            { "roll": 3, "labelKey": "crw.relationships.enemies_revenge_3" },
+            { "roll": 4, "labelKey": "crw.relationships.enemies_revenge_3" },
+            { "roll": 5, "labelKey": "crw.relationships.enemies_revenge_5" },
+            { "roll": 6, "labelKey": "crw.relationships.enemies_revenge_5" },
+            { "roll": 7, "labelKey": "crw.relationships.enemies_revenge_7" },
+            { "roll": 8, "labelKey": "crw.relationships.enemies_revenge_7" },
+            { "roll": 9, "labelKey": "crw.relationships.enemies_revenge_9" },
+            { "roll": 10, "labelKey": "crw.relationships.enemies_revenge_10" }
+          ]
+        }
+      ]
+    }
+  ]
+}
