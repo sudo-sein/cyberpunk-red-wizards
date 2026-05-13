@@ -21,7 +21,8 @@
     <div class="crw-gear-item">
       <span class="crw-gear-name">{{name}}</span>
       {{#if quantity}}<span class="crw-gear-qty">&times;{{quantity}}</span>{{/if}}
-      {{#if humanityLoss}}<span class="crw-gear-hl">HL: {{humanityLoss}}</span>{{/if}}
+
+
     </div>
     {{/if}}
     {{/each}}
@@ -29,14 +30,6 @@
   {{/each}}
 
   <div class="crw-gear-summary">
-    <div class="crw-gear-summary-row">
-      <span>{{localize "crw.gear.totalHL"}}</span>
-      <span class="crw-gear-summary-value">{{totalHumanityLoss}}</span>
-    </div>
-    <div class="crw-gear-summary-row">
-      <span>{{localize "crw.gear.currentEmp"}}</span>
-      <span class="crw-gear-summary-value">{{currentEmp}}</span>
-    </div>
     <div class="crw-gear-summary-row">
       <span>{{localize "crw.gear.remaining"}}</span>
       <span class="crw-gear-summary-value">{{startingCash}} ed</span>

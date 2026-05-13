@@ -134,7 +134,10 @@ export default class StepSummary extends StepBase {
       },
     });
 
-    // Set stats, lifepath, and wealth on the actor
+    // Clear auto-installed cyberware — items stay in inventory but are not
+    // considered installed, so humanity is unaffected.
+    await actor.update({ "system.installedItems.list": [] });
+
     const statsData = {};
     for (const key of STAT_KEYS) {
       statsData[key] = { value: state.stats[key] };
