@@ -5,6 +5,7 @@ import StepDerived from "../steps/step-derived.js";
 import StepSkills from "../steps/step-skills.js";
 import StepGear from "../steps/step-gear.js";
 import StepSummary from "../steps/step-summary.js";
+import { requestCharacterCreation } from "../creator/creator-socket.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -151,12 +152,30 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
     }
 
     try {
-      const actor = await step.createCharacter(this.state);
+      let actor;
+      if (game.user.isGM) {
+        actor = await step.createCharacter(this.state);
+      } else {
+        const uuid = await requestCharacterCreation(this.state);
+        actor = await fromUuid(uuid);
+      }
+
       await this.close();
-      actor.sheet.render(true);
+      ui.sidebar.tabs.actors.render();
+
+      if (actor) {
+        actor.sheet.render(true);
+        if (!game.user.isGM) {
+          ui.notifications.info(game.i18n.format("crw.creator.assigned", { name: actor.name }));
+        }
+      }
     } catch (err) {
       console.error("Character creation failed:", err);
-      ui.notifications.error("Character creation failed. Check the console for details.");
+      if (err.message?.includes("No active GM")) {
+        ui.notifications.warn(game.i18n.localize("crw.creator.gmOffline"));
+      } else {
+        ui.notifications.error("Character creation failed. Check the console for details.");
+      }
       if (btn) {
         btn.disabled = false;
         btn.innerHTML = `<i class="fas fa-check"></i> ${game.i18n.localize("crw.summary.create")}`;
