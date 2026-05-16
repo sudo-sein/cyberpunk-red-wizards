@@ -23,7 +23,7 @@ A guided wizard that walks players through the full character creation process f
 | **Edgerunner** | Rolled stats with 86 skill points to distribute. Balanced control. | ~30 min |
 | **Complete Package** | Full control — 62 stat points, 86 skill points, and manual gear purchases. | ~60 min |
 
-**Steps:** Start → Lifepath → Stats → Derived → Skills → Gear → Summary
+**Steps:** Start → Lifepath → Relationships → Stats → Derived → Skills → Gear → Summary
 
 - All 10 roles supported (Rockerboy, Solo, Netrunner, Tech, Medtech, Media, Lawman, Exec, Fixer, Nomad)
 - Lifepath tables with roll-or-choose for each entry
