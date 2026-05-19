@@ -4,6 +4,7 @@ import { initSocket } from "./store/store-socket.js";
 import { initCreatorSocket } from "./creator/creator-socket.js";
 import StoreApp from "./app/store-app.js";
 import StorePackConfig from "./app/store-pack-config.js";
+import StatblockImportApp from "./app/statblock-import-app.js";
 
 const MODULE_ID = "cyberpunk-red-wizards";
 
@@ -113,6 +114,15 @@ Hooks.on("renderActorDirectory", (app, html) => {
       NpcGeneratorApp.open();
     });
     headerActions.append(npcBtn);
+
+    const importBtn = document.createElement("button");
+    importBtn.type = "button";
+    importBtn.classList.add("crw-sidebar-btn");
+    importBtn.innerHTML = `<i class="fas fa-file-import"></i> ${game.i18n.localize("crw.import.title")}`;
+    importBtn.addEventListener("click", () => {
+      StatblockImportApp.open();
+    });
+    headerActions.append(importBtn);
   }
 });
 
