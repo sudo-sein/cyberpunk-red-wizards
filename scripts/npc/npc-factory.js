@@ -3,10 +3,10 @@ import { fetchCompendiumItem } from "../data/role-loader.js";
 const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
 
 export async function createNpcFromTemplate(template, overrides = {}) {
-  const name = overrides.name || game.i18n.localize(template.nameKey);
+  const name = overrides.name || template.name || game.i18n.localize(template.nameKey);
   const actorType = overrides.actorType || "mook";
 
-  const isEveryday = template.tier === "everyday-people";
+  const isEveryday = false;
 
   const ActorClass = getDocumentClass("Actor");
 
