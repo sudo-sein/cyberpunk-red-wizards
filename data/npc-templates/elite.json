@@ -1,0 +1,35 @@
+[
+  {
+    "id": "elite",
+    "nameKey": "crw.npc.elite",
+    "tier": "elite",
+    "source": "built-in",
+    "stats": { "int": 5, "ref": 7, "dex": 5, "tech": 5, "cool": 5, "will": 5, "luck": 0, "move": 7, "body": 5, "emp": 5 },
+    "hp": 35,
+    "seriousWound": 18,
+    "deathSave": 5,
+    "armor": {
+      "head": { "name": "Light Armorjack", "sp": 11, "packName": "core_armor", "itemName": "Light Armorjack (Head)" },
+      "body": { "name": "Light Armorjack", "sp": 11, "packName": "core_armor", "itemName": "Light Armorjack (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Assault Rifle", "quality": "standard", "damage": "5d6" },
+      { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "standard", "damage": "3d6" }
+    ],
+    "skills": [
+      { "name": "Athletics", "base": 13 },
+      { "name": "Brawling", "base": 13 },
+      { "name": "Evasion", "base": 13 },
+      { "name": "Handgun", "base": 13 },
+      { "name": "Shoulder Arms", "base": 13 },
+      { "name": "Autofire", "base": 13 },
+      { "name": "Perception", "base": 10 },
+      { "name": "Endurance", "base": 10 },
+      { "name": "Stealth", "base": 10 },
+      { "name": "Resist Torture/Drugs", "base": 10 }
+    ],
+    "equipment": [],
+    "cyberware": [],
+    "role": null
+  }
+]

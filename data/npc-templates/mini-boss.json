@@ -1,0 +1,36 @@
+[
+  {
+    "id": "mini-boss",
+    "nameKey": "crw.npc.mini-boss",
+    "tier": "mini-boss",
+    "source": "built-in",
+    "stats": { "int": 6, "ref": 7, "dex": 6, "tech": 6, "cool": 6, "will": 6, "luck": 0, "move": 7, "body": 6, "emp": 6 },
+    "hp": 45,
+    "seriousWound": 23,
+    "deathSave": 6,
+    "armor": {
+      "head": { "name": "Medium Armorjack", "sp": 13, "packName": "core_armor", "itemName": "Medium Armorjack (Head)" },
+      "body": { "name": "Medium Armorjack", "sp": 13, "packName": "core_armor", "itemName": "Medium Armorjack (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Assault Rifle", "quality": "standard", "damage": "5d6" },
+      { "packName": "core_weapons", "itemName": "Very Heavy Pistol", "quality": "standard", "damage": "4d6" }
+    ],
+    "skills": [
+      { "name": "Athletics", "base": 14 },
+      { "name": "Brawling", "base": 14 },
+      { "name": "Evasion", "base": 14 },
+      { "name": "Handgun", "base": 14 },
+      { "name": "Shoulder Arms", "base": 14 },
+      { "name": "Autofire", "base": 14 },
+      { "name": "Perception", "base": 11 },
+      { "name": "Endurance", "base": 11 },
+      { "name": "Stealth", "base": 11 },
+      { "name": "Resist Torture/Drugs", "base": 11 },
+      { "name": "Concentration", "base": 11 }
+    ],
+    "equipment": [],
+    "cyberware": [],
+    "role": null
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id": "competent",
+    "nameKey": "crw.npc.competent",
+    "tier": "competent",
+    "source": "built-in",
+    "stats": { "int": 4, "ref": 6, "dex": 4, "tech": 4, "cool": 4, "will": 4, "luck": 0, "move": 6, "body": 4, "emp": 4 },
+    "hp": 30,
+    "seriousWound": 15,
+    "deathSave": 4,
+    "armor": {
+      "head": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar® (Head)" },
+      "body": { "name": "Kevlar", "sp": 7, "packName": "core_armor", "itemName": "Kevlar® (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Assault Rifle", "quality": "standard", "damage": "5d6" },
+      { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "standard", "damage": "3d6" }
+    ],
+    "skills": [
+      { "name": "Athletics", "base": 11 },
+      { "name": "Brawling", "base": 11 },
+      { "name": "Evasion", "base": 11 },
+      { "name": "Handgun", "base": 11 },
+      { "name": "Shoulder Arms", "base": 11 },
+      { "name": "Perception", "base": 8 },
+      { "name": "Endurance", "base": 8 },
+      { "name": "Stealth", "base": 8 }
+    ],
+    "equipment": [],
+    "cyberware": [],
+    "role": null
+  }
+]
