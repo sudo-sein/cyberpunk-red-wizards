@@ -1,0 +1,22 @@
+<div class="crw-editor-step">
+  <div class="crw-category-title">
+    {{localize "crw.npc.ui.skills"}}
+    {{#if availableCount}}
+    <button type="button" class="crw-editor-add-btn" data-action="addSkill"><i class="fas fa-plus"></i></button>
+    {{/if}}
+  </div>
+  {{#each skills}}
+  <div class="crw-editor-skill-row crw-editor-list-row">
+    <select name="skill-{{@index}}" class="crw-input">
+      {{#each this.options}}
+      <option value="{{this.name}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+    <input type="number" name="skillBase-{{@index}}" class="crw-input crw-editor-sm" value="{{this.base}}" min="0" max="20" />
+    <button type="button" class="crw-editor-remove-btn" data-action="removeSkill" data-index="{{@index}}"><i class="fas fa-times"></i></button>
+  </div>
+  {{/each}}
+  {{#unless skills.length}}
+  <div class="crw-editor-empty">{{localize "crw.npc.editor.noSkills"}}</div>
+  {{/unless}}
+</div>

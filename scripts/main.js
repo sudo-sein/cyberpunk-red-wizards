@@ -16,6 +16,10 @@ Hooks.once("init", () => {
   loadTemplates([
     "modules/cyberpunk-red-wizards/templates/partials/step-bar.hbs",
     "modules/cyberpunk-red-wizards/templates/partials/skill-row.hbs",
+    "modules/cyberpunk-red-wizards/templates/npc-editor/basics.hbs",
+    "modules/cyberpunk-red-wizards/templates/npc-editor/combat.hbs",
+    "modules/cyberpunk-red-wizards/templates/npc-editor/skills.hbs",
+    "modules/cyberpunk-red-wizards/templates/npc-editor/extras.hbs",
   ]);
 
   game.settings.register(MODULE_ID, "defaultMethod", {

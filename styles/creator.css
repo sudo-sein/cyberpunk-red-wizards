@@ -60,6 +60,7 @@
 .crw-wizard .crw-btn-back,
 .crw-wizard .crw-btn-next,
 .crw-npc-editor-window .crw-btn-back,
+.crw-npc-editor-window .crw-btn-next,
 .crw-npc-editor-window .crw-btn-create,
 .crw-import-window .crw-btn-next,
 .crw-import-window .crw-btn-secondary,
@@ -83,6 +84,7 @@
 }
 
 .crw-wizard .crw-btn-next,
+.crw-npc-editor-window .crw-btn-next,
 .crw-import-window .crw-btn-next {
   background-color: var(--cpr-color-red);
   color: var(--cpr-text-header);
@@ -90,6 +92,7 @@
 }
 
 .crw-wizard .crw-btn-next:disabled,
+.crw-npc-editor-window .crw-btn-next:disabled,
 .crw-import-window .crw-btn-next:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -749,6 +752,9 @@
   font-weight: bold;
   font-family: var(--cpr-font-primary);
   cursor: pointer;
+  width: auto;
+  white-space: nowrap;
+  flex: none;
 }
 
 .crw-wizard .crw-btn-create:disabled,
@@ -1103,6 +1109,8 @@
   font-family: var(--cpr-font-primary);
   cursor: pointer;
   white-space: nowrap;
+  width: auto;
+  flex: none;
 }
 
 .crw-npc-generator-window .crw-btn-secondary:hover,
@@ -1496,6 +1504,17 @@
   border-top: 1px solid var(--cpr-background-border);
   background-color: var(--cpr-background-header);
   flex-shrink: 0;
+}
+
+.crw-editor-step {
+  padding: 4px 0;
+}
+
+.crw-editor-empty {
+  color: var(--cpr-text-icon-dimmed);
+  font-size: var(--cpr-font-smaller);
+  font-style: italic;
+  padding: 4px 0;
 }
 
 /* Statblock Import Dialog */

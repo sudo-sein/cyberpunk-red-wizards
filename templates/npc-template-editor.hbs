@@ -1,108 +1,24 @@
 <div class="crw-editor-container">
+  {{> "modules/cyberpunk-red-wizards/templates/partials/step-bar.hbs"}}
   <div class="crw-editor-scroll">
-    {{!-- Name & Tier --}}
-    <div class="crw-editor-row">
-      <div class="crw-editor-field" style="flex:2">
-        <label class="crw-label">{{localize "crw.npc.editor.name"}}</label>
-        <input type="text" name="name" class="crw-input" value="{{name}}" />
-      </div>
-      <div class="crw-editor-field" style="flex:1">
-        <label class="crw-label">{{localize "crw.npc.editor.tier"}}</label>
-        <select name="tier" class="crw-input">
-          {{#each tiers}}
-          <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
-          {{/each}}
-        </select>
-      </div>
-    </div>
-
-    {{!-- Stats --}}
-    <div class="crw-category-title">{{localize "crw.npc.ui.stats"}}</div>
-    <div class="crw-editor-stat-grid">
-      {{#each stats}}
-      <div class="crw-editor-stat-cell">
-        <label class="crw-stat-abbr">{{this.abbr}}</label>
-        <input type="number" name="stat-{{this.key}}" class="crw-input crw-editor-stat-input" value="{{this.value}}" min="0" max="10" />
-      </div>
-      {{/each}}
-    </div>
-
-    {{!-- HP --}}
-    <div class="crw-editor-row" style="margin-top:8px;">
-      <div class="crw-editor-field">
-        <label class="crw-label">{{localize "crw.npc.ui.hp"}}</label>
-        <input type="number" name="hp" class="crw-input" value="{{hp}}" min="1" />
-      </div>
-    </div>
-
-    {{!-- Armor --}}
-    <div class="crw-category-title">{{localize "crw.npc.ui.armor"}}</div>
-    <div class="crw-editor-row">
-      <div class="crw-editor-field"><label class="crw-label">{{localize "crw.npc.ui.head"}} {{localize "crw.npc.editor.packName"}}</label><input type="text" name="armorHeadPack" class="crw-input" value="{{armorHeadPack}}" /></div>
-      <div class="crw-editor-field"><label class="crw-label">{{localize "crw.npc.ui.head"}} {{localize "crw.npc.editor.itemName"}}</label><input type="text" name="armorHeadItem" class="crw-input" value="{{armorHeadItem}}" /></div>
-      <div class="crw-editor-field" style="flex:0.3"><label class="crw-label">SP</label><input type="number" name="armorHeadSp" class="crw-input" value="{{armorHeadSp}}" min="0" /></div>
-    </div>
-    <div class="crw-editor-row">
-      <div class="crw-editor-field"><label class="crw-label">{{localize "crw.npc.ui.body"}} {{localize "crw.npc.editor.packName"}}</label><input type="text" name="armorBodyPack" class="crw-input" value="{{armorBodyPack}}" /></div>
-      <div class="crw-editor-field"><label class="crw-label">{{localize "crw.npc.ui.body"}} {{localize "crw.npc.editor.itemName"}}</label><input type="text" name="armorBodyItem" class="crw-input" value="{{armorBodyItem}}" /></div>
-      <div class="crw-editor-field" style="flex:0.3"><label class="crw-label">SP</label><input type="number" name="armorBodySp" class="crw-input" value="{{armorBodySp}}" min="0" /></div>
-    </div>
-
-    {{!-- Weapons --}}
-    <div class="crw-category-title">{{localize "crw.npc.ui.weapons"}} <button type="button" class="crw-editor-add-btn" data-action="addWeapon"><i class="fas fa-plus"></i></button></div>
-    {{#each weapons}}
-    <div class="crw-editor-weapon-row crw-editor-list-row">
-      <input type="text" name="weaponPack" class="crw-input" value="{{this.packName}}" placeholder="Pack" />
-      <input type="text" name="weaponItem" class="crw-input" value="{{this.itemName}}" placeholder="Item" />
-      <input type="text" name="weaponQuality" class="crw-input crw-editor-sm" value="{{this.quality}}" placeholder="Quality" />
-      <input type="text" name="weaponDamage" class="crw-input crw-editor-sm" value="{{this.damage}}" placeholder="Dmg" />
-      <button type="button" class="crw-editor-remove-btn" data-action="removeWeapon" data-index="{{@index}}"><i class="fas fa-times"></i></button>
-    </div>
-    {{/each}}
-
-    {{!-- Skills --}}
-    <div class="crw-category-title">{{localize "crw.npc.ui.skills"}} <button type="button" class="crw-editor-add-btn" data-action="addSkill"><i class="fas fa-plus"></i></button></div>
-    {{#each skills}}
-    <div class="crw-editor-skill-row crw-editor-list-row">
-      <input type="text" name="skillName" class="crw-input" value="{{this.name}}" placeholder="Skill name" />
-      <input type="number" name="skillBase" class="crw-input crw-editor-sm" value="{{this.base}}" min="0" placeholder="Base" />
-      <button type="button" class="crw-editor-remove-btn" data-action="removeSkill" data-index="{{@index}}"><i class="fas fa-times"></i></button>
-    </div>
-    {{/each}}
-
-    {{!-- Equipment --}}
-    <div class="crw-category-title">{{localize "crw.npc.ui.equipment"}} <button type="button" class="crw-editor-add-btn" data-action="addEquip"><i class="fas fa-plus"></i></button></div>
-    {{#each equipment}}
-    <div class="crw-editor-equip-row crw-editor-list-row">
-      <input type="text" name="equipPack" class="crw-input" value="{{this.packName}}" placeholder="Pack" />
-      <input type="text" name="equipItem" class="crw-input" value="{{this.itemName}}" placeholder="Item" />
-      <input type="number" name="equipQty" class="crw-input crw-editor-sm" value="{{this.quantity}}" min="1" placeholder="Qty" />
-      <button type="button" class="crw-editor-remove-btn" data-action="removeEquip" data-index="{{@index}}"><i class="fas fa-times"></i></button>
-    </div>
-    {{/each}}
-
-    {{!-- Cyberware --}}
-    <div class="crw-category-title">{{localize "crw.npc.ui.cyberware"}} <button type="button" class="crw-editor-add-btn" data-action="addCyber"><i class="fas fa-plus"></i></button></div>
-    {{#each cyberware}}
-    <div class="crw-editor-cyber-row crw-editor-list-row">
-      <input type="text" name="cyberPack" class="crw-input" value="{{this.packName}}" placeholder="Pack" />
-      <input type="text" name="cyberItem" class="crw-input" value="{{this.itemName}}" placeholder="Item" />
-      <button type="button" class="crw-editor-remove-btn" data-action="removeCyber" data-index="{{@index}}"><i class="fas fa-times"></i></button>
-    </div>
-    {{/each}}
-
-    {{!-- Role --}}
-    <div class="crw-category-title">{{localize "crw.npc.ui.role"}}</div>
-    <div class="crw-editor-row">
-      <div class="crw-editor-field"><input type="text" name="rolePack" class="crw-input" value="{{rolePack}}" placeholder="Pack (e.g. core_roles)" /></div>
-      <div class="crw-editor-field"><input type="text" name="roleItem" class="crw-input" value="{{roleItem}}" placeholder="Role name" /></div>
-      <div class="crw-editor-field" style="flex:0.3"><input type="number" name="roleRank" class="crw-input" value="{{roleRank}}" min="0" max="10" placeholder="Rank" /></div>
-    </div>
+    {{{stepHtml}}}
   </div>
-
-  {{!-- Footer --}}
-  <div class="crw-editor-footer">
-    <button type="button" class="crw-btn-back" data-action="cancel">{{localize "crw.npc.editor.cancel"}}</button>
-    <button type="button" class="crw-btn-create" data-action="save">{{localize "crw.npc.editor.save"}}</button>
-  </div>
+  <footer class="crw-editor-footer">
+    {{#if (gt currentStep 0)}}
+    <button type="button" class="crw-btn-back" data-action="prevStep">
+      <i class="fas fa-arrow-left"></i> {{localize "crw.nav.back"}}
+    </button>
+    {{else}}
+    <span></span>
+    {{/if}}
+    {{#if isFinalStep}}
+    <button type="button" class="crw-btn-create" data-action="save">
+      <i class="fas fa-check"></i> {{localize "crw.npc.editor.save"}}
+    </button>
+    {{else}}
+    <button type="button" class="crw-btn-next" data-action="nextStep">
+      {{localize "crw.nav.next"}} <i class="fas fa-arrow-right"></i>
+    </button>
+    {{/if}}
+  </footer>
 </div>

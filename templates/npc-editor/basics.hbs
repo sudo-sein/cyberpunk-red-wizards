@@ -1,0 +1,33 @@
+<div class="crw-editor-step">
+  <div class="crw-editor-row">
+    <div class="crw-editor-field" style="flex:2">
+      <label class="crw-label">{{localize "crw.npc.editor.name"}}</label>
+      <input type="text" name="name" class="crw-input" value="{{name}}" />
+    </div>
+    <div class="crw-editor-field" style="flex:1">
+      <label class="crw-label">{{localize "crw.npc.editor.tier"}}</label>
+      <select name="tier" class="crw-input">
+        {{#each tiers}}
+        <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+
+  <div class="crw-category-title">{{localize "crw.npc.ui.stats"}}</div>
+  <div class="crw-editor-stat-grid">
+    {{#each stats}}
+    <div class="crw-editor-stat-cell">
+      <label class="crw-stat-abbr">{{this.abbr}}</label>
+      <input type="number" name="stat-{{this.key}}" class="crw-input crw-editor-stat-input" value="{{this.value}}" min="0" max="10" />
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="crw-editor-row" style="margin-top:8px;">
+    <div class="crw-editor-field" style="flex:0 0 120px;">
+      <label class="crw-label">{{localize "crw.npc.ui.hp"}}</label>
+      <input type="number" name="hp" class="crw-input" value="{{hp}}" min="1" />
+    </div>
+  </div>
+</div>

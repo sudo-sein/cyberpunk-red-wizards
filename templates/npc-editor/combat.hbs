@@ -1,0 +1,39 @@
+<div class="crw-editor-step">
+  <div class="crw-category-title">{{localize "crw.npc.ui.armor"}}</div>
+  <div class="crw-editor-row">
+    <div class="crw-editor-field">
+      <label class="crw-label">{{localize "crw.npc.ui.head"}}</label>
+      <select name="armorHead" class="crw-input">
+        {{#each armorOptions}}
+        <option value="{{this.id}}" {{#if this.headSelected}}selected{{/if}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="crw-editor-field">
+      <label class="crw-label">{{localize "crw.npc.ui.body"}}</label>
+      <select name="armorBody" class="crw-input">
+        {{#each armorOptions}}
+        <option value="{{this.id}}" {{#if this.bodySelected}}selected{{/if}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+
+  <div class="crw-category-title">
+    {{localize "crw.npc.ui.weapons"}}
+    <button type="button" class="crw-editor-add-btn" data-action="addWeapon"><i class="fas fa-plus"></i></button>
+  </div>
+  {{#each weapons}}
+  <div class="crw-editor-list-row">
+    <select name="weapon-{{@index}}" class="crw-input">
+      {{#each this.options}}
+      <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+      {{/each}}
+    </select>
+    <button type="button" class="crw-editor-remove-btn" data-action="removeWeapon" data-index="{{@index}}"><i class="fas fa-times"></i></button>
+  </div>
+  {{/each}}
+  {{#unless weapons.length}}
+  <div class="crw-editor-empty">{{localize "crw.npc.editor.noWeapons"}}</div>
+  {{/unless}}
+</div>
