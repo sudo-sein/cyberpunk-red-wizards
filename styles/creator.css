@@ -1021,8 +1021,9 @@
   background-color: var(--cpr-background-header);
   flex-shrink: 0;
   display: flex;
-  justify-content: space-between;
+  gap: 8px;
   align-items: center;
+  justify-content: flex-end;
 }
 
 .crw-npc-empty-state {
@@ -1101,6 +1102,7 @@
   font-size: var(--cpr-font-smaller);
   font-family: var(--cpr-font-primary);
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .crw-npc-generator-window .crw-btn-secondary:hover,
