@@ -1,0 +1,86 @@
+name: Bug Report
+description: Report a bug or unexpected behavior in Cyberpunk RED Wizards
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please fill out as much detail as you can.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of the bug.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Open the character creator
+        2. Select role '...'
+        3. Click '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: input
+    id: foundry-version
+    attributes:
+      label: Foundry VTT Version
+      placeholder: e.g. 12.331
+    validations:
+      required: true
+
+  - type: input
+    id: system-version
+    attributes:
+      label: Cyberpunk RED Core Version
+      placeholder: e.g. 0.92.1
+    validations:
+      required: true
+
+  - type: input
+    id: module-version
+    attributes:
+      label: Cyberpunk RED Wizards Version
+      placeholder: e.g. 0.1.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: console-errors
+    attributes:
+      label: Console Errors
+      description: Any errors from the browser console (F12 > Console tab).
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other context, screenshots, or active modules that might be relevant.
+    validations:
+      required: false

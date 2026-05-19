@@ -1,0 +1,38 @@
+name: Feedback
+description: Share general feedback, ideas, or thoughts about the module
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We'd love to hear your thoughts! This template is for general feedback that isn't a specific bug or feature request.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the module is this about?
+      options:
+        - Character Creator
+        - NPC Generator
+        - Equipment Store
+        - Documentation
+        - General / Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Your Feedback
+      description: Share your thoughts, suggestions, or experience.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other context or screenshots.
+    validations:
+      required: false
