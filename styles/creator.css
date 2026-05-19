@@ -57,8 +57,17 @@
   flex-shrink: 0;
 }
 
-.crw-btn-back,
-.crw-btn-next {
+.crw-wizard .crw-btn-back,
+.crw-wizard .crw-btn-next,
+.crw-npc-editor-window .crw-btn-back,
+.crw-npc-editor-window .crw-btn-create,
+.crw-import-window .crw-btn-next,
+.crw-import-window .crw-btn-secondary,
+.crw-import-window .crw-btn-create,
+.crw-npc-generator-window .crw-btn-create,
+.crw-npc-generator-window .crw-btn-secondary,
+.crw-npc-generator-window .crw-btn-danger,
+.crw-npc-generator-window .crw-npc-toolbar-btn {
   font-family: var(--cpr-font-primary);
   border: none;
   padding: 8px 20px;
@@ -67,18 +76,21 @@
   font-size: var(--cpr-font-small);
 }
 
-.crw-btn-back {
+.crw-wizard .crw-btn-back,
+.crw-npc-editor-window .crw-btn-back {
   background-color: var(--cpr-background-box);
   color: var(--cpr-text-normal);
 }
 
-.crw-btn-next {
+.crw-wizard .crw-btn-next,
+.crw-import-window .crw-btn-next {
   background-color: var(--cpr-color-red);
   color: var(--cpr-text-header);
   font-weight: bold;
 }
 
-.crw-btn-next:disabled {
+.crw-wizard .crw-btn-next:disabled,
+.crw-import-window .crw-btn-next:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -724,7 +736,10 @@
   padding: 1px 0;
 }
 
-.crw-btn-create {
+.crw-wizard .crw-btn-create,
+.crw-npc-generator-window .crw-btn-create,
+.crw-npc-editor-window .crw-btn-create,
+.crw-import-window .crw-btn-create {
   background-color: #4caf50;
   color: white;
   border: none;
@@ -736,7 +751,9 @@
   cursor: pointer;
 }
 
-.crw-btn-create:disabled {
+.crw-wizard .crw-btn-create:disabled,
+.crw-npc-generator-window .crw-btn-create:disabled,
+.crw-import-window .crw-btn-create:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -967,7 +984,7 @@
   font-size: var(--cpr-font-small);
 }
 
-.crw-npc-skills-toggle {
+.crw-npc-generator-window .crw-npc-skills-toggle {
   background: none;
   border: none;
   color: var(--cpr-color-red);
@@ -1053,7 +1070,7 @@
   flex-shrink: 0;
 }
 
-.crw-npc-toolbar-btn {
+.crw-npc-generator-window .crw-npc-toolbar-btn {
   background-color: var(--cpr-background-box);
   border: 1px solid var(--cpr-background-border);
   color: var(--cpr-text-icon-dimmed);
@@ -1063,7 +1080,7 @@
   font-size: var(--cpr-font-smaller);
 }
 
-.crw-npc-toolbar-btn:hover {
+.crw-npc-generator-window .crw-npc-toolbar-btn:hover {
   color: var(--cpr-text-normal);
   background-color: var(--cpr-background-border);
 }
@@ -1074,7 +1091,8 @@
   gap: 6px;
 }
 
-.crw-btn-secondary {
+.crw-npc-generator-window .crw-btn-secondary,
+.crw-import-window .crw-btn-secondary {
   background-color: var(--cpr-background-box);
   color: var(--cpr-text-normal);
   border: 1px solid var(--cpr-background-border);
@@ -1085,15 +1103,16 @@
   cursor: pointer;
 }
 
-.crw-btn-secondary:hover {
+.crw-npc-generator-window .crw-btn-secondary:hover,
+.crw-import-window .crw-btn-secondary:hover {
   background-color: var(--cpr-background-border);
 }
 
-.crw-btn-danger {
+.crw-npc-generator-window .crw-btn-danger {
   color: var(--cpr-color-red);
 }
 
-.crw-btn-danger:hover {
+.crw-npc-generator-window .crw-btn-danger:hover {
   background-color: rgba(244, 67, 54, 0.15);
 }
 
@@ -1446,7 +1465,7 @@
   flex: 0 0 60px !important;
 }
 
-.crw-editor-add-btn {
+.crw-npc-editor-window .crw-editor-add-btn {
   background: none;
   border: none;
   color: var(--cpr-color-red);
@@ -1455,7 +1474,7 @@
   padding: 0 4px;
 }
 
-.crw-editor-remove-btn {
+.crw-npc-editor-window .crw-editor-remove-btn {
   background: none;
   border: none;
   color: var(--cpr-text-icon-dimmed);
@@ -1464,7 +1483,7 @@
   flex-shrink: 0;
 }
 
-.crw-editor-remove-btn:hover {
+.crw-npc-editor-window .crw-editor-remove-btn:hover {
   color: var(--cpr-color-red);
 }
 
