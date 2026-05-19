@@ -1,0 +1,77 @@
+{
+  "skills": {
+    "Athletics": "Athletics",
+    "Brawling": "Brawling",
+    "Concentration": "Concentration",
+    "Conversation": "Conversation",
+    "Drive Land Vehicle": "Land Vehicle",
+    "Education": "Education",
+    "Endurance": "Endurance",
+    "Evasion": "Evasion",
+    "First Aid": "First Aid",
+    "Handgun": "Handgun",
+    "Human Perception": "Human Perception",
+    "Interrogation": "Interrogation",
+    "Local Expert": "Local Expert",
+    "Melee Weapon": "Melee Weapon",
+    "Perception": "Perception",
+    "Persuasion": "Persuasion",
+    "Resist Torture/Drug": "Resist Torture/Drugs",
+    "Resist Torture/Drugs": "Resist Torture/Drugs",
+    "Shoulder Arms": "Shoulder Arms",
+    "Stealth": "Stealth",
+    "Autofire": "Autofire",
+    "Archery": "Archery",
+    "Conceal/Reveal Object": "Conceal/Reveal Object",
+    "Survival": "Survival",
+    "Tracking": "Tracking"
+  },
+  "weapons": {
+    "Very Heavy Pistol": "Very Heavy Pistol",
+    "Heavy Pistol": "Heavy Pistol",
+    "Medium Pistol": "Medium Pistol",
+    "Light Melee": "Light Melee",
+    "Medium Melee": "Medium Melee",
+    "Heavy Melee": "Heavy Melee",
+    "Shotgun": "Shotgun",
+    "Assault Rifle": "Assault Rifle",
+    "Rippers": "Rippers",
+    "Wolvers": "Wolvers",
+    "Crossbow": "Crossbow"
+  },
+  "armor": {
+    "Kevlar": { "head": "Kevlar® (Head)", "body": "Kevlar® (Body)", "sp": 7 },
+    "Leather": { "head": "Leathers (Head)", "body": "Leathers (Body)", "sp": 4 },
+    "Leathers": { "head": "Leathers (Head)", "body": "Leathers (Body)", "sp": 4 },
+    "Light Armorjack": { "head": "Light Armorjack (Head)", "body": "Light Armorjack (Body)", "sp": 11 },
+    "Medium Armorjack": { "head": "Medium Armorjack (Head)", "body": "Medium Armorjack (Body)", "sp": 13 },
+    "Heavy Armorjack": { "head": "Heavy Armorjack (Head)", "body": "Heavy Armorjack (Body)", "sp": 15 },
+    "Metalgear": { "head": "Metalgear™ (Head)", "body": "Metalgear™ (Body)", "sp": 18 }
+  },
+  "equipment": {
+    "Radio Communicator": { "packName": "core_gear", "itemName": "Radio Communicator" },
+    "Disposable Cellphone": { "packName": "core_gear", "itemName": "Disposable Cell Phone" },
+    "Disposable Cell Phone": { "packName": "core_gear", "itemName": "Disposable Cell Phone" },
+    "Flashlight": { "packName": "core_gear", "itemName": "Flashlight" },
+    "Techhair": { "packName": "core_cyberware", "itemName": "Techhair" }
+  },
+  "ammo": {
+    "Slug Ammo": { "packName": "core_ammo", "itemName": "Shotgun Slug (Basic)" },
+    "Very Heavy Pistol Ammo": { "packName": "core_ammo", "itemName": "Very Heavy Pistol (Basic)" },
+    "VH Pistol Ammo": { "packName": "core_ammo", "itemName": "Very Heavy Pistol (Basic)" },
+    "Heavy Pistol Ammo": { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)" },
+    "Rifle Ammo": { "packName": "core_ammo", "itemName": "Rifle (Basic)" }
+  },
+  "qualityPrefixes": {
+    "Poor Quality": "poor",
+    "Excellent": "excellent"
+  },
+  "sectionHeaders": {
+    "stats": "▶ INT ▶ REF ▶ DEX ▶ TECH ▶ COOL",
+    "hp": "▶ Hit Points",
+    "armor": "Armor:",
+    "weapons": "Weapons",
+    "skills": "▶ Skill Bases",
+    "equipment": "▶ Cyberware & Special Equipment"
+  }
+}
