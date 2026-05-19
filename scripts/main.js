@@ -71,6 +71,13 @@ Hooks.once("init", () => {
     type: StorePackConfig,
     restricted: true,
   });
+
+  game.settings.register(MODULE_ID, "customNpcTemplates", {
+    scope: "world",
+    config: false,
+    type: Object,
+    default: {},
+  });
 });
 
 Hooks.once("ready", () => {
