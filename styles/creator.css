@@ -1002,8 +1002,10 @@
   padding: 10px 16px;
   border-top: 1px solid var(--cpr-background-border);
   background-color: var(--cpr-background-header);
-  text-align: right;
   flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .crw-npc-empty-state {
@@ -1018,6 +1020,81 @@
 .crw-npc-empty-icon {
   font-size: 48px;
   margin-bottom: 16px;
+}
+
+/* NPC Generator: custom badges */
+.crw-npc-badge {
+  display: inline-block;
+  font-size: var(--cpr-font-smallest);
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 6px;
+  vertical-align: middle;
+  font-weight: normal;
+}
+
+.crw-npc-badge--custom {
+  background-color: rgba(76, 175, 80, 0.3);
+  color: #a0e0a0;
+}
+
+.crw-npc-template-item.crw-selected .crw-npc-badge {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--cpr-text-header);
+}
+
+/* NPC Generator: toolbar */
+.crw-npc-toolbar {
+  display: flex;
+  gap: 4px;
+  padding: 6px 8px;
+  border-top: 1px solid var(--cpr-background-border);
+  background-color: var(--cpr-background-header);
+  flex-shrink: 0;
+}
+
+.crw-npc-toolbar-btn {
+  background-color: var(--cpr-background-box);
+  border: 1px solid var(--cpr-background-border);
+  color: var(--cpr-text-icon-dimmed);
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: var(--cpr-font-smaller);
+}
+
+.crw-npc-toolbar-btn:hover {
+  color: var(--cpr-text-normal);
+  background-color: var(--cpr-background-border);
+}
+
+/* NPC Generator: action button group */
+.crw-npc-action-group {
+  display: flex;
+  gap: 6px;
+}
+
+.crw-btn-secondary {
+  background-color: var(--cpr-background-box);
+  color: var(--cpr-text-normal);
+  border: 1px solid var(--cpr-background-border);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: var(--cpr-font-smaller);
+  font-family: var(--cpr-font-primary);
+  cursor: pointer;
+}
+
+.crw-btn-secondary:hover {
+  background-color: var(--cpr-background-border);
+}
+
+.crw-btn-danger {
+  color: var(--cpr-color-red);
+}
+
+.crw-btn-danger:hover {
+  background-color: rgba(244, 67, 54, 0.15);
 }
 
 /* Relationships */
