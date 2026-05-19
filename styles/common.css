@@ -1,0 +1,180 @@
+.crw-sidebar-btn {
+  font-family: var(--cpr-font-primary);
+  font-size: var(--cpr-font-small);
+}
+
+.crw-wizard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--cpr-background-window);
+  color: var(--cpr-text-normal);
+  font-family: var(--cpr-font-primary);
+}
+
+.crw-step-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  background-color: var(--cpr-background-header);
+  font-size: var(--cpr-font-smaller);
+  flex-shrink: 0;
+}
+
+.crw-step-indicator {
+  padding: 3px 10px;
+  color: var(--cpr-text-icon-dimmed);
+}
+
+.crw-step-active {
+  background-color: var(--cpr-background-tab-active);
+  color: var(--cpr-text-header);
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.crw-step-done {
+  color: var(--cpr-text-header);
+}
+
+.crw-step-separator {
+  color: var(--cpr-text-icon-dimmed);
+}
+
+.crw-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+.crw-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-top: 1px solid var(--cpr-background-border);
+  background-color: var(--cpr-background-header);
+  flex-shrink: 0;
+}
+
+.crw-wizard .crw-btn-back,
+.crw-wizard .crw-btn-next,
+.crw-npc-editor-window .crw-btn-back,
+.crw-npc-editor-window .crw-btn-next,
+.crw-npc-editor-window .crw-btn-create,
+.crw-import-window .crw-btn-next,
+.crw-import-window .crw-btn-secondary,
+.crw-import-window .crw-btn-create,
+.crw-npc-generator-window .crw-btn-create,
+.crw-npc-generator-window .crw-btn-secondary,
+.crw-npc-generator-window .crw-btn-danger,
+.crw-npc-generator-window .crw-npc-toolbar-btn {
+  font-family: var(--cpr-font-primary);
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: var(--cpr-font-small);
+}
+
+.crw-wizard .crw-btn-back,
+.crw-npc-editor-window .crw-btn-back {
+  background-color: var(--cpr-background-box);
+  color: var(--cpr-text-normal);
+}
+
+.crw-wizard .crw-btn-next,
+.crw-npc-editor-window .crw-btn-next,
+.crw-import-window .crw-btn-next {
+  background-color: var(--cpr-color-red);
+  color: var(--cpr-text-header);
+  font-weight: bold;
+}
+
+.crw-wizard .crw-btn-next:disabled,
+.crw-npc-editor-window .crw-btn-next:disabled,
+.crw-import-window .crw-btn-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.crw-field-group {
+  margin-bottom: 16px;
+}
+
+.crw-label {
+  display: block;
+  font-size: var(--cpr-font-smaller);
+  text-transform: uppercase;
+  color: var(--cpr-text-icon-highlight);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.crw-input {
+  width: 100%;
+  padding: 10px 14px;
+  background-color: var(--cpr-background-box);
+  border: 1px solid var(--cpr-background-border);
+  border-radius: 4px;
+  color: var(--cpr-text-normal);
+  font-size: var(--cpr-font-normal);
+  font-family: var(--cpr-font-primary);
+  box-sizing: border-box;
+}
+
+.crw-section-title {
+  font-family: var(--cpr-font-hero);
+  font-size: var(--cpr-font-large);
+  margin: 0 0 4px 0;
+}
+
+.crw-section-subtitle {
+  font-size: var(--cpr-font-small);
+  color: var(--cpr-text-icon-dimmed);
+  margin: 0 0 16px 0;
+}
+
+.crw-hint {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background-color: var(--cpr-background-box);
+  border: 1px solid var(--cpr-background-border);
+  border-radius: 4px;
+  font-size: var(--cpr-font-smaller);
+  color: var(--cpr-text-icon-dimmed);
+  line-height: 1.5;
+}
+
+.crw-wizard .crw-btn-create,
+.crw-npc-generator-window .crw-btn-create,
+.crw-npc-editor-window .crw-btn-create,
+.crw-import-window .crw-btn-create {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 4px;
+  font-size: var(--cpr-font-small);
+  font-weight: bold;
+  font-family: var(--cpr-font-primary);
+  cursor: pointer;
+  width: auto;
+  white-space: nowrap;
+  flex: none;
+}
+
+.crw-wizard .crw-btn-create:disabled,
+.crw-npc-generator-window .crw-btn-create:disabled,
+.crw-import-window .crw-btn-create:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.crw-roll-header > button,
+.crw-lifepath-header > button,
+.crw-relationships-top > button {
+  flex-grow: 0;
+  flex-shrink: 1;
+  width: auto;
+}
