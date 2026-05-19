@@ -1,4 +1,4 @@
-import { loadAllTemplates } from "../data/npc-loader.js";
+import { loadAllTemplates, TIER_ORDER, getCustomTemplates, saveCustomTemplates, clearNpcCache } from "../data/npc-loader.js";
 import { createNpcFromTemplate } from "../npc/npc-factory.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -6,12 +6,6 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
 const STAT_ABBRS = { int: "INT", ref: "REF", dex: "DEX", tech: "TECH", cool: "COOL", will: "WILL", luck: "LUCK", move: "MOVE", body: "BODY", emp: "EMP" };
 const VISIBLE_SKILLS_COUNT = 8;
-
-const TIER_ORDER = [
-  "mooks", "lieutenants", "mini-bosses", "boss",
-  "hardened-mooks", "hardened-lieutenants", "hardened-mini-bosses",
-  "everyday-people",
-];
 
 export default class NpcGeneratorApp extends HandlebarsApplicationMixin(ApplicationV2) {
 
@@ -30,6 +24,11 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
     },
     actions: {
       createNpc: NpcGeneratorApp.#onCreateNpc,
+      saveAsCustom: NpcGeneratorApp.#onSaveAsCustom,
+      deleteTemplate: NpcGeneratorApp.#onDeleteTemplate,
+      exportTemplates: NpcGeneratorApp.#onExportTemplates,
+      importTemplates: NpcGeneratorApp.#onImportTemplates,
+      newBlankTemplate: NpcGeneratorApp.#onNewBlankTemplate,
     },
   };
 
@@ -62,6 +61,16 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
     NpcGeneratorApp.#instance.render(true);
   }
 
+  async #reloadTemplates() {
+    clearNpcCache();
+    this.#templates = await loadAllTemplates();
+  }
+
+  _getTemplateName(template) {
+    if (template.name) return template.name;
+    return game.i18n.localize(template.nameKey);
+  }
+
   async _prepareContext(options) {
     const listEl = this.element?.querySelector(".crw-npc-template-list");
     const searchEl = this.element?.querySelector(".crw-npc-search");
@@ -82,7 +91,7 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
     const filtered = this.#templates.filter(t => {
       if (filter.tier !== "all" && t.tier !== filter.tier) return false;
       if (searchLower) {
-        const name = game.i18n.localize(t.nameKey).toLowerCase();
+        const name = this._getTemplateName(t).toLowerCase();
         if (!name.includes(searchLower)) return false;
       }
       return true;
@@ -98,11 +107,13 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
         count: tierTemplates.length,
         templates: tierTemplates.map(t => ({
           id: t.id,
-          displayName: game.i18n.localize(t.nameKey),
+          displayName: this._getTemplateName(t),
           hp: t.hp,
           sp: Math.max(t.armor.head?.sp ?? 0, t.armor.body?.sp ?? 0),
           topWeapon: t.weapons[0]?.itemName ?? "—",
           selected: t.id === selectedTemplateId,
+          source: t.source ?? "built-in",
+          isCustom: (t.source ?? "built-in") !== "built-in",
         })),
       });
     }
@@ -119,7 +130,10 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
       if (template) {
         const allSkills = [...template.skills].sort((a, b) => b.base - a.base);
         selected = {
-          name: overrides.name ?? game.i18n.localize(template.nameKey),
+          id: template.id,
+          name: overrides.name ?? this._getTemplateName(template),
+          source: template.source ?? "built-in",
+          isCustom: (template.source ?? "built-in") !== "built-in",
           isMook: overrides.actorType === "mook",
           stats: STAT_KEYS.map(key => ({
             key,
@@ -254,6 +268,152 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
         btn.innerHTML = `<i class="fas fa-plus"></i> ${game.i18n.localize("crw.npc.ui.create")}`;
       }
     }
+  }
+
+  static async #onSaveAsCustom() {
+    const template = this.#templates.find(t => t.id === this.#state.selectedTemplateId);
+    if (!template) return;
+
+    const name = await new Promise(resolve => {
+      new Dialog({
+        title: game.i18n.localize("crw.npc.ui.saveAsCustom"),
+        content: `<input type="text" id="crw-custom-name" value="${this._getTemplateName(template)}" style="width:100%;margin-bottom:8px;" />`,
+        buttons: {
+          ok: { label: game.i18n.localize("crw.npc.editor.save"), callback: (html) => resolve(html.find("#crw-custom-name").val()) },
+          cancel: { label: game.i18n.localize("crw.npc.editor.cancel"), callback: () => resolve(null) },
+        },
+        default: "ok",
+      }).render(true);
+    });
+    if (!name) return;
+
+    const clone = JSON.parse(JSON.stringify(template));
+    clone.id = foundry.utils.randomID();
+    clone.name = name;
+    clone.nameKey = null;
+    clone.source = "custom";
+
+    const custom = getCustomTemplates();
+    custom[clone.id] = clone;
+    await saveCustomTemplates(custom);
+
+    await this.#reloadTemplates();
+    this.#state.selectedTemplateId = clone.id;
+    this.render(true);
+    ui.notifications.info(`Template "${name}" saved.`);
+  }
+
+  static async #onDeleteTemplate() {
+    const template = this.#templates.find(t => t.id === this.#state.selectedTemplateId);
+    if (!template || (template.source ?? "built-in") === "built-in") return;
+
+    const confirm = await Dialog.confirm({
+      title: game.i18n.localize("crw.npc.ui.deleteTemplate"),
+      content: `<p>${game.i18n.localize("crw.npc.ui.deleteConfirm")}</p>`,
+    });
+    if (!confirm) return;
+
+    const custom = getCustomTemplates();
+    delete custom[template.id];
+    await saveCustomTemplates(custom);
+
+    await this.#reloadTemplates();
+    this.#state.selectedTemplateId = null;
+    this.render(true);
+  }
+
+  static async #onExportTemplates() {
+    const custom = getCustomTemplates();
+    const arr = Object.values(custom);
+    if (arr.length === 0) {
+      ui.notifications.warn(game.i18n.localize("crw.npc.ui.noCustomToExport"));
+      return;
+    }
+    const blob = new Blob([JSON.stringify(arr, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const date = new Date().toISOString().slice(0, 10);
+    a.href = url;
+    a.download = `crw-npc-templates-${date}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  static async #onImportTemplates() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.addEventListener("change", async () => {
+      const file = input.files[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const arr = JSON.parse(text);
+        if (!Array.isArray(arr)) throw new Error("Expected JSON array");
+
+        const custom = getCustomTemplates();
+        const existingNames = new Set(Object.values(custom).map(t => t.name));
+        let imported = 0, skipped = 0, renamed = 0;
+
+        for (const t of arr) {
+          if (!t.id || !t.tier) continue;
+          if (custom[t.id]) { skipped++; continue; }
+          if (existingNames.has(t.name)) {
+            let n = 2;
+            while (existingNames.has(`${t.name} (${n})`)) n++;
+            t.name = `${t.name} (${n})`;
+            renamed++;
+          }
+          t.source = t.source || "custom";
+          custom[t.id] = t;
+          existingNames.add(t.name);
+          imported++;
+        }
+
+        await saveCustomTemplates(custom);
+        await this.#reloadTemplates();
+        this.render(true);
+
+        const msg = game.i18n.format("crw.npc.ui.importSummary", { imported, skipped, renamed });
+        ui.notifications.info(msg);
+      } catch (err) {
+        console.error("Template import failed:", err);
+        ui.notifications.error("Import failed. Check the console for details.");
+      }
+    });
+    input.click();
+  }
+
+  static async #onNewBlankTemplate() {
+    const { NpcTemplateEditorApp } = await import("./npc-template-editor-app.js");
+    const blank = {
+      id: foundry.utils.randomID(),
+      name: "New Template",
+      nameKey: null,
+      tier: "amateur",
+      source: "custom",
+      stats: { int: 4, ref: 4, dex: 4, tech: 4, cool: 4, will: 4, luck: 0, move: 4, body: 4, emp: 4 },
+      hp: 20,
+      seriousWound: 10,
+      deathSave: 4,
+      armor: {
+        head: { name: "", sp: 0, packName: "", itemName: "" },
+        body: { name: "", sp: 0, packName: "", itemName: "" },
+      },
+      weapons: [],
+      skills: [],
+      equipment: [],
+      cyberware: [],
+      role: null,
+    };
+    NpcTemplateEditorApp.open(blank, async (saved) => {
+      const custom = getCustomTemplates();
+      custom[saved.id] = saved;
+      await saveCustomTemplates(custom);
+      await this.#reloadTemplates();
+      this.#state.selectedTemplateId = saved.id;
+      this.render(true);
+    });
   }
 
   async close(options = {}) {

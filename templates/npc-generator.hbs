@@ -19,12 +19,20 @@
         </div>
         {{#each this.templates}}
         <div class="crw-npc-template-item {{#if this.selected}}crw-selected{{/if}}" data-template-id="{{this.id}}">
-          <div class="crw-npc-template-name">{{this.displayName}}</div>
+          <div class="crw-npc-template-name">
+            {{this.displayName}}
+            {{#if this.isCustom}}<span class="crw-npc-badge crw-npc-badge--custom">{{localize "crw.npc.source.custom"}}</span>{{/if}}
+          </div>
           <div class="crw-npc-template-summary">HP {{this.hp}} · SP {{this.sp}} · {{this.topWeapon}}</div>
         </div>
         {{/each}}
       </div>
       {{/each}}
+    </div>
+    <div class="crw-npc-toolbar">
+      <button type="button" class="crw-npc-toolbar-btn" data-action="newBlankTemplate" title="{{localize "crw.npc.ui.newBlank"}}"><i class="fas fa-plus"></i></button>
+      <button type="button" class="crw-npc-toolbar-btn" data-action="importTemplates" title="{{localize "crw.npc.ui.importTemplates"}}"><i class="fas fa-file-import"></i></button>
+      <button type="button" class="crw-npc-toolbar-btn" data-action="exportTemplates" title="{{localize "crw.npc.ui.exportTemplates"}}"><i class="fas fa-file-export"></i></button>
     </div>
   </div>
 
@@ -185,8 +193,18 @@
       {{/if}}
     </div>
 
-    {{!-- Create button --}}
+    {{!-- Action bar --}}
     <div class="crw-npc-create-bar">
+      <div class="crw-npc-action-group">
+        <button type="button" class="crw-btn-secondary" data-action="saveAsCustom">
+          <i class="fas fa-copy"></i> {{localize "crw.npc.ui.saveAsCustom"}}
+        </button>
+        {{#if selected.isCustom}}
+        <button type="button" class="crw-btn-secondary crw-btn-danger" data-action="deleteTemplate">
+          <i class="fas fa-trash"></i> {{localize "crw.npc.ui.deleteTemplate"}}
+        </button>
+        {{/if}}
+      </div>
       <button type="button" class="crw-btn-create" data-action="createNpc">
         <i class="fas fa-plus"></i> {{localize "crw.npc.ui.create"}}
       </button>
