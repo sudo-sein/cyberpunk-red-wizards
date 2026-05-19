@@ -196,6 +196,11 @@
     {{!-- Action bar --}}
     <div class="crw-npc-create-bar">
       <div class="crw-npc-action-group">
+        {{#if selected.isCustom}}
+        <button type="button" class="crw-btn-secondary" data-action="editTemplate">
+          <i class="fas fa-edit"></i> {{localize "crw.npc.ui.editTemplate"}}
+        </button>
+        {{/if}}
         <button type="button" class="crw-btn-secondary" data-action="saveAsCustom">
           <i class="fas fa-copy"></i> {{localize "crw.npc.ui.saveAsCustom"}}
         </button>

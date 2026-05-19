@@ -350,6 +350,9 @@
 }
 
 .crw-category-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--cpr-font-hero);
   font-size: var(--cpr-font-small);
   text-transform: uppercase;

@@ -31,17 +31,12 @@
   {{/each}}
 
   <div class="crw-category-title">{{localize "crw.npc.ui.role"}}</div>
-  <div class="crw-editor-row">
-    <div class="crw-editor-field" style="flex:2">
-      <select name="role" class="crw-input">
-        {{#each roleOptions}}
-        <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
-        {{/each}}
-      </select>
-    </div>
-    <div class="crw-editor-field" style="flex:0 0 80px;">
-      <label class="crw-label">{{localize "crw.npc.editor.roleRank"}}</label>
-      <input type="number" name="roleRank" class="crw-input" value="{{roleRank}}" min="0" max="10" />
-    </div>
+  <div class="crw-editor-list-row">
+    <select name="role" class="crw-input">
+      {{#each roleOptions}}
+      <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+      {{/each}}
+    </select>
+    <input type="number" name="roleRank" class="crw-input crw-editor-sm" value="{{roleRank}}" min="0" max="10" placeholder="{{localize "crw.npc.editor.roleRank"}}" />
   </div>
 </div>

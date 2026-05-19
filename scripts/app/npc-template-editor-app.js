@@ -9,9 +9,9 @@ export const ARMOR_OPTIONS = [
   { id: "leathers", name: "Leathers", sp: 4, packName: "core_armor", headItem: "Leathers (Head)", bodyItem: "Leathers (Body)" },
   { id: "kevlar", name: "Kevlar", sp: 7, packName: "core_armor", headItem: "Kevlar® (Head)", bodyItem: "Kevlar® (Body)" },
   { id: "light-armorjack", name: "Light Armorjack", sp: 11, packName: "core_armor", headItem: "Light Armorjack (Head)", bodyItem: "Light Armorjack (Body)" },
-  { id: "medium-armorjack", name: "Medium Armorjack", sp: 13, packName: "core_armor", headItem: "Medium Armorjack (Head)", bodyItem: "Medium Armorjack (Body)" },
-  { id: "heavy-armorjack", name: "Heavy Armorjack", sp: 15, packName: "core_armor", headItem: "Heavy Armorjack (Head)", bodyItem: "Heavy Armorjack (Body)" },
-  { id: "flak", name: "Flak", sp: 16, packName: "core_armor", headItem: "Flak (Head)", bodyItem: "Flak (Body)" },
+  { id: "medium-armorjack", name: "Medium Armorjack", sp: 12, packName: "core_armor", headItem: "Medium Armorjack (Head)", bodyItem: "Medium Armorjack (Body)" },
+  { id: "heavy-armorjack", name: "Heavy Armorjack", sp: 13, packName: "core_armor", headItem: "Heavy Armorjack (Head)", bodyItem: "Heavy Armorjack (Body)" },
+  { id: "flak", name: "Flak", sp: 15, packName: "core_armor", headItem: "Flak (Head)", bodyItem: "Flak (Body)" },
   { id: "metalgear", name: "Metalgear", sp: 18, packName: "core_armor", headItem: "Metalgear™ (Head)", bodyItem: "Metalgear™ (Body)" },
 ];
 

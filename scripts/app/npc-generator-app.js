@@ -25,6 +25,7 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
     actions: {
       createNpc: NpcGeneratorApp.#onCreateNpc,
       saveAsCustom: NpcGeneratorApp.#onSaveAsCustom,
+      editTemplate: NpcGeneratorApp.#onEditTemplate,
       deleteTemplate: NpcGeneratorApp.#onDeleteTemplate,
       exportTemplates: NpcGeneratorApp.#onExportTemplates,
       importTemplates: NpcGeneratorApp.#onImportTemplates,
@@ -274,33 +275,38 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
     const template = this.#templates.find(t => t.id === this.#state.selectedTemplateId);
     if (!template) return;
 
-    const name = await new Promise(resolve => {
-      new Dialog({
-        title: game.i18n.localize("crw.npc.ui.saveAsCustom"),
-        content: `<input type="text" id="crw-custom-name" value="${this._getTemplateName(template)}" style="width:100%;margin-bottom:8px;" />`,
-        buttons: {
-          ok: { label: game.i18n.localize("crw.npc.editor.save"), callback: (html) => resolve(html.find("#crw-custom-name").val()) },
-          cancel: { label: game.i18n.localize("crw.npc.editor.cancel"), callback: () => resolve(null) },
-        },
-        default: "ok",
-      }).render(true);
-    });
-    if (!name) return;
-
     const clone = JSON.parse(JSON.stringify(template));
     clone.id = foundry.utils.randomID();
-    clone.name = name;
+    clone.name = this._getTemplateName(template);
     clone.nameKey = null;
     clone.source = "custom";
 
-    const custom = getCustomTemplates();
-    custom[clone.id] = clone;
-    await saveCustomTemplates(custom);
+    const { NpcTemplateEditorApp } = await import("./npc-template-editor-app.js");
+    NpcTemplateEditorApp.open(clone, async (saved) => {
+      const custom = getCustomTemplates();
+      custom[saved.id] = saved;
+      await saveCustomTemplates(custom);
+      await this.#reloadTemplates();
+      this.#state.selectedTemplateId = saved.id;
+      this.render(true);
+    });
+  }
 
-    await this.#reloadTemplates();
-    this.#state.selectedTemplateId = clone.id;
-    this.render(true);
-    ui.notifications.info(`Template "${name}" saved.`);
+  static async #onEditTemplate() {
+    const template = this.#templates.find(t => t.id === this.#state.selectedTemplateId);
+    if (!template || (template.source ?? "built-in") === "built-in") return;
+
+    const clone = JSON.parse(JSON.stringify(template));
+
+    const { NpcTemplateEditorApp } = await import("./npc-template-editor-app.js");
+    NpcTemplateEditorApp.open(clone, async (saved) => {
+      const custom = getCustomTemplates();
+      custom[saved.id] = saved;
+      await saveCustomTemplates(custom);
+      await this.#reloadTemplates();
+      this.#state.selectedTemplateId = saved.id;
+      this.render(true);
+    });
   }
 
   static async #onDeleteTemplate() {
