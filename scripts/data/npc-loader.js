@@ -1,14 +1,20 @@
 const MODULE_PATH = "modules/cyberpunk-red-wizards";
+const MODULE_ID = "cyberpunk-red-wizards";
 
 const TIER_FILES = [
-  "mooks",
-  "lieutenants",
-  "mini-bosses",
-  "boss",
-  "hardened-mooks",
-  "hardened-lieutenants",
-  "hardened-mini-bosses",
-  "everyday-people",
+  "amateur",
+  "competent",
+  "elite",
+  "mini-boss",
+  "nightmare-boss",
+];
+
+export const TIER_ORDER = [
+  "amateur",
+  "competent",
+  "elite",
+  "mini-boss",
+  "nightmare-boss",
 ];
 
 const npcCache = new Map();
@@ -30,7 +36,23 @@ export async function loadAllTemplates() {
     const templates = await loadTierTemplates(tier);
     all.push(...templates);
   }
+
+  const custom = getCustomTemplates();
+  all.push(...Object.values(custom));
+
   return all;
+}
+
+export function getCustomTemplates() {
+  try {
+    return game.settings.get(MODULE_ID, "customNpcTemplates") ?? {};
+  } catch {
+    return {};
+  }
+}
+
+export async function saveCustomTemplates(templates) {
+  await game.settings.set(MODULE_ID, "customNpcTemplates", templates);
 }
 
 export function clearNpcCache() {
