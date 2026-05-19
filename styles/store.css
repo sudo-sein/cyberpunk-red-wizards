@@ -1,3 +1,7 @@
+.crw-store-window .window-content {
+  padding: 0;
+}
+
 .crw-store-container {
   display: flex;
   flex-direction: column;

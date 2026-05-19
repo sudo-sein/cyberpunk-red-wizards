@@ -28,11 +28,20 @@ export const WEAPON_OPTIONS = [
 ];
 
 export const SKILL_OPTIONS = [
-  "Athletics", "Autofire", "Brawling", "Concentration", "Conversation",
-  "Drive Land Vehicle", "Education", "Endurance", "Evasion", "First Aid",
-  "Handgun", "Human Perception", "Interrogation", "Melee Weapon",
-  "Perception", "Persuasion", "Resist Torture/Drugs", "Shoulder Arms",
-  "Stealth", "Archery", "Conceal/Reveal Object", "Survival", "Tracking",
+  "Accounting", "Acting", "Air Vehicle Tech", "Animal Handling", "Archery",
+  "Athletics", "Autofire", "Basic Tech", "Brawling", "Bribery", "Bureaucracy",
+  "Business", "Composition", "Conceal/Reveal Object", "Concentration",
+  "Contortionist", "Conversation", "Criminology", "Cryptography", "Cybertech",
+  "Dance", "Deduction", "Demolitions", "Drive Land Vehicle", "Education",
+  "Electronics/Security Tech", "Endurance", "Evasion", "First Aid", "Forgery",
+  "Gamble", "Handgun", "Heavy Weapons", "Human Perception", "Interrogation",
+  "Land Vehicle Tech", "Library Search", "Lip Reading", "Melee Weapon",
+  "Paint/Draw/Sculpt", "Paramedic", "Perception", "Personal Grooming",
+  "Persuasion", "Photography/Film", "Pick Lock", "Pick Pocket",
+  "Pilot Air Vehicle", "Pilot Sea Vehicle", "Resist Torture/Drugs", "Riding",
+  "Sea Vehicle Tech", "Shoulder Arms", "Stealth", "Streetwise", "Tactics",
+  "Tracking", "Trading", "Wardrobe & Style", "Weaponstech",
+  "Wilderness Survival",
 ];
 
 export const EQUIPMENT_OPTIONS = [
@@ -85,9 +94,13 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
       height: 550,
     },
     actions: {
+      goToStep: NpcTemplateEditorApp.#onGoToStep,
       prevStep: NpcTemplateEditorApp.#onPrevStep,
       nextStep: NpcTemplateEditorApp.#onNextStep,
       save: NpcTemplateEditorApp.#onSave,
+      statInc: NpcTemplateEditorApp.#onStatInc,
+      statDec: NpcTemplateEditorApp.#onStatDec,
+      calcHp: NpcTemplateEditorApp.#onCalcHp,
       addWeapon: NpcTemplateEditorApp.#onAddWeapon,
       removeWeapon: NpcTemplateEditorApp.#onRemoveWeapon,
       addSkill: NpcTemplateEditorApp.#onAddSkill,
@@ -153,12 +166,21 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
 
   #prepareBasics() {
     const t = this.#template;
+    const entries = STAT_KEYS.map(key => ({
+      key,
+      abbr: game.i18n.localize(`crw.stats.${key}`),
+      value: t.stats[key],
+    }));
     return {
       name: t.name ?? "",
       tiers: TIER_ORDER.map(id => ({ id, label: game.i18n.localize(`crw.npc.tierName.${id}`), selected: t.tier === id })),
-      stats: STAT_KEYS.map(key => ({ key, abbr: key.toUpperCase(), value: t.stats[key] })),
+      statRows: [entries.slice(0, 5), entries.slice(5, 10)],
       hp: t.hp,
     };
+  }
+
+  #statMax(key) {
+    return key === "body" ? 20 : 10;
   }
 
   #prepareCombat() {
@@ -256,9 +278,6 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
       case 0: {
         t.name = el.querySelector("[name='name']")?.value ?? t.name;
         t.tier = el.querySelector("[name='tier']")?.value ?? t.tier;
-        for (const key of STAT_KEYS) {
-          t.stats[key] = Number(el.querySelector(`[name='stat-${key}']`)?.value) || 0;
-        }
         t.hp = Number(el.querySelector("[name='hp']")?.value) || 0;
         t.seriousWound = Math.floor(t.hp / 2);
         t.deathSave = t.stats.body;
@@ -317,6 +336,42 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
         break;
       }
     }
+  }
+
+  static #onGoToStep(event, target) {
+    const step = Number(target.dataset.step);
+    if (!Number.isInteger(step) || step < 0 || step >= STEPS.length) return;
+    if (step === this.#currentStep) return;
+    this.#readCurrentStep();
+    this.#currentStep = step;
+    this.render(true);
+  }
+
+  static #onStatInc(event, target) {
+    const key = target.dataset.stat;
+    if (!key || !(key in this.#template.stats)) return;
+    this.#readCurrentStep();
+    if (this.#template.stats[key] < this.#statMax(key)) {
+      this.#template.stats[key]++;
+      this.render(true);
+    }
+  }
+
+  static #onStatDec(event, target) {
+    const key = target.dataset.stat;
+    if (!key || !(key in this.#template.stats)) return;
+    this.#readCurrentStep();
+    if (this.#template.stats[key] > 0) {
+      this.#template.stats[key]--;
+      this.render(true);
+    }
+  }
+
+  static #onCalcHp() {
+    this.#readCurrentStep();
+    const { body, will } = this.#template.stats;
+    this.#template.hp = 10 + 5 * Math.ceil((body + will) / 2);
+    this.render(true);
   }
 
   static #onPrevStep() {

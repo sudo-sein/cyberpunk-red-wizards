@@ -30,6 +30,7 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
       exportTemplates: NpcGeneratorApp.#onExportTemplates,
       importTemplates: NpcGeneratorApp.#onImportTemplates,
       newBlankTemplate: NpcGeneratorApp.#onNewBlankTemplate,
+      importStatblock: NpcGeneratorApp.#onImportStatblock,
     },
   };
 
@@ -416,6 +417,15 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
       const custom = getCustomTemplates();
       custom[saved.id] = saved;
       await saveCustomTemplates(custom);
+      await this.#reloadTemplates();
+      this.#state.selectedTemplateId = saved.id;
+      this.render(true);
+    });
+  }
+
+  static async #onImportStatblock() {
+    const { default: StatblockImportApp } = await import("./statblock-import-app.js");
+    StatblockImportApp.open(async (saved) => {
       await this.#reloadTemplates();
       this.#state.selectedTemplateId = saved.id;
       this.render(true);

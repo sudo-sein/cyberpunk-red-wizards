@@ -40,10 +40,13 @@ export default class StatblockImportApp extends HandlebarsApplicationMixin(Appli
     result: null,
   };
 
-  static open() {
+  #onSavedCallback = null;
+
+  static open(onSaved = null) {
     if (!StatblockImportApp.#instance) {
       StatblockImportApp.#instance = new StatblockImportApp();
     }
+    StatblockImportApp.#instance.#onSavedCallback = onSaved;
     StatblockImportApp.#instance.render(true);
   }
 
@@ -107,6 +110,7 @@ export default class StatblockImportApp extends HandlebarsApplicationMixin(Appli
     custom[t.id] = t;
     await saveCustomTemplates(custom);
     ui.notifications.info(`Template "${name}" saved.`);
+    if (this.#onSavedCallback) this.#onSavedCallback(t);
   }
 
   static async #onCreateNpc() {

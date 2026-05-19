@@ -1,3 +1,7 @@
+.crw-npc-generator-window .window-content {
+  padding: 0;
+}
+
 .crw-npc-generator {
   display: grid;
   grid-template-columns: 280px 1fr;

@@ -1,5 +1,12 @@
 <div class="crw-editor-container">
-  {{> "modules/cyberpunk-red-wizards/templates/partials/step-bar.hbs"}}
+  <nav class="crw-editor-tabs">
+    {{#each steps}}
+    <button type="button" class="crw-editor-tab {{#if (eq ../currentStep @index)}}crw-editor-tab-active{{/if}}"
+            data-action="goToStep" data-step="{{@index}}">
+      {{this.label}}
+    </button>
+    {{/each}}
+  </nav>
   <div class="crw-editor-scroll">
     {{{stepHtml}}}
   </div>
@@ -11,14 +18,15 @@
     {{else}}
     <span></span>
     {{/if}}
-    {{#if isFinalStep}}
-    <button type="button" class="crw-btn-create" data-action="save">
-      <i class="fas fa-check"></i> {{localize "crw.npc.editor.save"}}
-    </button>
-    {{else}}
-    <button type="button" class="crw-btn-next" data-action="nextStep">
-      {{localize "crw.nav.next"}} <i class="fas fa-arrow-right"></i>
-    </button>
-    {{/if}}
+    <div class="crw-editor-footer-end">
+      {{#unless isFinalStep}}
+      <button type="button" class="crw-btn-next" data-action="nextStep">
+        {{localize "crw.nav.next"}} <i class="fas fa-arrow-right"></i>
+      </button>
+      {{/unless}}
+      <button type="button" class="crw-btn-create" data-action="save">
+        <i class="fas fa-check"></i> {{localize "crw.npc.editor.save"}}
+      </button>
+    </div>
   </footer>
 </div>

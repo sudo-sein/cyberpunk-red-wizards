@@ -3,6 +3,10 @@
   color: var(--cpr-text-normal);
 }
 
+.crw-import-window .window-content {
+  padding: 0;
+}
+
 .crw-import-container {
   display: flex;
   flex-direction: column;

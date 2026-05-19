@@ -325,6 +325,7 @@
   "crw.npc.ui.exportTemplates": "Eksportuj Szablony",
   "crw.npc.ui.importTemplates": "Importuj Szablony",
   "crw.npc.ui.newBlank": "Nowy Pusty Szablon",
+  "crw.npc.ui.importStatblock": "Importuj ze Statbloku",
   "crw.npc.ui.importSummary": "Zaimportowano {imported}, pominięto {skipped} (duplikat ID), zmieniono nazwę {renamed} (kolizja nazw).",
   "crw.npc.ui.noCustomToExport": "Brak własnych szablonów do eksportu.",
 
@@ -339,6 +340,7 @@
   "crw.npc.editor.stepSkills": "Umiejętności",
   "crw.npc.editor.stepExtras": "Dodatki",
   "crw.npc.editor.armorNone": "Brak",
+  "crw.npc.editor.hpCalcHint": "Kliknij, aby obliczyć z BC i SW",
   "crw.npc.editor.noWeapons": "Nie dodano broni.",
   "crw.npc.editor.noSkills": "Nie dodano umiejętności.",
 

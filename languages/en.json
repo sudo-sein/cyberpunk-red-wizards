@@ -325,6 +325,7 @@
   "crw.npc.ui.exportTemplates": "Export Templates",
   "crw.npc.ui.importTemplates": "Import Templates",
   "crw.npc.ui.newBlank": "New Blank Template",
+  "crw.npc.ui.importStatblock": "Import from Statblock",
   "crw.npc.ui.importSummary": "Imported {imported}, skipped {skipped} (duplicate ID), renamed {renamed} (name collision).",
   "crw.npc.ui.noCustomToExport": "No custom templates to export.",
 
@@ -339,6 +340,7 @@
   "crw.npc.editor.stepSkills": "Skills",
   "crw.npc.editor.stepExtras": "Extras",
   "crw.npc.editor.armorNone": "None",
+  "crw.npc.editor.hpCalcHint": "Click to calculate from BODY and WILL",
   "crw.npc.editor.noWeapons": "No weapons added.",
   "crw.npc.editor.noSkills": "No skills added.",
 
