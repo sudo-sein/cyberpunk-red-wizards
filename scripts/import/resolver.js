@@ -88,6 +88,18 @@ export function resolveEquipmentToken(token, map) {
   const trimmed = token.trim();
   if (!trimmed) return { entries, warnings };
 
+  // "Base xN w/ Accessory" — the "with" clause names a separate item
+  // (e.g. "Cybereye x2 w/ Lowlight/Infrared/UV"). Resolve each part on its own.
+  const withParts = trimmed.split(/\s+w\/\s+/i);
+  if (withParts.length > 1) {
+    for (const part of withParts) {
+      const sub = resolveEquipmentToken(part, map);
+      entries.push(...sub.entries);
+      warnings.push(...sub.warnings);
+    }
+    return { entries: dedupeByItem(entries), warnings };
+  }
+
   // "Base (opts) xN" — a quantity may trail the parenthetical. Pull it off so
   // the paren expansion can run, and apply it to the base item.
   let core = trimmed;

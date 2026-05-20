@@ -16,6 +16,7 @@
     "Local Expert": "Local Expert",
     "Melee Weapon": "Melee Weapon",
     "Melee Weapons": "Melee Weapon",
+    "Martial Arts": "Martial Arts",
     "Perception": "Perception",
     "Persuasion": "Persuasion",
     "Resist Torture/Drug": "Resist Torture/Drugs",
@@ -62,6 +63,8 @@
     "Very Heavy Melee Weapon": "Very Heavy Melee",
     "Brawling": "Unarmed",
     "Unarmed": "Unarmed",
+    "Martial Arts": "Martial Arts",
+    "Martial Arts Strike": "Martial Arts",
     "Shotgun": "Shotgun",
     "Assault Rifle": "Assault Rifle",
     "Rippers": "Rippers",
@@ -116,6 +119,9 @@
     "Anti-Dazzle": { "packName": "core_cyberware", "itemName": "Anti-Dazzle" },
     "Cybereye": { "packName": "core_cyberware", "itemName": "Cybereye" },
     "Cybereyes": { "packName": "core_cyberware", "itemName": "Cybereye" },
+    "Sandevistan": { "packName": "core_cyberware", "itemName": "Sandevistan" },
+    "Low Light/IR/UV": { "packName": "core_cyberware", "itemName": "Low Light/IR/UV" },
+    "Lowlight/Infrared/UV": { "packName": "core_cyberware", "itemName": "Low Light/IR/UV" },
     "Targeting Scope": { "packName": "core_cyberware", "itemName": "Targeting Scope" },
     "TeleOptics": { "packName": "core_cyberware", "itemName": "TeleOptics" },
     "Techhair": { "packName": "core_cyberware", "itemName": "Techhair" },
@@ -153,10 +159,12 @@
     "Incendiary Grenade": { "packName": "core_ammo", "itemName": "Grenade (Incendiary)" },
     "Flashbang Grenade": { "packName": "core_ammo", "itemName": "Grenade (Flashbang)" },
     "Teargas Grenade": { "packName": "core_ammo", "itemName": "Grenade (Teargas)" },
+    "Smoke Grenade": { "packName": "core_ammo", "itemName": "Grenade (Smoke)" },
     "Armor Piercing Grenade": { "packName": "core_ammo", "itemName": "Grenade (Armor-Piercing)" }
   },
   "qualityPrefixes": {
     "Poor Quality": "poor",
+    "Excellent Quality": "excellent",
     "Excellent": "excellent"
   },
   "sectionHeaders": {

@@ -20,6 +20,8 @@ const map = {
     "Cyberarm": { packName: "core_cyberware", itemName: "Cyberarm" },
     "Binoculars": { packName: "core_gear", itemName: "Binoculars" },
     "Bulletproof Shield": { packName: "core_armor", itemName: "Bullet Proof Shield" },
+    "Cybereye": { packName: "core_cyberware", itemName: "Cybereye" },
+    "Lowlight/Infrared/UV": { packName: "core_cyberware", itemName: "Low Light/IR/UV" },
   },
 };
 
@@ -93,6 +95,12 @@ test("resolveEquipmentToken Base (clarifier) xN applies qty to base and dedupes"
   const m = { ...map, ammo: { ...map.ammo, "Flamethrower Ammo": { packName: "core_ammo", itemName: "Shotgun Shell (Incendiary)" }, "Incendiary Shotgun Shells": { packName: "core_ammo", itemName: "Shotgun Shell (Incendiary)" } } };
   eq(resolveEquipmentToken("Flamethrower Ammo (Incendiary Shotgun Shells) x8", m).entries,
      [{ packName: "core_ammo", itemName: "Shotgun Shell (Incendiary)", quantity: 8 }]);
+});
+test("resolveEquipmentToken splits 'w/' clause into base + accessory", () => {
+  eq(resolveEquipmentToken("Cybereye x2 w/ Lowlight/Infrared/UV", map).entries, [
+    { packName: "core_cyberware", itemName: "Cybereye", quantity: 2 },
+    { packName: "core_cyberware", itemName: "Low Light/IR/UV", quantity: 1 },
+  ]);
 });
 test("addCyberware dedups by itemName", () => {
   const list = [];
