@@ -6,6 +6,6 @@
   "packageManager": "pnpm@11.1.2",
   "description": "Dev tooling for the cyberpunk-red-wizards Foundry module (tests only; not published).",
   "scripts": {
-    "test": "node --test --import ./test/setup.mjs test/"
+    "test": "node --test --import ./test/setup.mjs \"test/**/*.test.mjs\""
   }
 }
