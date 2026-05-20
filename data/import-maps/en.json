@@ -115,6 +115,7 @@
     "Level Damper": { "packName": "core_cyberware", "itemName": "Level Damper" },
     "Anti-Dazzle": { "packName": "core_cyberware", "itemName": "Anti-Dazzle" },
     "Cybereye": { "packName": "core_cyberware", "itemName": "Cybereye" },
+    "Cybereyes": { "packName": "core_cyberware", "itemName": "Cybereye" },
     "Targeting Scope": { "packName": "core_cyberware", "itemName": "Targeting Scope" },
     "TeleOptics": { "packName": "core_cyberware", "itemName": "TeleOptics" },
     "Techhair": { "packName": "core_cyberware", "itemName": "Techhair" },
@@ -142,6 +143,7 @@
     "Very Heavy Pistol Ammo": { "packName": "core_ammo", "itemName": "Very Heavy Pistol (Basic)" },
     "VH Pistol Ammo": { "packName": "core_ammo", "itemName": "Very Heavy Pistol (Basic)" },
     "Heavy Pistol Ammo": { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)" },
+    "Pistol Ammo": { "packName": "core_ammo", "itemName": "Medium Pistol (Basic)" },
     "H Pistol Ammo": { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)" },
     "Rifle Ammo": { "packName": "core_ammo", "itemName": "Rifle (Basic)" },
     "Rifle": { "packName": "core_ammo", "itemName": "Rifle (Basic)" },
@@ -150,6 +152,7 @@
     "Incendiary Shotgun Shells": { "packName": "core_ammo", "itemName": "Shotgun Shell (Incendiary)" },
     "Incendiary Grenade": { "packName": "core_ammo", "itemName": "Grenade (Incendiary)" },
     "Flashbang Grenade": { "packName": "core_ammo", "itemName": "Grenade (Flashbang)" },
+    "Teargas Grenade": { "packName": "core_ammo", "itemName": "Grenade (Teargas)" },
     "Armor Piercing Grenade": { "packName": "core_ammo", "itemName": "Grenade (Armor-Piercing)" }
   },
   "qualityPrefixes": {
