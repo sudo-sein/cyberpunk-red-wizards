@@ -3,10 +3,10 @@ import { fetchCompendiumItem } from "../data/role-loader.js";
 const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
 
 export async function createNpcFromTemplate(template, overrides = {}) {
-  const name = overrides.name || game.i18n.localize(template.nameKey);
+  const name = overrides.name || template.name || game.i18n.localize(template.nameKey);
   const actorType = overrides.actorType || "mook";
 
-  const isEveryday = template.tier === "everyday-people";
+  const isEveryday = false;
 
   const ActorClass = getDocumentClass("Actor");
 
@@ -54,19 +54,30 @@ export async function createNpcFromTemplate(template, overrides = {}) {
     "system.derivedStats.hp.max": template.hp,
   });
 
-  // Update auto-populated skill levels
-  for (const skill of template.skills) {
-    const statKey = findStatForSkill(skill.name, actor);
-    const statValue = overrides.stats?.[statKey] ?? template.stats[statKey] ?? 0;
-    const level = Math.max(0, skill.base - statValue);
-    const skillItem = actor.items.getName(skill.name);
-    if (skillItem) {
-      await skillItem.update({ "system.level": level });
-    }
-  }
-
   // Collect all items to add in one batch
   const itemsToCreate = [];
+
+  // Skills: update levels for auto-populated skills; create specialty skills
+  // (Martial Arts/Science/etc.) from their dedicated packs, since those are
+  // not auto-populated on the actor.
+  for (const skill of template.skills) {
+    const skillItem = actor.items.getName(skill.name);
+    if (skillItem) {
+      const statKey = skillItem.system?.stat ?? "int";
+      const statValue = overrides.stats?.[statKey] ?? template.stats[statKey] ?? 0;
+      await skillItem.update({ "system.level": Math.max(0, skill.base - statValue) });
+      continue;
+    }
+    const packName = specialtySkillPack(skill.name);
+    if (!packName) continue;
+    const item = await fetchCompendiumItem(packName, skill.name);
+    if (!item) continue;
+    const data = item.toObject();
+    const statKey = data.system?.stat ?? "int";
+    const statValue = overrides.stats?.[statKey] ?? template.stats[statKey] ?? 0;
+    data.system.level = Math.max(0, skill.base - statValue);
+    itemsToCreate.push(data);
+  }
 
   // Armor (skip entries without packName — SP may come from cyberware)
   if (template.armor.head?.packName) {
@@ -128,7 +139,7 @@ export async function createNpcFromTemplate(template, overrides = {}) {
     const roleItem = await fetchCompendiumItem(template.role.packName, template.role.itemName);
     if (roleItem) {
       const roleData = roleItem.toObject();
-      roleData.system.rank = template.role.rank;
+      if (template.role.rank != null) roleData.system.rank = template.role.rank;
       itemsToCreate.push(roleData);
     }
   }
@@ -163,8 +174,15 @@ function resolveAlternative(slot, overrides, key) {
   return slot.alternatives[idx] ?? slot;
 }
 
-function findStatForSkill(skillName, actor) {
-  const skillItem = actor.items.getName(skillName);
-  if (skillItem) return skillItem.system?.stat ?? "int";
-  return "int";
+// Specialty skills are not auto-populated on the actor; map a parsed skill name
+// to the compendium pack it lives in so the factory can create it. Returns null
+// for ordinary (auto-populated) skills. "Local Expert (Your Home)" and
+// "Language (Streetslang)" are auto-populated and resolve before reaching here.
+function specialtySkillPack(name) {
+  if (name.startsWith("Martial Arts (")) return "core_skills-martial-arts";
+  if (name.startsWith("Science (")) return "core_skills-science";
+  if (name.startsWith("Play Instrument (")) return "core_skills-play-instrument";
+  if (name.startsWith("Local Expert (")) return "core_skills-local-expert";
+  if (name.startsWith("Language (")) return "core_skills-languages";
+  return null;
 }

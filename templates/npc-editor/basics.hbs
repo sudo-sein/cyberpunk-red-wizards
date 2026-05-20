@@ -1,0 +1,41 @@
+<div class="crw-editor-step">
+  <div class="crw-editor-row">
+    <div class="crw-editor-field" style="flex:2">
+      <label class="crw-label">{{localize "crw.npc.editor.name"}}</label>
+      <input type="text" name="name" class="crw-input" value="{{name}}" />
+    </div>
+    <div class="crw-editor-field" style="flex:0 0 80px;">
+      <label class="crw-label crw-editor-clickable-label" data-action="calcHp" title="{{localize "crw.npc.editor.hpCalcHint"}}">{{localize "crw.npc.ui.hp"}}</label>
+      <input type="number" name="hp" class="crw-input" value="{{hp}}" min="1" />
+    </div>
+    <div class="crw-editor-field" style="flex:1">
+      <label class="crw-label">{{localize "crw.npc.editor.tier"}}</label>
+      <select name="tier" class="crw-input">
+        {{#each tiers}}
+        <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+
+  <div class="crw-category-title">{{localize "crw.npc.ui.stats"}}</div>
+  <table class="crw-editor-stat-table">
+    <tbody>
+      {{#each statRows}}
+      <tr class="crw-editor-stat-label-row">
+        {{#each this}}<td>{{abbr}}</td>{{/each}}
+      </tr>
+      <tr class="crw-editor-stat-value-row">
+        {{#each this}}<td>
+          <div class="crw-editor-stat-control">
+            <button type="button" class="crw-stat-btn" data-action="statDec" data-stat="{{key}}">&minus;</button>
+            <span class="crw-editor-stat-num">{{value}}</span>
+            <button type="button" class="crw-stat-btn" data-action="statInc" data-stat="{{key}}">+</button>
+          </div>
+        </td>{{/each}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+</div>

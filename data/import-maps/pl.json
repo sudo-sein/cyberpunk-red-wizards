@@ -1,0 +1,79 @@
+{
+  "skills": {
+    "Atletyka": "Athletics",
+    "Bijatyka": "Brawling",
+    "Broń długa": "Shoulder Arms",
+    "Broń krótka": "Handgun",
+    "Broń biała": "Melee Weapon",
+    "Koncentracja": "Concentration",
+    "Konwersacja": "Conversation",
+    "Odczytywanie emocji": "Human Perception",
+    "Odporność na tortury/narkotyki": "Resist Torture/Drugs",
+    "Percepcja": "Perception",
+    "Perswazja": "Persuasion",
+    "Pierwsza pomoc": "First Aid",
+    "Prowadzenie pojazdów": "Drive Land Vehicle",
+    "Język": "Language",
+    "Przesłuchiwanie": "Interrogation",
+    "Skradanie się": "Stealth",
+    "Unik": "Evasion",
+    "Wiedza lokalna": "Local Expert",
+    "Wykształcenie": "Education",
+    "Wytrwałość": "Endurance",
+    "Taktyka": "Tactics",
+    "Ukrycie/znalezienie przedmiotu": "Conceal/Reveal Object"
+  },
+  "weapons": {
+    "Bardzo ciężki pistolet": "Very Heavy Pistol",
+    "B.C. Pistolet": "Very Heavy Pistol",
+    "Ciężki pistolet": "Heavy Pistol",
+    "Strzelba": "Shotgun",
+    "Karabin szturmowy": "Assault Rifle",
+    "Lekka broń biała": "Light Melee",
+    "Średnia broń biała": "Medium Melee",
+    "Duża broń biała": "Heavy Melee",
+    "Bardzo duża broń biała": "Very Heavy Melee",
+    "Bijatyka": "Unarmed",
+    "Gołe pięści": "Unarmed",
+    "Rozpruwacze": "Rippers"
+  },
+  "cyberwareWeapons": ["Rippers", "Wolvers", "Big Knucks", "Scratchers", "Slice 'N Dice", "Vampyres"],
+  "weaponUpgrades": {},
+  "armor": {
+    "Kevlar": { "head": "Kevlar® (Head)", "body": "Kevlar® (Body)", "sp": 7 },
+    "Skóry": { "head": "Leathers (Head)", "body": "Leathers (Body)", "sp": 4 }
+  },
+  "equipment": {
+    "Radiokomunikator": { "packName": "core_gear", "itemName": "Radio Communicator" },
+    "Jednorazowy telefon komórkowy": { "packName": "core_gear", "itemName": "Disposable Cell Phone" },
+    "Techfryz": { "packName": "core_cyberware", "itemName": "Techhair" }
+  },
+  "ammo": {
+    "Amunicja do strzelby (breneka)": { "packName": "core_ammo", "itemName": "Shotgun Slug (Basic)" },
+    "amunicja do Bardzo Ciężkiego Pistoletu": { "packName": "core_ammo", "itemName": "Very Heavy Pistol (Basic)" },
+    "B.C. Pistolet Amunicja": { "packName": "core_ammo", "itemName": "Very Heavy Pistol (Basic)" }
+  },
+  "qualityPrefixes": {
+    "niskiej jakości": "poor",
+    "Niskiej jakości": "poor",
+    "doskonały": "excellent",
+    "Doskonały": "excellent"
+  },
+  "sectionHeaders": {
+    "stats": "INT ▶ REF ▶ ZW ▶ TECH ▶ CHA",
+    "hp": "▶ Punkty Wytrzymałości",
+    "armor": "Pancerz:",
+    "weapons": "Uzbrojenie",
+    "skills": "▶ Bazy",
+    "equipment": "▶ Cyborgizacje oraz wyp. spec."
+  },
+  "roleAbilities": {},
+  "popupWeapons": {},
+  "labels": {
+    "junkArmorMarker": "▶ Pancerz",
+    "armorKeyword": "Pancerz:",
+    "weaponsKeyword": "Uzbrojenie",
+    "headSp": "Głowa\\s+OB\\s+(\\d+)",
+    "bodySp": "Ciało\\s+OB\\s+(\\d+)"
+  }
+}

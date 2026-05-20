@@ -1,0 +1,39 @@
+{
+  "id": "chrome-sentinel",
+  "name": "Chrome Sentinel",
+  "nameKey": null,
+  "tier": "mini-boss",
+  "source": "imported",
+  "stats": { "int": 6, "ref": 8, "dex": 7, "tech": 4, "cool": 7, "will": 6, "luck": 4, "move": 6, "body": 7, "emp": 5 },
+  "hp": 45,
+  "seriousWound": 23,
+  "deathSave": 6,
+  "armor": {
+    "head": { "name": "M Armorjack", "sp": 13, "packName": "core_armor", "itemName": "Medium Armorjack (Head)" },
+    "body": { "name": "M Armorjack", "sp": 13, "packName": "core_armor", "itemName": "Medium Armorjack (Body)" }
+  },
+  "weapons": [
+    { "packName": "core_weapons", "itemName": "Heavy SMG", "quality": "standard", "damage": "4d6" },
+    { "packName": "core_weapons", "itemName": "Assault Rifle", "quality": "standard", "damage": "5d6" }
+  ],
+  "skills": [
+    { "name": "Athletics", "base": 14 },
+    { "name": "Autofire", "base": 14 },
+    { "name": "Brawling", "base": 12 },
+    { "name": "Handgun", "base": 14 },
+    { "name": "Melee Weapon", "base": 12 },
+    { "name": "Perception", "base": 12 }
+  ],
+  "equipment": [
+    { "packName": "core_ammo", "itemName": "Rifle (Basic)", "quantity": 40 },
+    { "packName": "core_gear", "itemName": "Flashlight", "quantity": 1 }
+  ],
+  "cyberware": [
+    { "packName": "core_cyberware", "itemName": "Wolvers" },
+    { "packName": "core_cyberware", "itemName": "Popup Ranged Weapon" },
+    { "packName": "core_cyberware", "itemName": "Neural Link" },
+    { "packName": "core_cyberware", "itemName": "Kerenzikov" },
+    { "packName": "core_cyberware", "itemName": "Cyberaudio Suite" }
+  ],
+  "role": { "packName": "core_roles", "itemName": "Solo", "rank": 5 }
+}

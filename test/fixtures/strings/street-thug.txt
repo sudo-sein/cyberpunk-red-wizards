@@ -1,0 +1,11 @@
+▶ INT ▶ REF ▶ DEX ▶ TECH ▶ COOL 4 6 5 3 5
+4 3 6 5 6
+▶ Hit Points ▶ Seriously Wounded ▶ Death Save 30 15 5
+Armor: L Armorjack
+Head 11 SP
+Body 11 SP
+Weapons
+Heavy Pistol 3d6
+Medium Melee 2d6
+▶ Skill Bases Athletics 12, Brawling 12, Handgun 14, Melee Weapon 12, Perception 10, Stealth 10
+▶ Cyberware & Special Equipment Heavy Pistol Ammo x30, Flashlight, Handcuffs x2

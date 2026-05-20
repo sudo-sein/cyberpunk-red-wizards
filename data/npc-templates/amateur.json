@@ -1,0 +1,31 @@
+[
+  {
+    "id": "amateur",
+    "nameKey": "crw.npc.amateur",
+    "tier": "amateur",
+    "source": "built-in",
+    "stats": { "int": 4, "ref": 5, "dex": 4, "tech": 4, "cool": 4, "will": 4, "luck": 0, "move": 5, "body": 4, "emp": 4 },
+    "hp": 20,
+    "seriousWound": 10,
+    "deathSave": 4,
+    "armor": {
+      "head": { "name": "Leathers", "sp": 4, "packName": "core_armor", "itemName": "Leathers (Head)" },
+      "body": { "name": "Leathers", "sp": 4, "packName": "core_armor", "itemName": "Leathers (Body)" }
+    },
+    "weapons": [
+      { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "standard", "damage": "3d6" }
+    ],
+    "skills": [
+      { "name": "Athletics", "base": 8 },
+      { "name": "Brawling", "base": 8 },
+      { "name": "Evasion", "base": 8 },
+      { "name": "Handgun", "base": 8 },
+      { "name": "Perception", "base": 6 },
+      { "name": "Endurance", "base": 6 },
+      { "name": "Stealth", "base": 6 }
+    ],
+    "equipment": [],
+    "cyberware": [],
+    "role": null
+  }
+]

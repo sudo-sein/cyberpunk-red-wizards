@@ -4,7 +4,6 @@ import { initSocket } from "./store/store-socket.js";
 import { initCreatorSocket } from "./creator/creator-socket.js";
 import StoreApp from "./app/store-app.js";
 import StorePackConfig from "./app/store-pack-config.js";
-
 const MODULE_ID = "cyberpunk-red-wizards";
 
 Hooks.once("init", () => {
@@ -15,6 +14,10 @@ Hooks.once("init", () => {
   loadTemplates([
     "modules/cyberpunk-red-wizards/templates/partials/step-bar.hbs",
     "modules/cyberpunk-red-wizards/templates/partials/skill-row.hbs",
+    "modules/cyberpunk-red-wizards/templates/npc-editor/basics.hbs",
+    "modules/cyberpunk-red-wizards/templates/npc-editor/combat.hbs",
+    "modules/cyberpunk-red-wizards/templates/npc-editor/skills.hbs",
+    "modules/cyberpunk-red-wizards/templates/npc-editor/extras.hbs",
   ]);
 
   game.settings.register(MODULE_ID, "defaultMethod", {
@@ -70,6 +73,13 @@ Hooks.once("init", () => {
     icon: "fas fa-boxes-stacked",
     type: StorePackConfig,
     restricted: true,
+  });
+
+  game.settings.register(MODULE_ID, "customNpcTemplates", {
+    scope: "world",
+    config: false,
+    type: Object,
+    default: {},
   });
 });
 

@@ -1,0 +1,42 @@
+<div class="crw-editor-step">
+  <div class="crw-category-title">
+    {{localize "crw.npc.ui.equipment"}}
+    <button type="button" class="crw-editor-add-btn" data-action="addEquip"><i class="fas fa-plus"></i></button>
+  </div>
+  {{#each equipment}}
+  <div class="crw-editor-equip-row crw-editor-list-row">
+    <select name="equip-{{@index}}" class="crw-input">
+      {{#each this.options}}
+      <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+      {{/each}}
+    </select>
+    <input type="number" name="equipQty-{{@index}}" class="crw-input crw-editor-sm" value="{{this.quantity}}" min="1" />
+    <button type="button" class="crw-editor-remove-btn" data-action="removeEquip" data-index="{{@index}}"><i class="fas fa-times"></i></button>
+  </div>
+  {{/each}}
+
+  <div class="crw-category-title">
+    {{localize "crw.npc.ui.cyberware"}}
+    <button type="button" class="crw-editor-add-btn" data-action="addCyber"><i class="fas fa-plus"></i></button>
+  </div>
+  {{#each cyberware}}
+  <div class="crw-editor-cyber-row crw-editor-list-row">
+    <select name="cyber-{{@index}}" class="crw-input">
+      {{#each this.options}}
+      <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+      {{/each}}
+    </select>
+    <button type="button" class="crw-editor-remove-btn" data-action="removeCyber" data-index="{{@index}}"><i class="fas fa-times"></i></button>
+  </div>
+  {{/each}}
+
+  <div class="crw-category-title">{{localize "crw.npc.ui.role"}}</div>
+  <div class="crw-editor-list-row">
+    <select name="role" class="crw-input">
+      {{#each roleOptions}}
+      <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+      {{/each}}
+    </select>
+    <input type="number" name="roleRank" class="crw-input crw-editor-sm" value="{{roleRank}}" min="0" max="10" placeholder="{{localize "crw.npc.editor.roleRank"}}" />
+  </div>
+</div>
