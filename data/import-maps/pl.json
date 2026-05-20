@@ -12,7 +12,8 @@
     "Percepcja": "Perception",
     "Perswazja": "Persuasion",
     "Pierwsza pomoc": "First Aid",
-    "Prowadzenie pojazdów": "Land Vehicle",
+    "Prowadzenie pojazdów": "Drive Land Vehicle",
+    "Język": "Language",
     "Przesłuchiwanie": "Interrogation",
     "Skradanie się": "Stealth",
     "Unik": "Evasion",
@@ -29,6 +30,7 @@
     "Karabin szturmowy": "Assault Rifle",
     "Rozpruwacze": "Rippers"
   },
+  "cyberwareWeapons": ["Rippers", "Wolvers", "Big Knucks", "Scratchers", "Slice 'N Dice", "Vampyres"],
   "armor": {
     "Kevlar": { "head": "Kevlar® (Head)", "body": "Kevlar® (Body)", "sp": 7 },
     "Skóry": { "head": "Leathers (Head)", "body": "Leathers (Body)", "sp": 4 }
@@ -56,5 +58,14 @@
     "weapons": "Uzbrojenie",
     "skills": "▶ Bazy",
     "equipment": "▶ Cyborgizacje oraz wyp. spec."
+  },
+  "roleAbilities": {},
+  "popupWeapons": {},
+  "labels": {
+    "junkArmorMarker": "▶ Pancerz",
+    "armorKeyword": "Pancerz:",
+    "weaponsKeyword": "Uzbrojenie",
+    "headSp": "Głowa\\s+OB\\s+(\\d+)",
+    "bodySp": "Ciało\\s+OB\\s+(\\d+)"
   }
 }

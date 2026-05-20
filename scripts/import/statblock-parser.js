@@ -1,3 +1,10 @@
+import { normalize } from "./normalize.js";
+import { sectionize } from "./sectionizer.js";
+import {
+  parseStats, parseVitals, parseArmor, parseWeapons, parseSkills, parseEquipment,
+} from "./parse-sections.js";
+import { addCyberware } from "./resolver.js";
+
 const MODULE_PATH = "modules/cyberpunk-red-wizards";
 
 let mapCache = {};
@@ -13,9 +20,6 @@ async function loadMap(language) {
 
 export async function parseStatblock(text, language = "en") {
   const map = await loadMap(language);
-  const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
-  const errors = [];
-  const warnings = [];
 
   const template = {
     id: foundry.utils.randomID(),
@@ -36,220 +40,54 @@ export async function parseStatblock(text, language = "en") {
     role: null,
   };
 
-  const fullText = lines.join("\n");
-  const headers = map.sectionHeaders;
+  const errors = [];
+  const warnings = [];
 
-  // Parse stats
-  const statsIdx = fullText.indexOf(headers.stats);
-  if (statsIdx !== -1) {
-    const afterStats = fullText.slice(statsIdx + headers.stats.length);
-    const nums = afterStats.match(/[\d]+/g);
-    if (nums && nums.length >= 10) {
-      const n = nums.map(Number);
-      template.stats = { int: n[0], ref: n[1], dex: n[2], tech: n[3], cool: n[4], will: n[5], luck: 0, move: n[7], body: n[8], emp: n[9] };
-    } else if (nums && nums.length >= 5) {
-      const n = nums.map(Number);
-      template.stats.int = n[0]; template.stats.ref = n[1]; template.stats.dex = n[2]; template.stats.tech = n[3]; template.stats.cool = n[4];
-      errors.push({ section: "stats", message: `Only parsed ${nums.length} stats, expected 10` });
-    }
-  }
+  const { lines, warnings: normWarnings } = normalize(text, map);
+  warnings.push(...normWarnings);
 
-  // Parse HP
-  const hpIdx = fullText.indexOf(headers.hp);
-  if (hpIdx !== -1) {
-    const afterHp = fullText.slice(hpIdx + headers.hp.length);
-    const nums = afterHp.match(/[\d]+/g);
-    if (nums && nums.length >= 3) {
-      template.hp = Number(nums[0]);
-      template.seriousWound = Number(nums[1]);
-      template.deathSave = Number(nums[2]);
-    }
-  }
+  const sections = sectionize(lines, map);
 
-  // Parse armor blocks (may have multiple = alternatives)
-  const armorKeyword = language === "pl" ? "Pancerz:" : "Armor:";
-  const headSpRegex = language === "pl" ? /Głowa\s+OB\s+(\d+)/i : /Head\s+(\d+)\s*SP/i;
-  const bodySpRegex = language === "pl" ? /Ciało\s+OB\s+(\d+)/i : /Body\s+(\d+)\s*SP/i;
+  const statsResult = parseStats(sections.stats);
+  template.stats = statsResult.stats;
+  warnings.push(...statsResult.warnings);
 
-  const armorSections = [];
-  let searchFrom = 0;
-  while (true) {
-    const idx = fullText.indexOf(armorKeyword, searchFrom);
-    if (idx === -1) break;
-    const nextSection = findNextSectionStart(fullText, idx + armorKeyword.length, headers);
-    const block = fullText.slice(idx, nextSection === -1 ? undefined : nextSection);
-    armorSections.push(block);
-    searchFrom = idx + armorKeyword.length;
-  }
+  const vitals = parseVitals(sections.vitals);
+  template.hp = vitals.hp;
+  template.seriousWound = vitals.seriousWound;
+  template.deathSave = vitals.deathSave;
 
-  for (let i = 0; i < armorSections.length; i++) {
-    const block = armorSections[i];
-    const armorNameMatch = block.match(language === "pl" ? /Pancerz:\s*(.+)/ : /Armor:\s*(.+)/);
-    const armorName = armorNameMatch ? armorNameMatch[1].trim() : "Unknown";
-    const headMatch = block.match(headSpRegex);
-    const bodyMatch = block.match(bodySpRegex);
-    const headSp = headMatch ? Number(headMatch[1]) : 0;
-    const bodySp = bodyMatch ? Number(bodyMatch[1]) : 0;
+  const armor = parseArmor(sections.armor, map);
+  template.armor = armor;
 
-    const mapped = map.armor[armorName] ?? map.armor[armorName.replace("®", "")];
-    const headItem = mapped ? mapped.head : armorName;
-    const bodyItem = mapped ? mapped.body : armorName;
-    const packName = "core_armor";
+  const weaponsResult = parseWeapons(sections.weapons, map);
+  template.weapons = weaponsResult.weapons;
+  template.weaponAlternatives = weaponsResult.weaponAlternatives;
+  errors.push(...weaponsResult.errors);
 
-    const entry = {
-      head: { name: armorName, sp: headSp, packName, itemName: headItem },
-      body: { name: armorName, sp: bodySp, packName, itemName: bodyItem },
-    };
+  const cyberware = [];
+  for (const c of weaponsResult.cyberware) addCyberware(cyberware, c.packName, c.itemName);
 
-    if (i === 0) {
-      template.armor.head = entry.head;
-      template.armor.body = entry.body;
-    } else {
-      template.armor.alternatives.push(entry);
-    }
-  }
+  const skillsResult = parseSkills(sections.skills, map);
+  template.skills = skillsResult.skills;
+  template.role = skillsResult.role;
+  warnings.push(...skillsResult.warnings);
 
-  // Parse weapon blocks (may have multiple after each Armor block)
-  const weaponKeyword = language === "pl" ? "Uzbrojenie" : "Weapons";
-  const weaponGroups = [];
-  searchFrom = 0;
-  while (true) {
-    const idx = fullText.indexOf(weaponKeyword, searchFrom);
-    if (idx === -1) break;
-    const nextSection = findNextSectionStart(fullText, idx + weaponKeyword.length, headers);
-    const block = fullText.slice(idx + weaponKeyword.length, nextSection === -1 ? undefined : nextSection).trim();
-    const weaponLines = block.split("\n").map(l => l.trim()).filter(l => l.length > 0 && !l.startsWith("▶") && !l.includes(armorKeyword));
-    const parsed = weaponLines.map(line => parseWeaponLine(line, map, errors)).filter(Boolean);
-    weaponGroups.push(parsed);
-    searchFrom = idx + weaponKeyword.length;
-  }
+  const equipResult = parseEquipment(sections.equipment, map);
+  template.equipment = equipResult.equipment;
+  for (const c of equipResult.cyberware) addCyberware(cyberware, c.packName, c.itemName);
+  warnings.push(...equipResult.warnings);
 
-  if (weaponGroups.length > 0) template.weapons = weaponGroups[0];
-  for (let i = 1; i < weaponGroups.length; i++) {
-    template.weaponAlternatives.push(weaponGroups[i]);
-  }
-
-  // Parse skills
-  const skillsIdx = fullText.indexOf(headers.skills);
-  if (skillsIdx !== -1) {
-    const nextSection = findNextSectionStart(fullText, skillsIdx + headers.skills.length, headers);
-    const skillText = fullText.slice(skillsIdx + headers.skills.length, nextSection === -1 ? undefined : nextSection);
-    const cleaned = skillText.replace(/umiejętności\s*/i, "").replace(/\n/g, " ").trim();
-    const pairs = cleaned.split(/,\s*/);
-    for (const pair of pairs) {
-      const match = pair.trim().match(/^(.+?)\s+(\d+)$/);
-      if (!match) continue;
-      let skillName = match[1].trim();
-      const base = Number(match[2]);
-      const mapped = map.skills[skillName];
-      if (mapped) {
-        skillName = mapped;
-      } else {
-        const lower = skillName.toLowerCase();
-        const found = Object.entries(map.skills).find(([k]) => k.toLowerCase() === lower);
-        if (found) {
-          skillName = found[1];
-        } else {
-          warnings.push({ section: "skills", message: `Unknown skill: "${skillName}" — kept as-is` });
-        }
-      }
-      template.skills.push({ name: skillName, base });
-    }
-  }
-
-  // Parse equipment/cyberware
-  const equipIdx = fullText.indexOf(headers.equipment);
-  if (equipIdx !== -1) {
-    const equipText = fullText.slice(equipIdx + headers.equipment.length).trim();
-    const items = equipText.split(/,\s*/);
-    for (const item of items) {
-      const trimmed = item.trim();
-      if (!trimmed) continue;
-      const qtyMatch = trimmed.match(/^(.+?)\s+x\s*(\d+)$/i) || trimmed.match(/^(.+?)\s*x(\d+)$/i);
-      let name = qtyMatch ? qtyMatch[1].trim() : trimmed;
-      const qty = qtyMatch ? Number(qtyMatch[2]) : 1;
-
-      const ammoEntry = map.ammo?.[name];
-      if (ammoEntry) {
-        template.equipment.push({ ...ammoEntry, quantity: qty });
-        continue;
-      }
-
-      const equipEntry = map.equipment?.[name];
-      if (equipEntry) {
-        if (equipEntry.packName === "core_cyberware") {
-          template.cyberware.push({ packName: equipEntry.packName, itemName: equipEntry.itemName });
-        } else {
-          template.equipment.push({ ...equipEntry, quantity: qty });
-        }
-        continue;
-      }
-
-      const weaponEntry = map.weapons?.[name];
-      if (weaponEntry) {
-        template.cyberware.push({ packName: "core_cyberware", itemName: weaponEntry });
-        continue;
-      }
-
-      warnings.push({ section: "equipment", message: `Unknown item: "${name}" — skipped` });
-    }
-  }
-
-  // Auto-detect tier from HP
-  if (template.hp <= 25) template.tier = "amateur";
-  else if (template.hp <= 35) template.tier = "competent";
-  else if (template.hp <= 40) template.tier = "elite";
-  else if (template.hp <= 55) template.tier = "mini-boss";
-  else template.tier = "nightmare-boss";
+  template.cyberware = cyberware;
+  template.tier = deriveTier(template.hp);
 
   return { template, errors, warnings };
 }
 
-function parseWeaponLine(line, map, errors) {
-  let quality = "standard";
-  let cleaned = line;
-
-  for (const [prefix, q] of Object.entries(map.qualityPrefixes)) {
-    if (cleaned.toLowerCase().startsWith(prefix.toLowerCase())) {
-      quality = q;
-      cleaned = cleaned.slice(prefix.length).trim();
-      break;
-    }
-  }
-
-  const dmgMatch = cleaned.match(/(\d+d\d+)/);
-  const damage = dmgMatch ? dmgMatch[1] : "";
-  let weaponName = cleaned.replace(/\d+d\d+/, "").replace(/\d+k\d+/, "").trim();
-
-  const mapped = map.weapons[weaponName];
-  if (mapped) {
-    weaponName = mapped;
-  } else {
-    const lower = weaponName.toLowerCase();
-    const found = Object.entries(map.weapons).find(([k]) => k.toLowerCase() === lower);
-    if (found) {
-      weaponName = found[1];
-    } else if (weaponName) {
-      errors.push({ section: "weapons", message: `Unknown weapon: "${weaponName}"` });
-    }
-  }
-
-  if (!weaponName) return null;
-  return { packName: "core_weapons", itemName: weaponName, quality, damage };
-}
-
-function findNextSectionStart(text, fromIdx, headers) {
-  let earliest = -1;
-  for (const key of Object.keys(headers)) {
-    const header = headers[key];
-    const idx = text.indexOf(header, fromIdx);
-    if (idx !== -1 && (earliest === -1 || idx < earliest)) {
-      earliest = idx;
-    }
-  }
-  const sepIdx = text.indexOf("----", fromIdx);
-  if (sepIdx !== -1 && (earliest === -1 || sepIdx < earliest)) {
-    earliest = sepIdx;
-  }
-  return earliest;
+function deriveTier(hp) {
+  if (hp <= 25) return "amateur";
+  if (hp <= 35) return "competent";
+  if (hp <= 40) return "elite";
+  if (hp <= 55) return "mini-boss";
+  return "nightmare-boss";
 }
