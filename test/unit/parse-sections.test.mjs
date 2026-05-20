@@ -1,12 +1,12 @@
 import { test } from "node:test";
 import { deepStrictEqual as eq } from "node:assert/strict";
 import {
-  parseStats, parseVitals, parseArmor, parseWeapons, parseSkills, parseEquipment,
+  parseStats, parseVitals, parseArmor, parseWeapons, parseSkills, parseEquipment, parseRoleAbility,
 } from "../../scripts/import/parse-sections.js";
 
 const map = {
   labels: { armorKeyword: "Armor:", headSp: "Head\\s+(\\d+)\\s*SP", bodySp: "Body\\s+(\\d+)\\s*SP" },
-  sectionHeaders: { skills: "▶ Skill Bases", equipment: "▶ Cyberware & Special Equipment" },
+  sectionHeaders: { skills: "▶ Skill Bases", roleAbility: "▶ Role Ability", equipment: "▶ Cyberware & Special Equipment" },
   qualityPrefixes: { "Poor Quality": "poor" },
   weapons: { "Assault Rifle": "Assault Rifle", "Very Heavy Pistol": "Very Heavy Pistol", "Medium Melee Weapon": "Medium Melee", "Heavy SMG": "Heavy SMG", "Wolvers": "Wolvers" },
   cyberwareWeapons: ["Wolvers", "Popup Grenade Launcher", "Cybersnake"],
@@ -81,6 +81,14 @@ test("parseSkills extracts role ability and drops it from skills", () => {
   eq(r.skills, [
     { name: "Athletics", base: 11 }, { name: "Heavy Weapons", base: 14 }, { name: "Tracking", base: 10 },
   ]);
+});
+
+test("parseRoleAbility maps ability line to role with rank from level", () => {
+  eq(parseRoleAbility(["▶ Role Ability Combat Awareness 6"], map),
+     { packName: "core_roles", itemName: "Solo", rank: 6 });
+});
+test("parseRoleAbility returns null when section absent", () => {
+  eq(parseRoleAbility([], map), null);
 });
 
 test("parseEquipment routes cyberware vs gear and ignores cyberware quantity", () => {

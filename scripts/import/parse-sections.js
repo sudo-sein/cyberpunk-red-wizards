@@ -1,5 +1,5 @@
 import { extractStatNumbers, splitTopLevel, splitNameAndLevel, splitOnParenBoundary, escapeRegExp } from "./tokenize.js";
-import { resolveWeapon, resolveSkillOrRole, resolveEquipmentToken, resolveRoleName, addCyberware } from "./resolver.js";
+import { resolveWeapon, resolveSkillOrRole, resolveEquipmentToken, addCyberware } from "./resolver.js";
 
 const STATS1 = ["int", "ref", "dex", "tech", "cool"];
 const STATS2 = ["will", "luck", "move", "body", "emp"];
@@ -139,18 +139,12 @@ export function parseEquipment(equipLines, map) {
   const warnings = [];
   const equipment = [];
   const cyberware = [];
-  let role = null;
-  if (equipLines.length === 0) return { equipment, cyberware, role, warnings };
+  if (equipLines.length === 0) return { equipment, cyberware, warnings };
 
   let text = equipLines.join(" ");
   text = stripHeader(text, map.sectionHeaders.equipment);
   text = splitOnParenBoundary(text);
   for (const token of splitTopLevel(text, ",")) {
-    const roleHit = resolveRoleName(token, map);
-    if (roleHit) {
-      if (!role) role = { packName: "core_roles", itemName: roleHit.itemName, rank: roleHit.rank };
-      continue;
-    }
     const res = resolveEquipmentToken(token, map);
     for (const w of res.warnings) warnings.push(w);
     for (const e of res.entries) {
@@ -158,7 +152,23 @@ export function parseEquipment(equipLines, map) {
       else equipment.push({ packName: e.packName, itemName: e.itemName, quantity: e.quantity ?? 1 });
     }
   }
-  return { equipment, cyberware, role, warnings };
+  return { equipment, cyberware, warnings };
+}
+
+// The "▶ Role Ability" section names the role indirectly via its ability
+// (e.g. "Combat Awareness 6" -> Solo rank 6). Everything else (sidebar role
+// label, name bleed) is treated as stray OCR and ignored.
+export function parseRoleAbility(roleLines, map) {
+  if (!roleLines || roleLines.length === 0) return null;
+  let text = roleLines.join(" ");
+  text = stripHeader(text, map.sectionHeaders.roleAbility);
+  for (const seg of splitTopLevel(text, ",")) {
+    const { name, level } = splitNameAndLevel(seg);
+    if (level === null || !name) continue;
+    const r = resolveSkillOrRole(name, level, map);
+    if (r.kind === "role") return r.role;
+  }
+  return null;
 }
 
 function stripHeader(text, header) {

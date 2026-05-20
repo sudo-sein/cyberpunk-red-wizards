@@ -9,7 +9,7 @@ export function sectionize(lines, map) {
   const L = map.labels;
   const statsRe = buildStatsRegex(H.stats);
 
-  const sections = { stats: [], vitals: [], armor: [], weapons: [], skills: [], equipment: [] };
+  const sections = { stats: [], vitals: [], armor: [], weapons: [], skills: [], roleAbility: [], equipment: [] };
   let current = null;
 
   for (const line of lines) {
@@ -27,6 +27,9 @@ export function sectionize(lines, map) {
     }
     if (line.startsWith(H.skills)) {
       current = sections.skills; current.push(line); continue;
+    }
+    if (H.roleAbility && line.startsWith(H.roleAbility)) {
+      current = sections.roleAbility; current.push(line); continue;
     }
     if (line.startsWith(H.equipment)) {
       current = sections.equipment; current.push(line); continue;

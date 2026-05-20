@@ -7,9 +7,21 @@ const map = {
   sectionHeaders: {
     stats: "▶ INT ▶ REF ▶ DEX ▶ TECH ▶ COOL",
     hp: "▶ Hit Points", armor: "Armor:", weapons: "Weapons",
-    skills: "▶ Skill Bases", equipment: "▶ Cyberware & Special Equipment",
+    skills: "▶ Skill Bases", roleAbility: "▶ Role Ability", equipment: "▶ Cyberware & Special Equipment",
   },
 };
+
+test("captures the Role Ability section separately from skills and equipment", () => {
+  const lines = [
+    "▶ Skill Bases Athletics 10, Stealth 10",
+    "▶ Role Ability Combat Awareness 6",
+    "▶ Cyberware & Special Equipment Agent, Radio Communicator",
+  ];
+  const s = sectionize(lines, map);
+  eq(s.roleAbility.join(" "), "▶ Role Ability Combat Awareness 6");
+  eq(s.skills.join(" ").includes("Combat Awareness"), false);
+  eq(s.equipment.join(" ").includes("Combat Awareness"), false);
+});
 
 test("does not treat 'Heavy Weapons' inside skills as a weapons section", () => {
   const lines = [

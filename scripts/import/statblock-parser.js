@@ -1,7 +1,7 @@
 import { normalize } from "./normalize.js";
 import { sectionize } from "./sectionizer.js";
 import {
-  parseStats, parseVitals, parseArmor, parseWeapons, parseSkills, parseEquipment,
+  parseStats, parseVitals, parseArmor, parseWeapons, parseSkills, parseEquipment, parseRoleAbility,
 } from "./parse-sections.js";
 import { addCyberware } from "./resolver.js";
 
@@ -70,17 +70,17 @@ export async function parseStatblock(text, language = "en") {
 
   const skillsResult = parseSkills(sections.skills, map);
   template.skills = skillsResult.skills;
-  template.role = skillsResult.role;
   warnings.push(...skillsResult.warnings);
+
+  // Role comes from the dedicated "▶ Role Ability" section (e.g. Combat
+  // Awareness 6 -> Solo rank 6); fall back to a role ability inlined in the
+  // skills list. A sidebar role label like "(Solo)" is stray OCR and ignored.
+  template.role = parseRoleAbility(sections.roleAbility, map) ?? skillsResult.role;
 
   const equipResult = parseEquipment(sections.equipment, map);
   template.equipment = [...(weaponsResult.equipment ?? []), ...equipResult.equipment];
   for (const c of equipResult.cyberware) addCyberware(cyberware, c.packName, c.itemName);
   warnings.push(...equipResult.warnings);
-
-  // A role-ability skill line wins; otherwise use an explicit role name found
-  // in the equipment/cyberware block (e.g. "(Solo)").
-  if (!template.role && equipResult.role) template.role = equipResult.role;
 
   template.cyberware = cyberware;
   template.tier = deriveTier(template.hp);
