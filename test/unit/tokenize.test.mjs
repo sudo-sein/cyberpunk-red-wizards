@@ -32,6 +32,10 @@ test("splitNameAndLevel keeps specialization paren before number", () => {
 test("splitNameAndLevel no number", () => {
   eq(splitNameAndLevel("cyberpsycho"), { name: "cyberpsycho", level: null });
 });
+test("splitNameAndLevel discards trailing npc-name bleed after level", () => {
+  eq(splitNameAndLevel("Tactics 12 hardened security officer"),
+     { name: "Tactics", level: 12 });
+});
 test("parseQuantity x forms", () => {
   eq(parseQuantity("Rifle Ammo x50"), { name: "Rifle Ammo", quantity: 50 });
   eq(parseQuantity("Handcuffs x2"), { name: "Handcuffs", quantity: 2 });
