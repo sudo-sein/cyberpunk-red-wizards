@@ -139,7 +139,7 @@ export async function createNpcFromTemplate(template, overrides = {}) {
     const roleItem = await fetchCompendiumItem(template.role.packName, template.role.itemName);
     if (roleItem) {
       const roleData = roleItem.toObject();
-      roleData.system.rank = template.role.rank;
+      if (template.role.rank != null) roleData.system.rank = template.role.rank;
       itemsToCreate.push(roleData);
     }
   }

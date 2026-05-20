@@ -1,5 +1,5 @@
 import { extractStatNumbers, splitTopLevel, splitNameAndLevel, splitOnParenBoundary, escapeRegExp } from "./tokenize.js";
-import { resolveWeapon, resolveSkillOrRole, resolveEquipmentToken, addCyberware } from "./resolver.js";
+import { resolveWeapon, resolveSkillOrRole, resolveEquipmentToken, resolveRoleName, addCyberware } from "./resolver.js";
 
 const STATS1 = ["int", "ref", "dex", "tech", "cool"];
 const STATS2 = ["will", "luck", "move", "body", "emp"];
@@ -139,12 +139,18 @@ export function parseEquipment(equipLines, map) {
   const warnings = [];
   const equipment = [];
   const cyberware = [];
-  if (equipLines.length === 0) return { equipment, cyberware, warnings };
+  let role = null;
+  if (equipLines.length === 0) return { equipment, cyberware, role, warnings };
 
   let text = equipLines.join(" ");
   text = stripHeader(text, map.sectionHeaders.equipment);
   text = splitOnParenBoundary(text);
   for (const token of splitTopLevel(text, ",")) {
+    const roleHit = resolveRoleName(token, map);
+    if (roleHit) {
+      if (!role) role = { packName: "core_roles", itemName: roleHit.itemName, rank: roleHit.rank };
+      continue;
+    }
     const res = resolveEquipmentToken(token, map);
     for (const w of res.warnings) warnings.push(w);
     for (const e of res.entries) {
@@ -152,7 +158,7 @@ export function parseEquipment(equipLines, map) {
       else equipment.push({ packName: e.packName, itemName: e.itemName, quantity: e.quantity ?? 1 });
     }
   }
-  return { equipment, cyberware, warnings };
+  return { equipment, cyberware, role, warnings };
 }
 
 function stripHeader(text, header) {

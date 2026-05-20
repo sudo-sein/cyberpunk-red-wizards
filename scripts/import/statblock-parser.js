@@ -78,6 +78,10 @@ export async function parseStatblock(text, language = "en") {
   for (const c of equipResult.cyberware) addCyberware(cyberware, c.packName, c.itemName);
   warnings.push(...equipResult.warnings);
 
+  // A role-ability skill line wins; otherwise use an explicit role name found
+  // in the equipment/cyberware block (e.g. "(Solo)").
+  if (!template.role && equipResult.role) template.role = equipResult.role;
+
   template.cyberware = cyberware;
   template.tier = deriveTier(template.hp);
 

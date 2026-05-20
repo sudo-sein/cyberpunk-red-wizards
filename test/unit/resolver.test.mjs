@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import { deepStrictEqual as eq } from "node:assert/strict";
 import {
-  resolveWeapon, resolveSkillOrRole, resolveEquipmentToken, addCyberware,
+  resolveWeapon, resolveSkillOrRole, resolveEquipmentToken, resolveRoleName, addCyberware,
 } from "../../scripts/import/resolver.js";
 
 const map = {
@@ -54,6 +54,15 @@ test("resolveWeapon unknown produces error", () => {
   const r = resolveWeapon("Frob Cannon", "9d6", map);
   eq(r.entries, []);
   eq(r.errors.length, 1);
+});
+test("resolveRoleName detects parenthesised role name", () => {
+  eq(resolveRoleName("(Solo)", map), { itemName: "Solo", rank: null });
+});
+test("resolveRoleName extracts rank and ignores name-bleed prefix", () => {
+  eq(resolveRoleName("hardened arasaka assassin (Solo 6)", map), { itemName: "Solo", rank: 6 });
+});
+test("resolveRoleName returns null for non-role token", () => {
+  eq(resolveRoleName("Tech Bag", map), null);
 });
 test("resolveSkillOrRole detects role ability", () => {
   eq(resolveSkillOrRole("Moto Family", 4, map),

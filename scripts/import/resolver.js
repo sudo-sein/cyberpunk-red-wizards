@@ -78,6 +78,28 @@ function resolveSkillName(rawName, map) {
   return { name: rawName, matched: false };
 }
 
+// --- explicit role name ------------------------------------------------------
+// Some statblocks name the role directly (e.g. "(Solo)" or "Solo 6") in the
+// cyberware/equipment block instead of via a role-ability skill line. Detect a
+// core role name (optionally parenthesised, with an optional rank number) and
+// return { itemName, rank }, else null. Role names come from roleAbilities
+// values so the set stays data-driven.
+export function resolveRoleName(token, map) {
+  const roleNames = [...new Set(Object.values(map.roleAbilities || {}))];
+  const candidates = [];
+  const paren = token.match(/\(([^)]*)\)/);
+  if (paren) candidates.push(paren[1]);
+  candidates.push(token.replace(/[()]/g, " "));
+  for (const cand of candidates) {
+    const m = cand.trim().match(/^([A-Za-zÀ-ſ'’/ -]+?)\s*(\d+)?$/);
+    if (!m) continue;
+    const name = m[1].trim();
+    const hit = roleNames.find(r => r.toLowerCase() === name.toLowerCase());
+    if (hit) return { itemName: hit, rank: m[2] ? Number(m[2]) : null };
+  }
+  return null;
+}
+
 // --- equipment ---------------------------------------------------------------
 // Returns { entries:[{packName,itemName,quantity}], warnings:[] }.
 // All entries carry a quantity; the equipment parser ignores it when routing
