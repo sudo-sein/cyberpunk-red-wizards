@@ -28,6 +28,8 @@
     "Ciężki pistolet": "Heavy Pistol",
     "Strzelba": "Shotgun",
     "Karabin szturmowy": "Assault Rifle",
+    "Bijatyka": "Unarmed",
+    "Gołe pięści": "Unarmed",
     "Rozpruwacze": "Rippers"
   },
   "cyberwareWeapons": ["Rippers", "Wolvers", "Big Knucks", "Scratchers", "Slice 'N Dice", "Vampyres"],
