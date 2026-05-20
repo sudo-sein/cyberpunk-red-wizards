@@ -75,6 +75,10 @@
     "Heavy SMG": "Heavy SMG"
   },
   "cyberwareWeapons": ["Rippers", "Wolvers", "Big Knucks", "Scratchers", "Slice 'N Dice", "Vampyres", "Popup Grenade Launcher", "Cybersnake"],
+  "weaponUpgrades": {
+    "Underbarrel Shotgun": { "packName": "core_upgrades", "itemName": "Shotgun Underbarrel" },
+    "Underbarrel Grenade Launcher": { "packName": "core_upgrades", "itemName": "Grenade Launcher Underbarrel" }
+  },
   "armor": {
     "Kevlar": { "head": "Kevlar® (Head)", "body": "Kevlar® (Body)", "sp": 7 },
     "Leather": { "head": "Leathers (Head)", "body": "Leathers (Body)", "sp": 4 },
@@ -134,6 +138,7 @@
   },
   "ammo": {
     "Slug Ammo": { "packName": "core_ammo", "itemName": "Shotgun Slug (Basic)" },
+    "Expansive Slug Ammo": { "packName": "core_ammo", "itemName": "Shotgun Slug (Expansive)" },
     "Very Heavy Pistol Ammo": { "packName": "core_ammo", "itemName": "Very Heavy Pistol (Basic)" },
     "VH Pistol Ammo": { "packName": "core_ammo", "itemName": "Very Heavy Pistol (Basic)" },
     "Heavy Pistol Ammo": { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)" },

@@ -8,6 +8,7 @@ const map = {
   qualityPrefixes: { "Poor Quality": "poor", "Excellent": "excellent" },
   weapons: { "Assault Rifle": "Assault Rifle", "Wolvers": "Wolvers", "Heavy SMG": "Heavy SMG", "Medium Melee Weapon": "Medium Melee" },
   cyberwareWeapons: ["Wolvers", "Popup Grenade Launcher", "Cybersnake"],
+  weaponUpgrades: { "Underbarrel Shotgun": { packName: "core_upgrades", itemName: "Shotgun Underbarrel" } },
   popupWeapons: { "Popup Heavy SMG": { weapon: "Heavy SMG", mount: "Popup Ranged Weapon" } },
   roleAbilities: { "Combat Awareness": "Solo", "Moto Family": "Nomad" },
   skills: { "Athletics": "Athletics", "Local Expert": "Local Expert" },
@@ -42,6 +43,10 @@ test("resolveWeapon popup splits into weapon + mount", () => {
     { kind: "weapon", packName: "core_weapons", itemName: "Heavy SMG", quality: "standard", damage: "3d6" },
     { kind: "cyberware", packName: "core_cyberware", itemName: "Popup Ranged Weapon" },
   ]);
+});
+test("resolveWeapon routes weapon upgrade to equipment", () => {
+  eq(resolveWeapon("Underbarrel Shotgun", "3d6", map).entries,
+     [{ kind: "equipment", packName: "core_upgrades", itemName: "Shotgun Underbarrel", quantity: 1 }]);
 });
 test("resolveWeapon unknown produces error", () => {
   const r = resolveWeapon("Frob Cannon", "9d6", map);

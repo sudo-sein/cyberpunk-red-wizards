@@ -37,6 +37,7 @@
     "Rozpruwacze": "Rippers"
   },
   "cyberwareWeapons": ["Rippers", "Wolvers", "Big Knucks", "Scratchers", "Slice 'N Dice", "Vampyres"],
+  "weaponUpgrades": {},
   "armor": {
     "Kevlar": { "head": "Kevlar® (Head)", "body": "Kevlar® (Body)", "sp": 7 },
     "Skóry": { "head": "Leathers (Head)", "body": "Leathers (Body)", "sp": 4 }

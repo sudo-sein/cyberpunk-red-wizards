@@ -71,6 +71,7 @@ export function parseWeapons(weaponBlocks, map) {
   const errors = [];
   const groups = [];
   const cyberware = [];
+  const equipment = [];
 
   for (const block of weaponBlocks) {
     const text = block.join(" ");
@@ -81,6 +82,7 @@ export function parseWeapons(weaponBlocks, map) {
       for (const e of segErrors) errors.push(e);
       for (const e of entries) {
         if (e.kind === "cyberware") addCyberware(cyberware, e.packName, e.itemName);
+        else if (e.kind === "equipment") equipment.push({ packName: e.packName, itemName: e.itemName, quantity: e.quantity ?? 1 });
         else weapons.push({ packName: e.packName, itemName: e.itemName, quality: e.quality, damage: e.damage });
       }
     }
@@ -90,6 +92,7 @@ export function parseWeapons(weaponBlocks, map) {
     weapons: groups[0] ?? [],
     weaponAlternatives: groups.slice(1),
     cyberware,
+    equipment,
     errors,
   };
 }

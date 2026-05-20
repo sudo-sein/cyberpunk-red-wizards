@@ -74,7 +74,7 @@ export async function parseStatblock(text, language = "en") {
   warnings.push(...skillsResult.warnings);
 
   const equipResult = parseEquipment(sections.equipment, map);
-  template.equipment = equipResult.equipment;
+  template.equipment = [...(weaponsResult.equipment ?? []), ...equipResult.equipment];
   for (const c of equipResult.cyberware) addCyberware(cyberware, c.packName, c.itemName);
   warnings.push(...equipResult.warnings);
 

@@ -34,6 +34,11 @@ export function resolveWeapon(rawName, damage, map) {
     };
   }
 
+  const upgrade = ciValue(map.weaponUpgrades, name);
+  if (upgrade) {
+    return { entries: [{ kind: "equipment", packName: upgrade.packName, itemName: upgrade.itemName, quantity: 1 }], errors };
+  }
+
   const resolved = ciValue(map.weapons, name);
   const cyberName = (map.cyberwareWeapons || []).find(
     c => c === name || c === resolved || c.toLowerCase() === name.toLowerCase()

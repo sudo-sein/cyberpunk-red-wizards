@@ -10,6 +10,7 @@ const map = {
   qualityPrefixes: { "Poor Quality": "poor" },
   weapons: { "Assault Rifle": "Assault Rifle", "Very Heavy Pistol": "Very Heavy Pistol", "Medium Melee Weapon": "Medium Melee", "Heavy SMG": "Heavy SMG", "Wolvers": "Wolvers" },
   cyberwareWeapons: ["Wolvers", "Popup Grenade Launcher", "Cybersnake"],
+  weaponUpgrades: { "Underbarrel Shotgun": { packName: "core_upgrades", itemName: "Shotgun Underbarrel" } },
   popupWeapons: { "Popup Heavy SMG": { weapon: "Heavy SMG", mount: "Popup Ranged Weapon" } },
   roleAbilities: { "Combat Awareness": "Solo" },
   skills: { "Athletics": "Athletics", "Heavy Weapons": "Heavy Weapons", "Tracking": "Tracking", "Local Expert": "Local Expert" },
@@ -66,6 +67,12 @@ test("parseWeapons popup + cyberweapons", () => {
   eq(r.weapons, [{ packName: "core_weapons", itemName: "Heavy SMG", quality: "standard", damage: "3d6" }]);
   eq(r.cyberware.map(c => c.itemName),
      ["Popup Grenade Launcher", "Cybersnake", "Popup Ranged Weapon", "Wolvers"]);
+});
+
+test("parseWeapons routes weapon upgrade out of weapons into equipment", () => {
+  const r = parseWeapons([["Assault Rifle 5d6 Underbarrel Shotgun 3d6"]], map);
+  eq(r.weapons, [{ packName: "core_weapons", itemName: "Assault Rifle", quality: "standard", damage: "5d6" }]);
+  eq(r.equipment, [{ packName: "core_upgrades", itemName: "Shotgun Underbarrel", quantity: 1 }]);
 });
 
 test("parseSkills extracts role ability and drops it from skills", () => {
