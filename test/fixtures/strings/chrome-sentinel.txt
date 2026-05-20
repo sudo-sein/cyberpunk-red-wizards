@@ -1,0 +1,12 @@
+▶ INT ▶ REF ▶ DEX ▶ TECH ▶ COOL 6 8 (6) 7 4 7
+6 4 6 7 (5) 5
+▶ Hit Points ▶ Seriously Wounded ▶ Death Save 45 23 6
+Armor: M Armorjack
+Head 13 SP
+Body 13 SP
+Weapons
+Wolvers 3d6
+Popup Heavy SMG 4d6
+Assault Rifle 5d6
+▶ Skill Bases Combat Awareness 5, Athletics 14 (12), Autofire 14, Brawling 12, Handgun 14, Melee Weapon 12, Perception 12
+▶ Cyberware & Special Equipment Rifle Ammo x40, Neural Link (Kerenzikov Speedware), Cyberaudio Suite, Flashlight

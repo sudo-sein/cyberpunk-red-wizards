@@ -1,0 +1,34 @@
+{
+  "id": "street-thug",
+  "name": "Street Thug",
+  "nameKey": null,
+  "tier": "competent",
+  "source": "imported",
+  "stats": { "int": 4, "ref": 6, "dex": 5, "tech": 3, "cool": 5, "will": 4, "luck": 3, "move": 6, "body": 5, "emp": 6 },
+  "hp": 30,
+  "seriousWound": 15,
+  "deathSave": 5,
+  "armor": {
+    "head": { "name": "L Armorjack", "sp": 11, "packName": "core_armor", "itemName": "Light Armorjack (Head)" },
+    "body": { "name": "L Armorjack", "sp": 11, "packName": "core_armor", "itemName": "Light Armorjack (Body)" }
+  },
+  "weapons": [
+    { "packName": "core_weapons", "itemName": "Heavy Pistol", "quality": "standard", "damage": "3d6" },
+    { "packName": "core_weapons", "itemName": "Medium Melee", "quality": "standard", "damage": "2d6" }
+  ],
+  "skills": [
+    { "name": "Athletics", "base": 12 },
+    { "name": "Brawling", "base": 12 },
+    { "name": "Handgun", "base": 14 },
+    { "name": "Melee Weapon", "base": 12 },
+    { "name": "Perception", "base": 10 },
+    { "name": "Stealth", "base": 10 }
+  ],
+  "equipment": [
+    { "packName": "core_ammo", "itemName": "Heavy Pistol (Basic)", "quantity": 30 },
+    { "packName": "core_gear", "itemName": "Flashlight", "quantity": 1 },
+    { "packName": "core_gear", "itemName": "Handcuffs", "quantity": 2 }
+  ],
+  "cyberware": [],
+  "role": null
+}
