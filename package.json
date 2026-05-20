@@ -1,0 +1,11 @@
+{
+  "name": "cyberpunk-red-wizards",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.1.2",
+  "description": "Dev tooling for the cyberpunk-red-wizards Foundry module (tests only; not published).",
+  "scripts": {
+    "test": "node --test --import ./test/setup.mjs test/"
+  }
+}
