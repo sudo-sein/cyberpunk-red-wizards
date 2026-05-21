@@ -94,8 +94,8 @@ export default class StatblockImportApp extends HandlebarsApplicationMixin(Appli
     const name = await DialogV2.prompt({
       window: { title: game.i18n.localize("crw.import.templateName") },
       content: `<input type="text" name="crwImportName" style="width:100%;margin-bottom:8px;" autofocus />`,
-      render: (event, dialog) => {
-        const input = dialog.element.querySelector("input[name='crwImportName']");
+      render: (event, dialogEl) => {
+        const input = dialogEl.querySelector("input[name='crwImportName']");
         if (input) input.value = defaultName;
       },
       ok: {
