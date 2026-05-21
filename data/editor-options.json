@@ -1,0 +1,1191 @@
+{
+  "armor": [
+    {
+      "name": "Flak",
+      "sp": 15,
+      "packName": "core_armor",
+      "headItem": "Flak (Head)",
+      "bodyItem": "Flak (Body)"
+    },
+    {
+      "name": "Heavy Armorjack",
+      "sp": 13,
+      "packName": "core_armor",
+      "headItem": "Heavy Armorjack (Head)",
+      "bodyItem": "Heavy Armorjack (Body)"
+    },
+    {
+      "name": "Kevlar®",
+      "sp": 7,
+      "packName": "core_armor",
+      "headItem": "Kevlar® (Head)",
+      "bodyItem": "Kevlar® (Body)"
+    },
+    {
+      "name": "Leathers",
+      "sp": 4,
+      "packName": "core_armor",
+      "headItem": "Leathers (Head)",
+      "bodyItem": "Leathers (Body)"
+    },
+    {
+      "name": "Light Armorjack",
+      "sp": 11,
+      "packName": "core_armor",
+      "headItem": "Light Armorjack (Head)",
+      "bodyItem": "Light Armorjack (Body)"
+    },
+    {
+      "name": "Medium Armorjack",
+      "sp": 12,
+      "packName": "core_armor",
+      "headItem": "Medium Armorjack (Head)",
+      "bodyItem": "Medium Armorjack (Body)"
+    },
+    {
+      "name": "Metalgear®",
+      "sp": 18,
+      "packName": "core_armor",
+      "headItem": "Metalgear® (Head)",
+      "bodyItem": "Metalgear® (Body)"
+    }
+  ],
+  "weapons": [
+    {
+      "itemName": "Air Pistol",
+      "packName": "core_weapons",
+      "damage": "0"
+    },
+    {
+      "itemName": "Assault Rifle",
+      "packName": "core_weapons",
+      "damage": "5d6"
+    },
+    {
+      "itemName": "Baseball Bat",
+      "packName": "core_weapons",
+      "damage": "2d6"
+    },
+    {
+      "itemName": "Bow",
+      "packName": "core_weapons",
+      "damage": "4d6"
+    },
+    {
+      "itemName": "Chainsaw",
+      "packName": "core_weapons",
+      "damage": "4d6"
+    },
+    {
+      "itemName": "Combat Knife",
+      "packName": "core_weapons",
+      "damage": "1d6"
+    },
+    {
+      "itemName": "Constitutional Arms Hurricane Assault Weapon",
+      "packName": "core_weapons",
+      "damage": "5d6"
+    },
+    {
+      "itemName": "Crossbow",
+      "packName": "core_weapons",
+      "damage": "4d6"
+    },
+    {
+      "itemName": "Crowbar",
+      "packName": "core_weapons",
+      "damage": "2d6"
+    },
+    {
+      "itemName": "Dartgun",
+      "packName": "core_weapons",
+      "damage": "4d6"
+    },
+    {
+      "itemName": "Flamethrower",
+      "packName": "core_weapons",
+      "damage": "5d6"
+    },
+    {
+      "itemName": "Grenade Launcher",
+      "packName": "core_weapons",
+      "damage": "6d6"
+    },
+    {
+      "itemName": "Heavy Melee",
+      "packName": "core_weapons",
+      "damage": "3d6"
+    },
+    {
+      "itemName": "Heavy Pistol",
+      "packName": "core_weapons",
+      "damage": "3d6"
+    },
+    {
+      "itemName": "Heavy SMG",
+      "packName": "core_weapons",
+      "damage": "3d6"
+    },
+    {
+      "itemName": "Helicopter Blades",
+      "packName": "core_weapons",
+      "damage": "4d6"
+    },
+    {
+      "itemName": "Kendachi Mono-Three",
+      "packName": "core_weapons",
+      "damage": "4d6"
+    },
+    {
+      "itemName": "Lead Pipe",
+      "packName": "core_weapons",
+      "damage": "3d6"
+    },
+    {
+      "itemName": "Light Melee",
+      "packName": "core_weapons",
+      "damage": "1d6"
+    },
+    {
+      "itemName": "Machete",
+      "packName": "core_weapons",
+      "damage": "2d6"
+    },
+    {
+      "itemName": "Malorian Arms 3516",
+      "packName": "core_weapons",
+      "damage": "5d6"
+    },
+    {
+      "itemName": "Martial Arts",
+      "packName": "core_weapons",
+      "damage": "1d6"
+    },
+    {
+      "itemName": "Medium Melee",
+      "packName": "core_weapons",
+      "damage": "2d6"
+    },
+    {
+      "itemName": "Medium Pistol",
+      "packName": "core_weapons",
+      "damage": "2d6"
+    },
+    {
+      "itemName": "Microwaver",
+      "packName": "core_weapons",
+      "damage": "0"
+    },
+    {
+      "itemName": "Militech \"Cowboy\" U-56 Grenade Launcher",
+      "packName": "core_weapons",
+      "damage": "6d6"
+    },
+    {
+      "itemName": "Naginata",
+      "packName": "core_weapons",
+      "damage": "4d6"
+    },
+    {
+      "itemName": "Rhinemetall EMG-86 Railgun",
+      "packName": "core_weapons",
+      "damage": "5d6"
+    },
+    {
+      "itemName": "Rocket Launcher",
+      "packName": "core_weapons",
+      "damage": "8d6"
+    },
+    {
+      "itemName": "Shotgun",
+      "packName": "core_weapons",
+      "damage": "5d6"
+    },
+    {
+      "itemName": "Shrieker",
+      "packName": "core_weapons",
+      "damage": "0"
+    },
+    {
+      "itemName": "Sledgehammer",
+      "packName": "core_weapons",
+      "damage": "4d6"
+    },
+    {
+      "itemName": "SMG",
+      "packName": "core_weapons",
+      "damage": "2d6"
+    },
+    {
+      "itemName": "Sniper Rifle",
+      "packName": "core_weapons",
+      "damage": "5d6"
+    },
+    {
+      "itemName": "Spiked Bat",
+      "packName": "core_weapons",
+      "damage": "3d6"
+    },
+    {
+      "itemName": "Stun Baton",
+      "packName": "core_weapons",
+      "damage": "2d6"
+    },
+    {
+      "itemName": "Stun Gun",
+      "packName": "core_weapons",
+      "damage": "3d6"
+    },
+    {
+      "itemName": "Sword",
+      "packName": "core_weapons",
+      "damage": "3d6"
+    },
+    {
+      "itemName": "Thrown Weapon",
+      "packName": "core_weapons",
+      "damage": "6d6"
+    },
+    {
+      "itemName": "Tomahawk",
+      "packName": "core_weapons",
+      "damage": "1d6"
+    },
+    {
+      "itemName": "Tsunami Arms Helix",
+      "packName": "core_weapons",
+      "damage": "2d6"
+    },
+    {
+      "itemName": "Unarmed",
+      "packName": "core_weapons",
+      "damage": "1d6"
+    },
+    {
+      "itemName": "Very Heavy Melee",
+      "packName": "core_weapons",
+      "damage": "4d6"
+    },
+    {
+      "itemName": "Very Heavy Pistol",
+      "packName": "core_weapons",
+      "damage": "4d6"
+    }
+  ],
+  "equipment": [
+    {
+      "itemName": "Agent",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Airhypo",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Anti-Smog Breathing Mask",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Antibiotic",
+      "packName": "core_drugs"
+    },
+    {
+      "itemName": "Arrow (Armor-Piercing)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Arrow (Basic)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Arrow (Biotoxin)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Arrow (Expansive)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Arrow (Incendiary)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Arrow (Poison)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Arrow (Rubber)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Arrow (Sleep)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Arrow (Smart)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Audio Recorder",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Auto Level Dampening Ear Protectors",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Battery Pack",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Battleglove",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Binoculars",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Black Lace",
+      "packName": "core_drugs"
+    },
+    {
+      "itemName": "Blue Glass",
+      "packName": "core_drugs"
+    },
+    {
+      "itemName": "Bodyweight Suit",
+      "packName": "core_armor"
+    },
+    {
+      "itemName": "Boost",
+      "packName": "core_drugs"
+    },
+    {
+      "itemName": "Braindance Viewer",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Bug Detector",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Bullet Proof Shield",
+      "packName": "core_armor"
+    },
+    {
+      "itemName": "Carryall",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Chemical Analyzer",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Computer",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Cryopump",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Cryotank",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Cyberdeck",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Disposable Cell Phone",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Drum Synthesizer",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Duct Tape",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Electric Guitar/Other Instrument",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Flashlight",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Food Stick",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Glow Paint",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Glow Stick",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Grapple Gun",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Grenade (Armor-Piercing)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Grenade (Biotoxin)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Grenade (EMP)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Grenade (Flashbang)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Grenade (Incendiary)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Grenade (Poison)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Grenade (Sleep)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Grenade (Smoke)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Grenade (Teargas)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Handcuffs",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Heavy Pistol (Armor-Piercing)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Heavy Pistol (Basic)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Heavy Pistol (Expansive)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Heavy Pistol (Incendiary)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Heavy Pistol (Rubber)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Heavy Pistol (Smart)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Homing Tracer",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Inflatable Bed & Sleep-bag",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Kibble Pack",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Linear Frame ∑ (Sigma)",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Linear Frame β (Beta)",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Lock Picking Set",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Medium Pistol (Armor-Piercing)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Medium Pistol (Basic)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Medium Pistol (Expansive)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Medium Pistol (Incendiary)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Medium Pistol (Rubber)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Medium Pistol (Smart)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Medscanner",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Medtech Bag",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Memory Chip",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "MRE",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Paintball (Acid)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Paintball (Basic)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Personal CarePak",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Pocket Amplifier",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Radar Detector",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Radiation Suit",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Radio Communicator",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Radio Scanner/Music Player",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Rapidetox",
+      "packName": "core_drugs"
+    },
+    {
+      "itemName": "Rifle (Armor-Piercing)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Rifle (Basic)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Rifle (Expansive)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Rifle (Incendiary)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Rifle (Rubber)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Rifle (Smart)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Road Flare",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Rocket (Armor-Piercing)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Rocket (Smart)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Rope (60m/yd)",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Scrambler/Descrambler",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Shotgun Shell (Basic)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Shotgun Shell (Incendiary)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Shotgun Slug (Armor-Piercing)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Shotgun Slug (Basic)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Shotgun Slug (Expansive)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Shotgun Slug (Incendiary)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Shotgun Slug (Rubber)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Shotgun Slug (Smart)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Skin Weave",
+      "packName": "core_armor"
+    },
+    {
+      "itemName": "Smart Glasses",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Smash",
+      "packName": "core_drugs"
+    },
+    {
+      "itemName": "Speedheal",
+      "packName": "core_drugs"
+    },
+    {
+      "itemName": "Stim",
+      "packName": "core_drugs"
+    },
+    {
+      "itemName": "Subdermal Armor",
+      "packName": "core_armor"
+    },
+    {
+      "itemName": "Surge",
+      "packName": "core_drugs"
+    },
+    {
+      "itemName": "Synthcoke",
+      "packName": "core_drugs"
+    },
+    {
+      "itemName": "Tech Bag",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Techscanner",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Techtool",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Tent and Camping Equipment",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Tracer Button",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Very Heavy Pistol (Armor-Piercing)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Very Heavy Pistol (Basic)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Very Heavy Pistol (Expansive)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Very Heavy Pistol (Incendiary)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Very Heavy Pistol (Rubber)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Very Heavy Pistol (Smart)",
+      "packName": "core_ammo"
+    },
+    {
+      "itemName": "Vial of Biotoxin",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Vial of Poison",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Video Camera",
+      "packName": "core_gear"
+    },
+    {
+      "itemName": "Virtuality Goggles",
+      "packName": "core_gear"
+    }
+  ],
+  "cyberware": [
+    {
+      "itemName": "Amplified Hearing",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Anti-Dazzle",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Artificial Shoulder Mount",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Audio Recorder",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "AudioVox",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Big Knucks",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Biomonitor",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Braindance Recorder",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Bug Detector",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Chemical Analyzer",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Chemskin",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Chipware Socket",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Chyron",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Color Shift",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Contraceptive Implant",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Cyberarm",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Cyberaudio Suite",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Cyberdeck (Hardwired)",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Cybereye",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Cyberleg",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Cybersnake",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Dartgun",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Difficult Skill Chip",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "EMP Threading",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Enhanced Antibodies",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Gills",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Grafted Muscle and Bone Lace",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Grapple Hand",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Grip Foot",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Hardened Shielding (Cyber Arm)",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Hardened Shielding (Cyber Leg)",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Hidden Holster",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Homing Tracer",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Image Enhance",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Implanted Linear Frame ∑ (Sigma)",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Implanted Linear Frame β (Beta)",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Independent Air Supply",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Interface Plugs",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Internal Agent",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Jump Booster",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Kerenzikov",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Level Damper",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Light Tattoo",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Low Light/IR/UV",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Meat Arm",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Meat Leg",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Medical Grade Cyberarm",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Medical Grade Cyberleg",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Medscanner",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Memory Chip",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "MicroOptics",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "MicroVideo",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Midnight Lady Sexual Implant",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Mr. Studd Sexual Implant",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "MultiOptic Mount",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Nasal Filters",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Neural Link",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Olfactory Boost",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Pain Editor",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Plastic Covering (Cyber Arm)",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Plastic Covering (Cyber Leg)",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Popup Grenade Launcher",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Popup Melee Weapon",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Popup Ranged Weapon",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Popup Shield",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Quick Change Mount",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Radar Detector",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Radar/Sonar Implant",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Radiation Detector",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Radio Communicator",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Radio Scanner/Music Player",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Realskinn Covering (Cyber Arm)",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Realskinn Covering (Cyber Leg)",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Rippers",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Sandevistan",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Scrambler/Descrambler",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Scratchers",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Sensor Array",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Shift Tacts",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Shoulder Cam",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Skate Foot",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Skill Chip",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Skin Weave",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Skinwatch",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Slice 'N Dice",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Standard Foot",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Standard Hand",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Subdermal Armor",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Subdermal Grip",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Subdermal Pocket",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Superchrome® Covering (Cyber Arm)",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Superchrome® Covering (Cyber Leg)",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Tactile Boost",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Talon Foot",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Targeting Scope",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Techhair",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Techscanner",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "TeleOptics",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Tool Hand",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Toxin Binders",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Vampyres",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Virtuality",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Voice Stress Analyzer",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Web Foot",
+      "packName": "core_cyberware"
+    },
+    {
+      "itemName": "Wolvers",
+      "packName": "core_cyberware"
+    }
+  ]
+}

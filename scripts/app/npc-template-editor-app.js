@@ -2,61 +2,9 @@ import { TIER_ORDER } from "../data/npc-loader.js";
 import { STAT_KEYS } from "../constants.js";
 import { calculateHP, calculateSeriousWound } from "../utils/derived-stats.js";
 import { buildOptions, resolveSelection, PRESERVE_ID } from "../utils/editor-options.js";
+import { loadEditorCatalog } from "../data/editor-catalog.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
-
-export const ARMOR_OPTIONS = [
-  { id: "none", name: "None", sp: 0, packName: "", headItem: "", bodyItem: "" },
-  { id: "leathers", name: "Leathers", sp: 4, packName: "core_armor", headItem: "Leathers (Head)", bodyItem: "Leathers (Body)" },
-  { id: "kevlar", name: "Kevlar", sp: 7, packName: "core_armor", headItem: "Kevlar® (Head)", bodyItem: "Kevlar® (Body)" },
-  { id: "light-armorjack", name: "Light Armorjack", sp: 11, packName: "core_armor", headItem: "Light Armorjack (Head)", bodyItem: "Light Armorjack (Body)" },
-  { id: "medium-armorjack", name: "Medium Armorjack", sp: 12, packName: "core_armor", headItem: "Medium Armorjack (Head)", bodyItem: "Medium Armorjack (Body)" },
-  { id: "heavy-armorjack", name: "Heavy Armorjack", sp: 13, packName: "core_armor", headItem: "Heavy Armorjack (Head)", bodyItem: "Heavy Armorjack (Body)" },
-  { id: "flak", name: "Flak", sp: 15, packName: "core_armor", headItem: "Flak (Head)", bodyItem: "Flak (Body)" },
-  { id: "metalgear", name: "Metalgear", sp: 18, packName: "core_armor", headItem: "Metalgear® (Head)", bodyItem: "Metalgear® (Body)" },
-];
-
-export const WEAPON_OPTIONS = [
-  { id: "heavy-pistol", itemName: "Heavy Pistol", packName: "core_weapons", damage: "3d6" },
-  { id: "very-heavy-pistol", itemName: "Very Heavy Pistol", packName: "core_weapons", damage: "4d6" },
-  { id: "medium-pistol", itemName: "Medium Pistol", packName: "core_weapons", damage: "2d6" },
-  { id: "assault-rifle", itemName: "Assault Rifle", packName: "core_weapons", damage: "5d6" },
-  { id: "shotgun", itemName: "Shotgun", packName: "core_weapons", damage: "5d6" },
-  { id: "smg", itemName: "SMG", packName: "core_weapons", damage: "2d6" },
-  { id: "light-melee", itemName: "Light Melee", packName: "core_weapons", damage: "1d6" },
-  { id: "medium-melee", itemName: "Medium Melee", packName: "core_weapons", damage: "2d6" },
-  { id: "heavy-melee", itemName: "Heavy Melee", packName: "core_weapons", damage: "3d6" },
-];
-
-export const SKILL_OPTIONS = [
-  "Accounting", "Acting", "Air Vehicle Tech", "Animal Handling", "Archery",
-  "Athletics", "Autofire", "Basic Tech", "Brawling", "Bribery", "Bureaucracy",
-  "Business", "Composition", "Conceal/Reveal Object", "Concentration",
-  "Contortionist", "Conversation", "Criminology", "Cryptography", "Cybertech",
-  "Dance", "Deduction", "Demolitions", "Drive Land Vehicle", "Education",
-  "Electronics/Security Tech", "Endurance", "Evasion", "First Aid", "Forgery",
-  "Gamble", "Handgun", "Heavy Weapons", "Human Perception", "Interrogation",
-  "Land Vehicle Tech", "Library Search", "Lip Reading", "Melee Weapon",
-  "Paint/Draw/Sculpt", "Paramedic", "Perception", "Personal Grooming",
-  "Persuasion", "Photography/Film", "Pick Lock", "Pick Pocket",
-  "Pilot Air Vehicle", "Pilot Sea Vehicle", "Resist Torture/Drugs", "Riding",
-  "Sea Vehicle Tech", "Shoulder Arms", "Stealth", "Streetwise", "Tactics",
-  "Tracking", "Trading", "Wardrobe & Style", "Weaponstech",
-  "Wilderness Survival",
-];
-
-export const EQUIPMENT_OPTIONS = [
-  { id: "radio-communicator", itemName: "Radio Communicator", packName: "core_gear" },
-  { id: "disposable-cell-phone", itemName: "Disposable Cell Phone", packName: "core_gear" },
-  { id: "flashlight", itemName: "Flashlight", packName: "core_gear" },
-];
-
-export const CYBERWARE_OPTIONS = [
-  { id: "neural-link", itemName: "Neural Link", packName: "core_cyberware" },
-  { id: "chipware-socket", itemName: "Chipware Socket", packName: "core_cyberware" },
-  { id: "cybereye", itemName: "Cybereye", packName: "core_cyberware" },
-  { id: "techhair", itemName: "Techhair", packName: "core_cyberware" },
-];
 
 export const ROLE_OPTIONS = [
   { id: "none", itemName: "", packName: "" },
@@ -137,6 +85,8 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
     const content = this.element?.querySelector(".crw-editor-scroll");
     this._savedScrollTop = content?.scrollTop ?? null;
 
+    this._catalog = await loadEditorCatalog();
+
     const stepDef = STEPS[this.#currentStep];
     let stepContext = {};
 
@@ -186,10 +136,11 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
 
   #prepareCombat() {
     const t = this.#template;
+    const armorOptions = this._catalog.armor;
     // Build a per-slot armor option list so an unknown (preserved) item in one
     // slot shows its own correct label, independent of the other slot.
     const armorSlotOptions = (match, slot) => {
-      const rows = ARMOR_OPTIONS.map(o => ({
+      const rows = armorOptions.map(o => ({
         id: o.id,
         label: o.id === "none" ? game.i18n.localize("crw.npc.editor.armorNone") : `${o.name} (SP ${o.sp})`,
         selected: o.id === match,
@@ -204,7 +155,7 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
       bodyArmorOptions: armorSlotOptions(this.#matchArmorOption(t.armor.body, "body"), t.armor.body),
       weapons: t.weapons.map(w => {
         const { options } = buildOptions(
-          WEAPON_OPTIONS.map(o => ({ ...o, label: `${o.itemName} (${o.damage})` })),
+          this._catalog.weapons.map(o => ({ ...o, label: o.damage ? `${o.itemName} (${o.damage})` : o.itemName })),
           w, o => o.id, "label",
         );
         return { options };
@@ -214,17 +165,18 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
 
   #prepareSkills() {
     const t = this.#template;
+    const skillOptions = this._catalog.skills;
     const usedSkills = new Set(t.skills.map(s => s.name));
     return {
       skills: t.skills.map(s => ({
         name: s.name,
         base: s.base,
-        options: SKILL_OPTIONS.map(name => ({
+        options: skillOptions.map(name => ({
           name,
           selected: name === s.name,
         })),
       })),
-      availableCount: SKILL_OPTIONS.length - usedSkills.size,
+      availableCount: skillOptions.length - usedSkills.size,
     };
   }
 
@@ -233,14 +185,14 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
     return {
       equipment: t.equipment.map(e => {
         const { options } = buildOptions(
-          EQUIPMENT_OPTIONS.map(o => ({ ...o, label: o.itemName })),
+          this._catalog.equipment.map(o => ({ ...o, label: o.itemName })),
           e, o => o.id, "label",
         );
         return { quantity: e.quantity ?? 1, options };
       }),
       cyberware: t.cyberware.map(c => {
         const { options } = buildOptions(
-          CYBERWARE_OPTIONS.map(o => ({ ...o, label: o.itemName })),
+          this._catalog.cyberware.map(o => ({ ...o, label: o.itemName })),
           c, o => o.id, "label",
         );
         return { options };
@@ -257,7 +209,7 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
   #matchArmorOption(armorSlot, type) {
     if (!armorSlot?.packName) return "none";
     const itemKey = type === "head" ? "headItem" : "bodyItem";
-    for (const opt of ARMOR_OPTIONS) {
+    for (const opt of this._catalog.armor) {
       if (opt.id === "none") continue;
       if (armorSlot.itemName === opt[itemKey]) return opt.id;
     }
@@ -282,8 +234,8 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
         const headId = el.querySelector("[name='armorHead']")?.value ?? "none";
         const bodyId = el.querySelector("[name='armorBody']")?.value ?? "none";
         const prevHead = t.armor.head, prevBody = t.armor.body;
-        const headOpt = ARMOR_OPTIONS.find(o => o.id === headId);
-        const bodyOpt = ARMOR_OPTIONS.find(o => o.id === bodyId);
+        const headOpt = this._catalog.armor.find(o => o.id === headId);
+        const bodyOpt = this._catalog.armor.find(o => o.id === bodyId);
         t.armor.head = headId === PRESERVE_ID ? prevHead
           : headOpt && headOpt.id !== "none"
             ? { name: headOpt.name, sp: headOpt.sp, packName: headOpt.packName, itemName: headOpt.headItem }
@@ -300,7 +252,7 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
             if (prevWeapons[i]) t.weapons.push(prevWeapons[i]);
             return;
           }
-          const resolved = resolveSelection(select.value, WEAPON_OPTIONS);
+          const resolved = resolveSelection(select.value, this._catalog.weapons);
           if (resolved) t.weapons.push({ packName: resolved.packName, itemName: resolved.itemName, quality: "standard", damage: resolved.damage });
         });
         break;
@@ -324,7 +276,7 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
             if (prevEquip[i]) t.equipment.push({ ...prevEquip[i], quantity: qty });
             return;
           }
-          const resolved = resolveSelection(id, EQUIPMENT_OPTIONS);
+          const resolved = resolveSelection(id, this._catalog.equipment);
           if (resolved) t.equipment.push({ packName: resolved.packName, itemName: resolved.itemName, quantity: qty });
         });
 
@@ -336,7 +288,7 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
             if (prevCyber[i]) t.cyberware.push(prevCyber[i]);
             return;
           }
-          const resolved = resolveSelection(id, CYBERWARE_OPTIONS);
+          const resolved = resolveSelection(id, this._catalog.cyberware);
           if (resolved) t.cyberware.push({ packName: resolved.packName, itemName: resolved.itemName });
         });
 
@@ -412,7 +364,8 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
 
   static #onAddWeapon() {
     this.#readCurrentStep();
-    const first = WEAPON_OPTIONS[0];
+    const first = this._catalog.weapons[0];
+    if (!first) return;
     this.#template.weapons.push({ packName: first.packName, itemName: first.itemName, quality: "standard", damage: first.damage });
     this.render(true);
   }
@@ -427,7 +380,7 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
   static #onAddSkill() {
     this.#readCurrentStep();
     const used = new Set(this.#template.skills.map(s => s.name));
-    const available = SKILL_OPTIONS.find(s => !used.has(s));
+    const available = this._catalog.skills.find(s => !used.has(s));
     if (available) {
       this.#template.skills.push({ name: available, base: 0 });
       this.render(true);
@@ -443,7 +396,8 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
 
   static #onAddEquip() {
     this.#readCurrentStep();
-    const first = EQUIPMENT_OPTIONS[0];
+    const first = this._catalog.equipment[0];
+    if (!first) return;
     this.#template.equipment.push({ packName: first.packName, itemName: first.itemName, quantity: 1 });
     this.render(true);
   }
@@ -457,7 +411,8 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
 
   static #onAddCyber() {
     this.#readCurrentStep();
-    const first = CYBERWARE_OPTIONS[0];
+    const first = this._catalog.cyberware[0];
+    if (!first) return;
     this.#template.cyberware.push({ packName: first.packName, itemName: first.itemName });
     this.render(true);
   }
