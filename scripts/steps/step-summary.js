@@ -1,10 +1,10 @@
 import StepBase from "./step-base.js";
-import { calculateAllDerived } from "../utils/derived-stats.js";
+import { calculateAllDerived, buildStatsData } from "../utils/derived-stats.js";
+import { STAT_KEYS } from "../constants.js";
 import { runFullChecklist } from "../utils/validation.js";
 import { loadRole } from "../data/role-loader.js";
 import { fetchCompendiumItem, fetchCompendiumItems } from "../utils/compendium.js";
 import { addRoleItem } from "../utils/role.js";
-import { STAT_KEYS } from "../constants.js";
 
 // Specialty skills not in internal_skills — fetch from dedicated packs.
 // defaultName: specific item to look for; falls back to first item in pack.
@@ -151,12 +151,14 @@ export default class StepSummary extends StepBase {
       await actor.deleteEmbeddedDocuments("Item", autoCyberwareIds);
     }
 
-    const statsData = {};
-    for (const key of STAT_KEYS) {
-      statsData[key] = { value: state.stats[key] };
-    }
+    const statsData = buildStatsData(state.stats);
+    const derived = calculateAllDerived(state.stats);
     const updateData = {
       "system.stats": statsData,
+      "system.derivedStats.hp.max": derived.hp,
+      "system.derivedStats.hp.value": derived.hp,
+      "system.derivedStats.humanity.max": derived.humanity,
+      "system.derivedStats.humanity.value": derived.humanity,
       "system.lifepath": {
         ...state.lifepath,
         friends: this._formatFriends(state),

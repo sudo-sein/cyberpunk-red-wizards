@@ -1,5 +1,6 @@
 import { fetchCompendiumItem } from "../utils/compendium.js";
 import { addRoleItem } from "../utils/role.js";
+import { buildStatsData } from "../utils/derived-stats.js";
 import { STAT_KEYS } from "../constants.js";
 import { waitFor } from "../utils/async.js";
 
@@ -54,13 +55,12 @@ export async function createNpcFromTemplate(template, overrides = {}) {
     Hooks.off("createActor", hookId);
   }
 
-  const statsData = {};
+  const mergedStats = {};
   for (const key of STAT_KEYS) {
-    const value = overrides.stats?.[key] ?? template.stats[key];
-    statsData[key] = { value };
+    mergedStats[key] = overrides.stats?.[key] ?? template.stats[key];
   }
   await actor.update({
-    "system.stats": statsData,
+    "system.stats": buildStatsData(mergedStats),
     "system.derivedStats.hp.value": template.hp,
     "system.derivedStats.hp.max": template.hp,
   });

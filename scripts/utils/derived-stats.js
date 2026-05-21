@@ -1,3 +1,5 @@
+import { STAT_KEYS } from "../constants.js";
+
 export function calculateHP(body, will) {
   return 10 + 5 * Math.ceil((body + will) / 2);
 }
@@ -20,6 +22,18 @@ export function calculateWalk(move) {
 
 export function calculateRun(move) {
   return move * 4;
+}
+
+export function buildStatsData(stats) {
+  const out = {};
+  for (const key of STAT_KEYS) {
+    const value = stats[key];
+    out[key] = { value };
+    if (key === "luck" || key === "emp") {
+      out[key].max = value;
+    }
+  }
+  return out;
 }
 
 export function calculateAllDerived(stats) {
