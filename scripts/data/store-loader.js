@@ -1,6 +1,5 @@
 import { isPackExcluded } from "../app/store-pack-config.js";
-
-const MODULE_ID = "cyberpunk-red-wizards";
+import { MODULE_ID } from "../constants.js";
 
 const STORE_ITEM_TYPES = new Set([
   "ammo", "armor", "clothing", "cyberware",

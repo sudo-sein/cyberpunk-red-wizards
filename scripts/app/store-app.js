@@ -1,8 +1,8 @@
 import { loadStoreItems, categorizeItems, groupBySource } from "../data/store-loader.js";
 import { purchaseItem, lootItem, calculateFinalPrice } from "../store/store-purchase.js";
 import { broadcastStoreState } from "../store/store-socket.js";
+import { MODULE_ID } from "../constants.js";
 
-const MODULE_ID = "cyberpunk-red-wizards";
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 const CATEGORY_TABS = [
