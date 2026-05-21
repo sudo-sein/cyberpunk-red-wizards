@@ -6,7 +6,7 @@ import StepDerived from "../steps/step-derived.js";
 import StepSkills from "../steps/step-skills.js";
 import StepGear from "../steps/step-gear.js";
 import StepSummary from "../steps/step-summary.js";
-import { requestCharacterCreation } from "../creator/creator-socket.js";
+import { requestCharacterCreation, NO_ACTIVE_GM } from "../creator/creator-socket.js";
 import { MODULE_ID } from "../constants.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -175,7 +175,7 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
       }
     } catch (err) {
       console.error("Character creation failed:", err);
-      if (err.message?.includes("No active GM")) {
+      if (err.message?.includes(NO_ACTIVE_GM)) {
         ui.notifications.warn(game.i18n.localize("crw.creator.gmOffline"));
       } else {
         ui.notifications.error("Character creation failed. Check the console for details.");

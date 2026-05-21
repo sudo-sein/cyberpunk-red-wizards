@@ -1,6 +1,8 @@
 import { getSocket } from "../socket.js";
 import StepSummary from "../steps/step-summary.js";
 
+export const NO_ACTIVE_GM = "No active GM";
+
 export function initCreatorSocket() {
   const socket = getSocket();
   socket.register("createCharacterForPlayer", handleCreateCharacterForPlayer);

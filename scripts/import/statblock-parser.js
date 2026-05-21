@@ -18,6 +18,10 @@ async function loadMap(language) {
   return mapCache[language];
 }
 
+export function clearMapCache() {
+  mapCache = {};
+}
+
 export async function parseStatblock(text, language = "en") {
   const map = await loadMap(language);
 
