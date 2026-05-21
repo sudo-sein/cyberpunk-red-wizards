@@ -8,15 +8,20 @@ const ARMOR_SLOT = /\s*\((Head|Body)\)\s*$/;
 const byName = (a, b) => a.name.localeCompare(b.name);
 const byItemName = (a, b) => a.itemName.localeCompare(b.itemName);
 
+// CPR uses type "base" for non-item helper documents: drug addiction/primary
+// effect carriers and migration-artifact duplicates. They are never selectable
+// gear, so drop them from every pack before building options.
+const realItems = (list) => (list ?? []).filter((i) => i.type !== "base");
+
 export function buildCatalog(packs) {
-  const weapons = (packs["core/weapons"] ?? [])
+  const weapons = realItems(packs["core/weapons"])
     .filter((i) => !QUALITY_SUFFIX.test(i.name))
     .map((i) => ({ itemName: i.name, packName: "core_weapons", damage: i.damage ?? "" }))
     .sort(byItemName);
 
   const paired = new Map();
   const shields = [];
-  for (const i of packs["core/armor"] ?? []) {
+  for (const i of realItems(packs["core/armor"])) {
     const m = i.name.match(ARMOR_SLOT);
     if (!m) {
       shields.push(i);
@@ -43,14 +48,19 @@ export function buildCatalog(packs) {
     }))
     .sort(byName);
 
+  const equipFrom = (list, packName) =>
+    realItems(list)
+      .filter((i) => !QUALITY_SUFFIX.test(i.name))
+      .map((i) => ({ itemName: i.name, packName }));
+
   const equipment = [
-    ...(packs["core/gear"] ?? []).map((i) => ({ itemName: i.name, packName: "core_gear" })),
-    ...(packs["core/drugs"] ?? []).map((i) => ({ itemName: i.name, packName: "core_drugs" })),
-    ...(packs["core/ammo"] ?? []).map((i) => ({ itemName: i.name, packName: "core_ammo" })),
-    ...shields.map((i) => ({ itemName: i.name, packName: "core_armor" })),
+    ...equipFrom(packs["core/gear"], "core_gear"),
+    ...equipFrom(packs["core/drugs"], "core_drugs"),
+    ...equipFrom(packs["core/ammo"], "core_ammo"),
+    ...shields.filter((i) => !QUALITY_SUFFIX.test(i.name)).map((i) => ({ itemName: i.name, packName: "core_armor" })),
   ].sort(byItemName);
 
-  const cyberware = (packs["core/cyberware"] ?? [])
+  const cyberware = realItems(packs["core/cyberware"])
     .map((i) => ({ itemName: i.name, packName: "core_cyberware" }))
     .sort(byItemName);
 

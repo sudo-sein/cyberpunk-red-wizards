@@ -350,14 +350,6 @@
       "packName": "core_drugs"
     },
     {
-      "itemName": "Black Lace Addiction",
-      "packName": "core_drugs"
-    },
-    {
-      "itemName": "Black Lace Primary",
-      "packName": "core_drugs"
-    },
-    {
       "itemName": "Blue Glass",
       "packName": "core_drugs"
     },
@@ -367,14 +359,6 @@
     },
     {
       "itemName": "Boost",
-      "packName": "core_drugs"
-    },
-    {
-      "itemName": "Boost Addiction",
-      "packName": "core_drugs"
-    },
-    {
-      "itemName": "Boost Primary",
       "packName": "core_drugs"
     },
     {
@@ -411,14 +395,6 @@
     },
     {
       "itemName": "Cyberdeck",
-      "packName": "core_gear"
-    },
-    {
-      "itemName": "Cyberdeck (Excellent)",
-      "packName": "core_gear"
-    },
-    {
-      "itemName": "Cyberdeck (Poor)",
       "packName": "core_gear"
     },
     {
@@ -535,14 +511,6 @@
     },
     {
       "itemName": "Linear Frame ∑ (Sigma)",
-      "packName": "core_gear"
-    },
-    {
-      "itemName": "Linear Frame Beta",
-      "packName": "core_gear"
-    },
-    {
-      "itemName": "Linear Frame Sigma",
       "packName": "core_gear"
     },
     {
@@ -718,14 +686,6 @@
       "packName": "core_drugs"
     },
     {
-      "itemName": "Smash Addiction",
-      "packName": "core_drugs"
-    },
-    {
-      "itemName": "Smash Primary",
-      "packName": "core_drugs"
-    },
-    {
       "itemName": "Speedheal",
       "packName": "core_drugs"
     },
@@ -743,18 +703,6 @@
     },
     {
       "itemName": "Synthcoke",
-      "packName": "core_drugs"
-    },
-    {
-      "itemName": "Synthcoke Addicted Primary",
-      "packName": "core_drugs"
-    },
-    {
-      "itemName": "Synthcoke Addiction",
-      "packName": "core_drugs"
-    },
-    {
-      "itemName": "Synthcoke Primary",
       "packName": "core_drugs"
     },
     {
@@ -840,14 +788,6 @@
       "packName": "core_cyberware"
     },
     {
-      "itemName": "AudioVox Acting",
-      "packName": "core_cyberware"
-    },
-    {
-      "itemName": "AudioVox Singing (Play Instrument)",
-      "packName": "core_cyberware"
-    },
-    {
       "itemName": "Big Knucks",
       "packName": "core_cyberware"
     },
@@ -869,10 +809,6 @@
     },
     {
       "itemName": "Chemskin",
-      "packName": "core_cyberware"
-    },
-    {
-      "itemName": "Chemskin & Techhair",
       "packName": "core_cyberware"
     },
     {
@@ -936,10 +872,6 @@
       "packName": "core_cyberware"
     },
     {
-      "itemName": "Grafted Muscle & Bone Lace",
-      "packName": "core_cyberware"
-    },
-    {
       "itemName": "Grafted Muscle and Bone Lace",
       "packName": "core_cyberware"
     },
@@ -973,14 +905,6 @@
     },
     {
       "itemName": "Implanted Linear Frame ∑ (Sigma)",
-      "packName": "core_cyberware"
-    },
-    {
-      "itemName": "Implanted Linear Frame Beta",
-      "packName": "core_cyberware"
-    },
-    {
-      "itemName": "Implanted Linear Frame Sigma",
       "packName": "core_cyberware"
     },
     {
@@ -1204,19 +1128,11 @@
       "packName": "core_cyberware"
     },
     {
-      "itemName": "Superchrome® Covering (Arm)",
-      "packName": "core_cyberware"
-    },
-    {
       "itemName": "Superchrome® Covering (Cyber Arm)",
       "packName": "core_cyberware"
     },
     {
       "itemName": "Superchrome® Covering (Cyber Leg)",
-      "packName": "core_cyberware"
-    },
-    {
-      "itemName": "Superchrome® Covering (Leg)",
       "packName": "core_cyberware"
     },
     {

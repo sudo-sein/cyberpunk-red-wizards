@@ -1,6 +1,6 @@
 // test/unit/build-catalog.test.mjs
 import { test } from "node:test";
-import { deepStrictEqual as eq } from "node:assert/strict";
+import { deepStrictEqual as eq, ok } from "node:assert/strict";
 import { buildCatalog } from "../../tools/build-catalog.mjs";
 
 const packs = {
@@ -20,8 +20,17 @@ const packs = {
     { name: "Sandevistan", type: "cyberware" },
     { name: "Rippers", type: "cyberware" },
   ],
-  "core/gear": [{ name: "Flashlight", type: "gear" }],
-  "core/drugs": [{ name: "Synthcoke", type: "drug" }],
+  "core/gear": [
+    { name: "Flashlight", type: "gear" },
+    { name: "Cyberdeck", type: "cyberdeck" },
+    { name: "Cyberdeck (Poor)", type: "cyberdeck" },
+    { name: "Linear Frame Beta", type: "base" },
+  ],
+  "core/drugs": [
+    { name: "Synthcoke", type: "drug" },
+    { name: "Boost Addiction", type: "base" },
+    { name: "Boost Primary", type: "base" },
+  ],
   "core/ammo": [{ name: "Grenade (Smoke)", type: "ammo" }],
 };
 
@@ -45,10 +54,20 @@ test("buildCatalog folds gear+drugs+ammo+unpaired-armor into equipment, sorted",
   eq(equipment, [
     { itemName: "Bodyweight Suit", packName: "core_armor" },
     { itemName: "Bullet Proof Shield", packName: "core_armor" },
+    { itemName: "Cyberdeck", packName: "core_gear" },
     { itemName: "Flashlight", packName: "core_gear" },
     { itemName: "Grenade (Smoke)", packName: "core_ammo" },
     { itemName: "Synthcoke", packName: "core_drugs" },
   ]);
+});
+
+test("buildCatalog excludes type:base items and quality-variant gear", () => {
+  const { equipment } = buildCatalog(packs);
+  const names = equipment.map((e) => e.itemName);
+  ok(!names.includes("Boost Addiction"), "type:base drug effect excluded");
+  ok(!names.includes("Boost Primary"), "type:base drug effect excluded");
+  ok(!names.includes("Linear Frame Beta"), "type:base migration artifact excluded");
+  ok(!names.includes("Cyberdeck (Poor)"), "quality variant excluded");
 });
 
 test("buildCatalog maps cyberware (incl. cyberweapons), sorted", () => {
