@@ -6,6 +6,13 @@ export async function createNpcFromTemplate(template, overrides = {}) {
   const name = overrides.name || template.name || game.i18n.localize(template.nameKey);
   const actorType = overrides.actorType || "mook";
 
+  const missing = [];
+  const want = async (packName, itemName) => {
+    const item = await fetchCompendiumItem(packName, itemName);
+    if (!item) missing.push(itemName);
+    return item;
+  };
+
   const ActorClass = getDocumentClass("Actor");
 
   // CPRMookActor.create() has a missing-return bug: it awaits super.create()
@@ -73,7 +80,7 @@ export async function createNpcFromTemplate(template, overrides = {}) {
     }
     const packName = specialtySkillPack(skill.name);
     if (!packName) continue;
-    const item = await fetchCompendiumItem(packName, skill.name);
+    const item = await want(packName, skill.name);
     if (!item) continue;
     const data = item.toObject();
     const statKey = data.system?.stat ?? "int";
@@ -85,7 +92,7 @@ export async function createNpcFromTemplate(template, overrides = {}) {
   // Armor (skip entries without packName — SP may come from cyberware)
   if (template.armor.head?.packName) {
     const armorRef = resolveAlternative(template.armor.head, overrides, "armor-head");
-    const item = await fetchCompendiumItem(armorRef.packName, armorRef.itemName);
+    const item = await want(armorRef.packName, armorRef.itemName);
     if (item) {
       const data = item.toObject();
       data.system.equipped = "equipped";
@@ -94,7 +101,7 @@ export async function createNpcFromTemplate(template, overrides = {}) {
   }
   if (template.armor.body?.packName) {
     const armorRef = resolveAlternative(template.armor.body, overrides, "armor-body");
-    const item = await fetchCompendiumItem(armorRef.packName, armorRef.itemName);
+    const item = await want(armorRef.packName, armorRef.itemName);
     if (item) {
       const data = item.toObject();
       data.system.equipped = "equipped";
@@ -110,6 +117,7 @@ export async function createNpcFromTemplate(template, overrides = {}) {
     if (!item && weaponName !== weaponRef.itemName) {
       item = await fetchCompendiumItem(weaponRef.packName, weaponRef.itemName);
     }
+    if (!item) missing.push(weaponRef.itemName);
     if (item) {
       const data = item.toObject();
       data.system.equipped = "equipped";
@@ -120,7 +128,7 @@ export async function createNpcFromTemplate(template, overrides = {}) {
   // Equipment
   for (let i = 0; i < template.equipment.length; i++) {
     const equipRef = resolveAlternative(template.equipment[i], overrides, `equip-${i}`);
-    const item = await fetchCompendiumItem(equipRef.packName, equipRef.itemName);
+    const item = await want(equipRef.packName, equipRef.itemName);
     if (item) {
       const data = item.toObject();
       if (equipRef.quantity) data.system.amount = equipRef.quantity;
@@ -132,14 +140,14 @@ export async function createNpcFromTemplate(template, overrides = {}) {
   const cyberwareStartIdx = itemsToCreate.length;
   for (let i = 0; i < template.cyberware.length; i++) {
     const cyberRef = resolveAlternative(template.cyberware[i], overrides, `cyber-${i}`);
-    const item = await fetchCompendiumItem(cyberRef.packName, cyberRef.itemName);
+    const item = await want(cyberRef.packName, cyberRef.itemName);
     if (item) itemsToCreate.push(item.toObject());
   }
   const cyberwareCount = itemsToCreate.length - cyberwareStartIdx;
 
   // Role ability
   if (template.role) {
-    const roleItem = await fetchCompendiumItem(template.role.packName, template.role.itemName);
+    const roleItem = await want(template.role.packName, template.role.itemName);
     if (roleItem) {
       const roleData = roleItem.toObject();
       if (template.role.rank != null) roleData.system.rank = template.role.rank;
@@ -160,6 +168,10 @@ export async function createNpcFromTemplate(template, overrides = {}) {
         "system.installedItems.list": [...existingInstalled, ...newCyberwareIds],
       });
     }
+  }
+
+  if (missing.length) {
+    ui.notifications.warn(game.i18n.format("crw.npc.ui.missingItems", { items: [...new Set(missing)].join(", ") }));
   }
 
   return actor;
