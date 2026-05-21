@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/Foundry-v12-informational)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/sudo-sein/cyberpunk-red-wizards/latest/module.zip)
-![Total Download Count](https://img.shields.io/github/downloads/sudo-sein/cyberpunk-red-wizards/total)
+![Total Download Count](https://img.shields.io/github/downloads/sudo-sein/cyberpunk-red-wizards/module.zip?displayAssetName=false&label=total%20downloads)
 
 # Cyberpunk RED Wizards
 
