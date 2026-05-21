@@ -1,16 +1,6 @@
 <div class="crw-step-summary">
   <h3 class="crw-section-title">{{localize "crw.summary.title"}}</h3>
 
-  <div class="crw-summary-checklist">
-    <h4 class="crw-category-title">{{localize "crw.summary.checklist"}}</h4>
-    {{#each checks}}
-    <div class="crw-check-row {{#if passed}}crw-check-pass{{else}}crw-check-fail{{/if}}">
-      <i class="fas {{#if passed}}fa-check-circle{{else}}fa-times-circle{{/if}}"></i>
-      <span>{{localize label}}</span>
-    </div>
-    {{/each}}
-  </div>
-
   <div class="crw-summary-section">
     <h4 class="crw-category-title">{{localize "crw.summary.identity"}}</h4>
     <div class="crw-summary-row"><span>{{localize "crw.summary.handle"}}</span><span>{{handle}}</span></div>

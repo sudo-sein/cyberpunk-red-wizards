@@ -74,6 +74,8 @@
   padding: 8px 20px;
   border-radius: 4px;
   cursor: pointer;
+  flex: none;
+  width: auto;
   font-size: var(--cpr-font-small);
 }
 
