@@ -11,10 +11,10 @@ const packs = {
     { name: "Assault Rifle", type: "weapon", damage: "5d6" },
   ],
   "core/armor": [
-    { name: "Leathers (Head)", type: "armor", sp: 4 },
-    { name: "Leathers (Body)", type: "armor", sp: 4 },
-    { name: "Bodyweight Suit", type: "armor", sp: 11 },
-    { name: "Bullet Proof Shield", type: "armor", sp: 10 },
+    { name: "Leathers (Head)", type: "armor", headSp: 4, bodySp: 0 },
+    { name: "Leathers (Body)", type: "armor", headSp: 0, bodySp: 4 },
+    { name: "Bodyweight Suit", type: "armor", headSp: 11, bodySp: 11 },
+    { name: "Bullet Proof Shield", type: "armor", isShield: true, headSp: 0, bodySp: 0 },
   ],
   "core/cyberware": [
     { name: "Sandevistan", type: "cyberware" },

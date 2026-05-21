@@ -26,10 +26,10 @@ export function buildCatalog(packs) {
     const entry = paired.get(base) ?? { name: base };
     if (m[1] === "Head") {
       entry.headItem = i.name;
-      entry.headSp = i.sp;
+      entry.headSp = i.headSp;
     } else {
       entry.bodyItem = i.name;
-      entry.bodySp = i.sp;
+      entry.bodySp = i.bodySp;
     }
     paired.set(base, entry);
   }
