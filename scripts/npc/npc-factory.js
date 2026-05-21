@@ -1,4 +1,4 @@
-import { fetchCompendiumItem } from "../data/role-loader.js";
+import { fetchCompendiumItem } from "../utils/compendium.js";
 import { STAT_KEYS } from "../constants.js";
 
 export async function createNpcFromTemplate(template, overrides = {}) {
