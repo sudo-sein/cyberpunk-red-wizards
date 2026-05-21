@@ -1,5 +1,6 @@
 import { TIER_ORDER } from "../data/npc-loader.js";
 import { STAT_KEYS } from "../constants.js";
+import { calculateHP, calculateSeriousWound } from "../utils/derived-stats.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -278,7 +279,7 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
         t.name = el.querySelector("[name='name']")?.value ?? t.name;
         t.tier = el.querySelector("[name='tier']")?.value ?? t.tier;
         t.hp = Number(el.querySelector("[name='hp']")?.value) || 0;
-        t.seriousWound = Math.floor(t.hp / 2);
+        t.seriousWound = calculateSeriousWound(t.hp);
         t.deathSave = t.stats.body;
         break;
       }
@@ -369,7 +370,8 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
   static #onCalcHp() {
     this.#readCurrentStep();
     const { body, will } = this.#template.stats;
-    this.#template.hp = 10 + 5 * Math.ceil((body + will) / 2);
+    this.#template.hp = calculateHP(body, will);
+    this.#template.seriousWound = calculateSeriousWound(this.#template.hp);
     this.render(true);
   }
 
