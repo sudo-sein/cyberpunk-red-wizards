@@ -1,10 +1,8 @@
 import { loadAllTemplates, TIER_ORDER, getCustomTemplates, saveCustomTemplates, clearNpcCache } from "../data/npc-loader.js";
 import { createNpcFromTemplate } from "../npc/npc-factory.js";
+import { STAT_KEYS, STAT_ABBRS } from "../constants.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
-
-const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
-const STAT_ABBRS = { int: "INT", ref: "REF", dex: "DEX", tech: "TECH", cool: "COOL", will: "WILL", luck: "LUCK", move: "MOVE", body: "BODY", emp: "EMP" };
 const VISIBLE_SKILLS_COUNT = 8;
 
 export default class NpcGeneratorApp extends HandlebarsApplicationMixin(ApplicationV2) {
@@ -314,11 +312,13 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
     const template = this.#templates.find(t => t.id === this.#state.selectedTemplateId);
     if (!template || (template.source ?? "built-in") === "built-in") return;
 
-    const confirm = await Dialog.confirm({
-      title: game.i18n.localize("crw.npc.ui.deleteTemplate"),
+    const { DialogV2 } = foundry.applications.api;
+    const confirmed = await DialogV2.confirm({
+      window: { title: game.i18n.localize("crw.npc.ui.deleteTemplate") },
       content: `<p>${game.i18n.localize("crw.npc.ui.deleteConfirm")}</p>`,
+      rejectClose: false,
     });
-    if (!confirm) return;
+    if (!confirmed) return;
 
     const custom = getCustomTemplates();
     delete custom[template.id];

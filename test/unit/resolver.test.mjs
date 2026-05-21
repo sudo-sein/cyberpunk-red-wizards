@@ -8,7 +8,10 @@ const map = {
   qualityPrefixes: { "Poor Quality": "poor", "Excellent": "excellent" },
   weapons: { "Assault Rifle": "Assault Rifle", "Wolvers": "Wolvers", "Heavy SMG": "Heavy SMG", "Medium Melee Weapon": "Medium Melee" },
   cyberwareWeapons: ["Wolvers", "Popup Grenade Launcher", "Cybersnake"],
-  weaponUpgrades: { "Underbarrel Shotgun": { packName: "core_upgrades", itemName: "Shotgun Underbarrel" } },
+  weaponUpgrades: {
+    "Underbarrel Shotgun": { packName: "core_upgrades", itemName: "Shotgun Underbarrel" },
+    "Drum Magazine": { packName: "core_upgrades", itemName: "Drum Magazine (Assault Rifle)" },
+  },
   popupWeapons: { "Popup Heavy SMG": { weapon: "Heavy SMG", mount: "Popup Ranged Weapon" } },
   roleAbilities: { "Combat Awareness": "Solo", "Moto Family": "Nomad" },
   skills: { "Athletics": "Athletics", "Local Expert": "Local Expert" },
@@ -22,6 +25,10 @@ const map = {
     "Bulletproof Shield": { packName: "core_armor", itemName: "Bullet Proof Shield" },
     "Cybereye": { packName: "core_cyberware", itemName: "Cybereye" },
     "Lowlight/Infrared/UV": { packName: "core_cyberware", itemName: "Low Light/IR/UV" },
+    "Implanted Linear Frame Σ (Sigma)": { packName: "core_cyberware", itemName: "Implanted Linear Frame ∑ (Sigma)" },
+    "Targeting Scope": { packName: "core_cyberware", itemName: "Targeting Scope" },
+    "TeleOptics": { packName: "core_cyberware", itemName: "TeleOptics" },
+    "Grafted Muscle & Bone Lace": { packName: "core_cyberware", itemName: "Grafted Muscle and Bone Lace" },
   },
 };
 
@@ -49,6 +56,24 @@ test("resolveWeapon popup splits into weapon + mount", () => {
 test("resolveWeapon routes weapon upgrade to equipment", () => {
   eq(resolveWeapon("Underbarrel Shotgun", "3d6", map).entries,
      [{ kind: "equipment", packName: "core_upgrades", itemName: "Shotgun Underbarrel", quantity: 1 }]);
+});
+test("resolveWeapon 'w/' clause splits base weapon from upgrade equipment", () => {
+  eq(resolveWeapon("Assault Rifle w/ Underbarrel Shotgun", "5d6", map).entries, [
+    { kind: "weapon", packName: "core_weapons", itemName: "Assault Rifle", quality: "standard", damage: "5d6" },
+    { kind: "equipment", packName: "core_upgrades", itemName: "Shotgun Underbarrel", quantity: 1 },
+  ]);
+});
+test("resolveWeapon 'w/' clause keeps base quality prefix", () => {
+  const r = resolveWeapon("Poor Quality Assault Rifle w/ Drum Magazine", "5d6", map);
+  eq(r.entries, [
+    { kind: "weapon", packName: "core_weapons", itemName: "Assault Rifle", quality: "poor", damage: "5d6" },
+    { kind: "equipment", packName: "core_upgrades", itemName: "Drum Magazine (Assault Rifle)", quantity: 1 },
+  ]);
+});
+test("resolveWeapon unknown 'w/' upgrade produces error but keeps base weapon", () => {
+  const r = resolveWeapon("Assault Rifle w/ Frob Mount", "5d6", map);
+  eq(r.entries, [{ kind: "weapon", packName: "core_weapons", itemName: "Assault Rifle", quality: "standard", damage: "5d6" }]);
+  eq(r.errors.length, 1);
 });
 test("resolveWeapon unknown produces error", () => {
   const r = resolveWeapon("Frob Cannon", "9d6", map);
@@ -101,6 +126,21 @@ test("resolveEquipmentToken splits 'w/' clause into base + accessory", () => {
     { packName: "core_cyberware", itemName: "Cybereye", quantity: 2 },
     { packName: "core_cyberware", itemName: "Low Light/IR/UV", quantity: 1 },
   ]);
+});
+test("resolveEquipmentToken matches a canonical name that contains parens as a whole", () => {
+  eq(resolveEquipmentToken("Implanted Linear Frame Σ (Sigma)", map).entries,
+     [{ packName: "core_cyberware", itemName: "Implanted Linear Frame ∑ (Sigma)", quantity: 1 }]);
+});
+test("resolveEquipmentToken splits 'w/' clause with '&'-joined accessories", () => {
+  eq(resolveEquipmentToken("Cybereye w/ Targeting Scope & Teleoptics", map).entries, [
+    { packName: "core_cyberware", itemName: "Cybereye", quantity: 1 },
+    { packName: "core_cyberware", itemName: "Targeting Scope", quantity: 1 },
+    { packName: "core_cyberware", itemName: "TeleOptics", quantity: 1 },
+  ]);
+});
+test("resolveEquipmentToken matches a canonical name containing '&' as a whole", () => {
+  eq(resolveEquipmentToken("Grafted Muscle & Bone Lace", map).entries,
+     [{ packName: "core_cyberware", itemName: "Grafted Muscle and Bone Lace", quantity: 1 }]);
 });
 test("addCyberware dedups by itemName", () => {
   const list = [];

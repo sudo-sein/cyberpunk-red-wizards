@@ -51,14 +51,29 @@ export function parseQuantity(token) {
   return { name: token.trim(), quantity: 1 };
 }
 
-// Detect and strip a leading quality prefix from a weapon name.
+// Detect and strip a quality marker from a weapon name. English statblocks put
+// the marker first ("Poor Quality Shotgun"); Polish puts it last ("Strzelba
+// niskiej jakości"), so we strip a matching marker from either end.
 export function stripQualityPrefix(name, qualityPrefixes) {
-  for (const [prefix, q] of Object.entries(qualityPrefixes || {})) {
-    if (name.toLowerCase().startsWith(prefix.toLowerCase())) {
-      return { name: name.slice(prefix.length).trim(), quality: q };
+  const trimmed = name.trim();
+  const lower = trimmed.toLowerCase();
+  for (const [marker, q] of Object.entries(qualityPrefixes || {})) {
+    const m = marker.toLowerCase();
+    if (lower.startsWith(m)) {
+      return { name: trimmed.slice(marker.length).trim(), quality: q };
+    }
+    if (lower.endsWith(m)) {
+      return { name: trimmed.slice(0, trimmed.length - marker.length).trim(), quality: q };
     }
   }
-  return { name: name.trim(), quality: "standard" };
+  return { name: trimmed, quality: "standard" };
+}
+
+// The armor label(s) a card may use. A map normally has a single armorKeyword,
+// but PL cards mix the English junk-block keyword ("Armor:") with a localized
+// real-armor keyword ("Pancerz:"), so a map may list several in armorKeywords.
+export function armorKeywordList(labels) {
+  return labels.armorKeywords ?? [labels.armorKeyword];
 }
 
 // Recover OCR-dropped commas: a ')' followed by whitespace then a capital

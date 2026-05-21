@@ -301,6 +301,7 @@
   "crw.npc.ui.deathSave": "Death Save",
   "crw.npc.ui.head": "Head",
   "crw.npc.ui.body": "Body",
+  "crw.npc.ui.missingItems": "Some items were not found and were skipped: {items}",
 
   "crw.npc.tierName.amateur": "Amateur",
   "crw.npc.tierName.competent": "Competent",
@@ -409,6 +410,7 @@
   "crw.creator.gmOffline": "The GM must be online to create a character.",
   "crw.creator.assigned": "Character {name} created and assigned to you.",
   "crw.creator.alreadyHasCharacter": "You already have a character assigned.",
+  "crw.creator.missingItems": "Some items were not found and were skipped: {items}",
 
   "crw.relationships.title": "Relationships",
   "crw.relationships.subtitle": "Roll or choose your character's friends, love affairs, and enemies",

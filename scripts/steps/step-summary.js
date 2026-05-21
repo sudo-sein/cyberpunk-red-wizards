@@ -1,11 +1,10 @@
 import StepBase from "./step-base.js";
 import { calculateAllDerived } from "../utils/derived-stats.js";
 import { runFullChecklist } from "../utils/validation.js";
-import { loadRole, fetchCompendiumItem, fetchCompendiumItems } from "../data/role-loader.js";
+import { loadRole } from "../data/role-loader.js";
+import { fetchCompendiumItem, fetchCompendiumItems } from "../utils/compendium.js";
+import { STAT_KEYS } from "../constants.js";
 
-const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
-
-// Specialty skills not in internal_skills — must be fetched from dedicated packs
 // Specialty skills not in internal_skills — fetch from dedicated packs.
 // defaultName: specific item to look for; falls back to first item in pack.
 const SPECIALTY_SKILLS = {
@@ -118,6 +117,13 @@ export default class StepSummary extends StepBase {
   async createCharacter(state) {
     const roleData = state.role?.id ? await loadRole(state.role.id) : null;
 
+    const missing = [];
+    const want = async (packName, itemName) => {
+      const item = await fetchCompendiumItem(packName, itemName);
+      if (!item) missing.push(itemName);
+      return item;
+    };
+
     // Create actor WITHOUT system data so cpr-actor.create() auto-populates
     // core skills and cyberware from internal compendium packs
     // Use implementation class so CPRActor.create() runs and populates core items
@@ -134,9 +140,15 @@ export default class StepSummary extends StepBase {
       },
     });
 
-    // Clear auto-installed cyberware — items stay in inventory but are not
-    // considered installed, so humanity is unaffected.
+    // CPRActor.create() auto-populates empty foundational cyberware containers
+    // (Fashionware/Internal/External "Option Slots") that the creator never
+    // uses. Uninstall first so deletion doesn't fight the install bookkeeping,
+    // then remove the item docs so they don't clutter the sheet.
     await actor.update({ "system.installedItems.list": [] });
+    const autoCyberwareIds = actor.itemTypes.cyberware.map((cw) => cw.id);
+    if (autoCyberwareIds.length) {
+      await actor.deleteEmbeddedDocuments("Item", autoCyberwareIds);
+    }
 
     const statsData = {};
     for (const key of STAT_KEYS) {
@@ -166,7 +178,7 @@ export default class StepSummary extends StepBase {
         await skillItem.update({ "system.level": skill.level });
       } else if (SPECIALTY_SKILLS[skill.name]) {
         const { pack, defaultName } = SPECIALTY_SKILLS[skill.name];
-        let doc = defaultName ? await fetchCompendiumItem(pack, defaultName) : null;
+        let doc = defaultName ? await want(pack, defaultName) : null;
         if (!doc) {
           const docs = await fetchCompendiumItems(pack);
           if (docs.length > 0) doc = docs[0];
@@ -188,7 +200,7 @@ export default class StepSummary extends StepBase {
     const itemsToCreate = [];
 
     if (state.role?.id) {
-      const roleItem = await fetchCompendiumItem("core_roles", game.i18n.localize(`crw.roles.${state.role.id}`));
+      const roleItem = await want("core_roles", game.i18n.localize(`crw.roles.${state.role.id}`));
       if (roleItem) {
         const roleItemData = roleItem.toObject();
         roleItemData.system.rank = 4;
@@ -203,12 +215,18 @@ export default class StepSummary extends StepBase {
         const items = roleData.equipment[cat] ?? [];
         for (const item of items) {
           if (item.choice) {
-            const chosenName = state.gear.choices?.[choiceIdx] ?? item.choice[0];
+            const options = item.choice.map(o =>
+              typeof o === "string"
+                ? { itemName: o, packName: item.packName }
+                : { itemName: o.itemName, packName: o.packName ?? item.packName }
+            );
+            const chosenName = state.gear.choices?.[choiceIdx] ?? options[0].itemName;
             choiceIdx++;
-            const compItem = await fetchCompendiumItem(item.packName, chosenName);
+            const opt = options.find(o => o.itemName === chosenName) ?? options[0];
+            const compItem = await want(opt.packName, opt.itemName);
             if (compItem) itemsToCreate.push(compItem.toObject());
           } else {
-            const compItem = await fetchCompendiumItem(item.packName, item.itemName);
+            const compItem = await want(item.packName, item.itemName);
             if (compItem) {
               const itemData = compItem.toObject();
               if (item.quantity) itemData.system.amount = item.quantity;
@@ -221,6 +239,10 @@ export default class StepSummary extends StepBase {
 
     if (itemsToCreate.length > 0) {
       await actor.createEmbeddedDocuments("Item", itemsToCreate);
+    }
+
+    if (missing.length) {
+      ui.notifications.warn(game.i18n.format("crw.creator.missingItems", { items: [...new Set(missing)].join(", ") }));
     }
 
     return actor;

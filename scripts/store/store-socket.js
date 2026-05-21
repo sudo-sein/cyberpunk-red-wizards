@@ -1,19 +1,15 @@
+// scripts/store/store-socket.js
+import { MODULE_ID } from "../constants.js";
+import { getSocket } from "../socket.js";
 import StoreApp from "../app/store-app.js";
 
-const MODULE_ID = "cyberpunk-red-wizards";
-
-let socket = null;
-
-export function initSocket() {
-  socket = socketlib.registerModule(MODULE_ID);
+export function initStoreSocket() {
+  const socket = getSocket();
   socket.register("updateStoreState", onStoreStateReceived);
 }
 
-export function getSocket() {
-  return socket;
-}
-
 export function broadcastStoreState() {
+  const socket = getSocket();
   if (!game.user.isGM || !socket) return;
   const markup = game.settings.get(MODULE_ID, "storeMarkup");
   const availability = game.settings.get(MODULE_ID, "storeAvailability");

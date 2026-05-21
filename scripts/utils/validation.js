@@ -1,4 +1,4 @@
-const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
+import { STAT_KEYS } from "../constants.js";
 
 export function validateStatsComplete(stats) {
   const sum = STAT_KEYS.reduce((acc, k) => acc + (stats[k] ?? 0), 0);

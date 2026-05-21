@@ -48,6 +48,19 @@ test("parseArmor cyberware-SP armor has no packName", () => {
   eq(a.body, { name: "Subdermal", sp: 11 });
 });
 
+test("parseArmor slices the name after an alternate armor keyword (PL)", () => {
+  const plMap = {
+    labels: {
+      armorKeyword: "Pancerz:", armorKeywords: ["Pancerz:", "Armor:"],
+      headSp: "Głowa\\s+OB\\s+(\\d+)", bodySp: "Ciało\\s+OB\\s+(\\d+)",
+    },
+    armor: { "Śr. kurtka kuloodp.": { head: "Medium Armorjack (Head)", body: "Medium Armorjack (Body)", sp: 12 } },
+  };
+  const a = parseArmor([["Armor: Śr. kurtka kuloodp.", "Głowa OB 12", "Ciało OB 12"]], plMap);
+  eq(a.head, { name: "Śr. kurtka kuloodp.", sp: 12, packName: "core_armor", itemName: "Medium Armorjack (Head)" });
+  eq(a.body, { name: "Śr. kurtka kuloodp.", sp: 12, packName: "core_armor", itemName: "Medium Armorjack (Body)" });
+});
+
 test("parseWeapons joins wrapped names and routes cyberweapons", () => {
   const r = parseWeapons([[
     "Assault Rifle 5d6 Medium Melee", "Weapon 2d6", "Very Heavy Pistol 4d6",

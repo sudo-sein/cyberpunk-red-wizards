@@ -54,6 +54,21 @@ test("collects repeated armor/weapons blocks in order", () => {
   eq(s.weapons[1][0], "Assault Rifle 5d6");
 });
 
+test("recognizes an alternate armor keyword (PL cards mixing 'Armor:'/'Pancerz:')", () => {
+  const plMap = {
+    labels: { armorKeyword: "Pancerz:", armorKeywords: ["Pancerz:", "Armor:"], weaponsKeyword: "Uzbrojenie" },
+    sectionHeaders: {
+      stats: "INT ▶ REF ▶ ZW ▶ TECH ▶ CHA",
+      hp: "▶ Punkty Wytrzymałości", armor: "Pancerz:", weapons: "Uzbrojenie",
+      skills: "umiejętności", equipment: "▶ Cyborgizacje oraz wyp. spec.",
+    },
+  };
+  const lines = ["Armor: Śr. kurtka kuloodp.", "Głowa OB 12", "Ciało OB 12"];
+  const s = sectionize(lines, plMap);
+  eq(s.armor.length, 1);
+  eq(s.armor[0][0], "Armor: Śr. kurtka kuloodp.");
+});
+
 test("captures stats header line and the following number line", () => {
   const lines = [
     "▶ INT ▶ REF ▶ DEX ▶ TECH ▶ COOL 4 8 6 4 6",

@@ -301,6 +301,7 @@
   "crw.npc.ui.deathSave": "Rzut na Śmierć",
   "crw.npc.ui.head": "Głowa",
   "crw.npc.ui.body": "Korpus",
+  "crw.npc.ui.missingItems": "Niektórych przedmiotów nie znaleziono i zostały pominięte: {items}",
 
   "crw.npc.tierName.amateur": "Amator",
   "crw.npc.tierName.competent": "Kompetentny",
@@ -409,6 +410,7 @@
   "crw.creator.gmOffline": "GM musi być online, aby stworzyć postać.",
   "crw.creator.assigned": "Postać {name} została stworzona i przypisana do Ciebie.",
   "crw.creator.alreadyHasCharacter": "Masz już przypisaną postać.",
+  "crw.creator.missingItems": "Niektórych przedmiotów nie znaleziono i zostały pominięte: {items}",
 
   "crw.relationships.title": "Relacje",
   "crw.relationships.subtitle": "Rzuć lub wybierz przyjaciół, romanse i wrogów swojej postaci",

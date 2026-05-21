@@ -1,8 +1,9 @@
 import { TIER_ORDER } from "../data/npc-loader.js";
+import { STAT_KEYS } from "../constants.js";
+import { calculateHP, calculateSeriousWound } from "../utils/derived-stats.js";
+import { buildOptions, resolveSelection, PRESERVE_ID } from "../utils/editor-options.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
-
-const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
 
 export const ARMOR_OPTIONS = [
   { id: "none", name: "None", sp: 0, packName: "", headItem: "", bodyItem: "" },
@@ -12,7 +13,7 @@ export const ARMOR_OPTIONS = [
   { id: "medium-armorjack", name: "Medium Armorjack", sp: 12, packName: "core_armor", headItem: "Medium Armorjack (Head)", bodyItem: "Medium Armorjack (Body)" },
   { id: "heavy-armorjack", name: "Heavy Armorjack", sp: 13, packName: "core_armor", headItem: "Heavy Armorjack (Head)", bodyItem: "Heavy Armorjack (Body)" },
   { id: "flak", name: "Flak", sp: 15, packName: "core_armor", headItem: "Flak (Head)", bodyItem: "Flak (Body)" },
-  { id: "metalgear", name: "Metalgear", sp: 18, packName: "core_armor", headItem: "Metalgear™ (Head)", bodyItem: "Metalgear™ (Body)" },
+  { id: "metalgear", name: "Metalgear", sp: 18, packName: "core_armor", headItem: "Metalgear® (Head)", bodyItem: "Metalgear® (Body)" },
 ];
 
 export const WEAPON_OPTIONS = [
@@ -185,27 +186,28 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
 
   #prepareCombat() {
     const t = this.#template;
-    const headMatch = this.#matchArmorOption(t.armor.head, "head");
-    const bodyMatch = this.#matchArmorOption(t.armor.body, "body");
-
-    return {
-      armorOptions: ARMOR_OPTIONS.map(o => ({
+    // Build a per-slot armor option list so an unknown (preserved) item in one
+    // slot shows its own correct label, independent of the other slot.
+    const armorSlotOptions = (match, slot) => {
+      const rows = ARMOR_OPTIONS.map(o => ({
         id: o.id,
-        label: o.id === "none"
-          ? game.i18n.localize("crw.npc.editor.armorNone")
-          : `${o.name} (SP ${o.sp})`,
-        headSelected: o.id === headMatch,
-        bodySelected: o.id === bodyMatch,
-      })),
+        label: o.id === "none" ? game.i18n.localize("crw.npc.editor.armorNone") : `${o.name} (SP ${o.sp})`,
+        selected: o.id === match,
+      }));
+      if (match === PRESERVE_ID) {
+        rows.push({ id: PRESERVE_ID, label: slot?.itemName || "(current)", selected: true });
+      }
+      return rows;
+    };
+    return {
+      headArmorOptions: armorSlotOptions(this.#matchArmorOption(t.armor.head, "head"), t.armor.head),
+      bodyArmorOptions: armorSlotOptions(this.#matchArmorOption(t.armor.body, "body"), t.armor.body),
       weapons: t.weapons.map(w => {
-        const matchId = WEAPON_OPTIONS.find(o => o.itemName === w.itemName)?.id ?? WEAPON_OPTIONS[0].id;
-        return {
-          options: WEAPON_OPTIONS.map(o => ({
-            id: o.id,
-            label: `${o.itemName} (${o.damage})`,
-            selected: o.id === matchId,
-          })),
-        };
+        const { options } = buildOptions(
+          WEAPON_OPTIONS.map(o => ({ ...o, label: `${o.itemName} (${o.damage})` })),
+          w, o => o.id, "label",
+        );
+        return { options };
       }),
     };
   }
@@ -230,25 +232,18 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
     const t = this.#template;
     return {
       equipment: t.equipment.map(e => {
-        const matchId = EQUIPMENT_OPTIONS.find(o => o.itemName === e.itemName)?.id ?? EQUIPMENT_OPTIONS[0].id;
-        return {
-          quantity: e.quantity ?? 1,
-          options: EQUIPMENT_OPTIONS.map(o => ({
-            id: o.id,
-            label: o.itemName,
-            selected: o.id === matchId,
-          })),
-        };
+        const { options } = buildOptions(
+          EQUIPMENT_OPTIONS.map(o => ({ ...o, label: o.itemName })),
+          e, o => o.id, "label",
+        );
+        return { quantity: e.quantity ?? 1, options };
       }),
       cyberware: t.cyberware.map(c => {
-        const matchId = CYBERWARE_OPTIONS.find(o => o.itemName === c.itemName)?.id ?? CYBERWARE_OPTIONS[0].id;
-        return {
-          options: CYBERWARE_OPTIONS.map(o => ({
-            id: o.id,
-            label: o.itemName,
-            selected: o.id === matchId,
-          })),
-        };
+        const { options } = buildOptions(
+          CYBERWARE_OPTIONS.map(o => ({ ...o, label: o.itemName })),
+          c, o => o.id, "label",
+        );
+        return { options };
       }),
       roleOptions: ROLE_OPTIONS.map(o => ({
         id: o.id,
@@ -266,7 +261,7 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
       if (opt.id === "none") continue;
       if (armorSlot.itemName === opt[itemKey]) return opt.id;
     }
-    return "none";
+    return PRESERVE_ID;
   }
 
   #readCurrentStep() {
@@ -279,26 +274,34 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
         t.name = el.querySelector("[name='name']")?.value ?? t.name;
         t.tier = el.querySelector("[name='tier']")?.value ?? t.tier;
         t.hp = Number(el.querySelector("[name='hp']")?.value) || 0;
-        t.seriousWound = Math.floor(t.hp / 2);
+        t.seriousWound = calculateSeriousWound(t.hp);
         t.deathSave = t.stats.body;
         break;
       }
       case 1: {
         const headId = el.querySelector("[name='armorHead']")?.value ?? "none";
         const bodyId = el.querySelector("[name='armorBody']")?.value ?? "none";
+        const prevHead = t.armor.head, prevBody = t.armor.body;
         const headOpt = ARMOR_OPTIONS.find(o => o.id === headId);
         const bodyOpt = ARMOR_OPTIONS.find(o => o.id === bodyId);
-        t.armor.head = headOpt && headOpt.id !== "none"
-          ? { name: headOpt.name, sp: headOpt.sp, packName: headOpt.packName, itemName: headOpt.headItem }
-          : { name: "", sp: 0, packName: "", itemName: "" };
-        t.armor.body = bodyOpt && bodyOpt.id !== "none"
-          ? { name: bodyOpt.name, sp: bodyOpt.sp, packName: bodyOpt.packName, itemName: bodyOpt.bodyItem }
-          : { name: "", sp: 0, packName: "", itemName: "" };
+        t.armor.head = headId === PRESERVE_ID ? prevHead
+          : headOpt && headOpt.id !== "none"
+            ? { name: headOpt.name, sp: headOpt.sp, packName: headOpt.packName, itemName: headOpt.headItem }
+            : { name: "", sp: 0, packName: "", itemName: "" };
+        t.armor.body = bodyId === PRESERVE_ID ? prevBody
+          : bodyOpt && bodyOpt.id !== "none"
+            ? { name: bodyOpt.name, sp: bodyOpt.sp, packName: bodyOpt.packName, itemName: bodyOpt.bodyItem }
+            : { name: "", sp: 0, packName: "", itemName: "" };
 
+        const prevWeapons = t.weapons;
         t.weapons = [];
-        el.querySelectorAll("[name^='weapon-']").forEach(select => {
-          const opt = WEAPON_OPTIONS.find(o => o.id === select.value);
-          if (opt) t.weapons.push({ packName: opt.packName, itemName: opt.itemName, quality: "standard", damage: opt.damage });
+        el.querySelectorAll("[name^='weapon-']").forEach((select, i) => {
+          if (select.value === PRESERVE_ID) {
+            if (prevWeapons[i]) t.weapons.push(prevWeapons[i]);
+            return;
+          }
+          const resolved = resolveSelection(select.value, WEAPON_OPTIONS);
+          if (resolved) t.weapons.push({ packName: resolved.packName, itemName: resolved.itemName, quality: "standard", damage: resolved.damage });
         });
         break;
       }
@@ -312,19 +315,29 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
         break;
       }
       case 3: {
+        const prevEquip = t.equipment;
         t.equipment = [];
-        el.querySelectorAll(".crw-editor-equip-row").forEach(row => {
+        el.querySelectorAll(".crw-editor-equip-row").forEach((row, i) => {
           const id = row.querySelector("select")?.value;
           const qty = Number(row.querySelector("input[type='number']")?.value) || 1;
-          const opt = EQUIPMENT_OPTIONS.find(o => o.id === id);
-          if (opt) t.equipment.push({ packName: opt.packName, itemName: opt.itemName, quantity: qty });
+          if (id === PRESERVE_ID) {
+            if (prevEquip[i]) t.equipment.push({ ...prevEquip[i], quantity: qty });
+            return;
+          }
+          const resolved = resolveSelection(id, EQUIPMENT_OPTIONS);
+          if (resolved) t.equipment.push({ packName: resolved.packName, itemName: resolved.itemName, quantity: qty });
         });
 
+        const prevCyber = t.cyberware;
         t.cyberware = [];
-        el.querySelectorAll(".crw-editor-cyber-row").forEach(row => {
+        el.querySelectorAll(".crw-editor-cyber-row").forEach((row, i) => {
           const id = row.querySelector("select")?.value;
-          const opt = CYBERWARE_OPTIONS.find(o => o.id === id);
-          if (opt) t.cyberware.push({ packName: opt.packName, itemName: opt.itemName });
+          if (id === PRESERVE_ID) {
+            if (prevCyber[i]) t.cyberware.push(prevCyber[i]);
+            return;
+          }
+          const resolved = resolveSelection(id, CYBERWARE_OPTIONS);
+          if (resolved) t.cyberware.push({ packName: resolved.packName, itemName: resolved.itemName });
         });
 
         const roleId = el.querySelector("[name='role']")?.value ?? "none";
@@ -370,7 +383,8 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
   static #onCalcHp() {
     this.#readCurrentStep();
     const { body, will } = this.#template.stats;
-    this.#template.hp = 10 + 5 * Math.ceil((body + will) / 2);
+    this.#template.hp = calculateHP(body, will);
+    this.#template.seriousWound = calculateSeriousWound(this.#template.hp);
     this.render(true);
   }
 

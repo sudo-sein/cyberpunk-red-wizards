@@ -154,13 +154,6 @@
       "difficulty": "typical"
     },
     {
-      "name": "Cryo Tank Operation",
-      "fixedLevel": 4,
-      "stat": "tech",
-      "category": "techniqueSkills",
-      "difficulty": "typical"
-    },
-    {
       "name": "Cybertech",
       "fixedLevel": 4,
       "stat": "tech",
@@ -300,7 +293,7 @@
         "itemName": "Medtech Bag"
       },
       {
-        "packName": "core_gear",
+        "packName": "core_drugs",
         "itemName": "Stim",
         "quantity": 3
       }

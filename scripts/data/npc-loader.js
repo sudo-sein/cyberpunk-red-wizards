@@ -1,5 +1,6 @@
+import { MODULE_ID } from "../constants.js";
+
 const MODULE_PATH = "modules/cyberpunk-red-wizards";
-const MODULE_ID = "cyberpunk-red-wizards";
 
 const TIER_FILES = [
   "amateur",

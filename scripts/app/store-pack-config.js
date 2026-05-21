@@ -1,4 +1,4 @@
-const MODULE_ID = "cyberpunk-red-wizards";
+import { MODULE_ID } from "../constants.js";
 
 const PACK_GROUPS = [
   { key: "group:core", prefix: "cyberpunk-red-core.core_", label: "Core Rulebook" },

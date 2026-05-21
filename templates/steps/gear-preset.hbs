@@ -9,13 +9,11 @@
     {{#if choice}}
     <div class="crw-gear-choice">
       <span class="crw-gear-choice-label">{{localize "crw.gear.chooseOne"}}</span>
-      {{#each choice}}
-      <label class="crw-gear-radio">
-        <input type="radio" name="choice-{{../choiceIndex}}" value="{{this}}"
-               {{#if (eq this ../selected)}}checked{{/if}}>
-        {{this}}
-      </label>
-      {{/each}}
+      <select class="crw-gear-select" name="choice-{{choiceIndex}}">
+        {{#each choice}}
+        <option value="{{this}}" {{#if (eq this ../selected)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select>
     </div>
     {{else}}
     <div class="crw-gear-item">

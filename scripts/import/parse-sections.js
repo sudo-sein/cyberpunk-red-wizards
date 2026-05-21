@@ -1,4 +1,4 @@
-import { extractStatNumbers, splitTopLevel, splitNameAndLevel, splitOnParenBoundary, escapeRegExp } from "./tokenize.js";
+import { extractStatNumbers, splitTopLevel, splitNameAndLevel, splitOnParenBoundary, escapeRegExp, armorKeywordList } from "./tokenize.js";
 import { resolveWeapon, resolveSkillOrRole, resolveEquipmentToken, addCyberware } from "./resolver.js";
 
 const STATS1 = ["int", "ref", "dex", "tech", "cool"];
@@ -39,11 +39,12 @@ export function parseArmor(armorBlocks, map) {
   const L = map.labels;
   const headRe = new RegExp(L.headSp, "i");
   const bodyRe = new RegExp(L.bodySp, "i");
+  const keywords = armorKeywordList(L);
 
   const entries = armorBlocks.map(block => {
     const text = block.join(" ");
     const nameLine = block[0] ?? "";
-    const armorName = nameLine.slice(nameLine.indexOf(L.armorKeyword) + L.armorKeyword.length).trim();
+    const armorName = sliceAfterArmorKeyword(nameLine, keywords);
     const headSp = Number((text.match(headRe) || [])[1] ?? 0);
     const bodySp = Number((text.match(bodyRe) || [])[1] ?? 0);
 
@@ -65,6 +66,16 @@ export function parseArmor(armorBlocks, map) {
     body: entries[0]?.body ?? null,
     alternatives: entries.slice(1),
   };
+}
+
+// Strip the leading armor keyword from a name line, trying each configured
+// keyword (PL cards may use "Pancerz:" or the English "Armor:").
+function sliceAfterArmorKeyword(line, keywords) {
+  for (const k of keywords) {
+    const i = line.indexOf(k);
+    if (i !== -1) return line.slice(i + k.length).trim();
+  }
+  return line.trim();
 }
 
 export function parseWeapons(weaponBlocks, map) {

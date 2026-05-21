@@ -10,6 +10,7 @@ import { dirname, resolve } from "node:path";
 const moduleRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 globalThis.foundry = { utils: { randomID: () => "TESTID" } };
+globalThis.foundry.applications = { api: { DialogV2: class {}, ApplicationV2: class {}, HandlebarsApplicationMixin: (c) => c } };
 
 globalThis.fetch = async (p) => {
   const rel = String(p).replace(/^modules\/cyberpunk-red-wizards\//, "");

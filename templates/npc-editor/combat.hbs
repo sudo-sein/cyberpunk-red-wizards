@@ -4,16 +4,16 @@
     <div class="crw-editor-field">
       <label class="crw-label">{{localize "crw.npc.ui.head"}}</label>
       <select name="armorHead" class="crw-input">
-        {{#each armorOptions}}
-        <option value="{{this.id}}" {{#if this.headSelected}}selected{{/if}}>{{this.label}}</option>
+        {{#each headArmorOptions}}
+        <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
         {{/each}}
       </select>
     </div>
     <div class="crw-editor-field">
       <label class="crw-label">{{localize "crw.npc.ui.body"}}</label>
       <select name="armorBody" class="crw-input">
-        {{#each armorOptions}}
-        <option value="{{this.id}}" {{#if this.bodySelected}}selected{{/if}}>{{this.label}}</option>
+        {{#each bodyArmorOptions}}
+        <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
         {{/each}}
       </select>
     </div>

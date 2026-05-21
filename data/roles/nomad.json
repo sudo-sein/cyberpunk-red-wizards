@@ -259,7 +259,7 @@
       "difficulty": "typical"
     },
     {
-      "name": "Survival",
+      "name": "Wilderness Survival",
       "fixedLevel": 4,
       "stat": "int",
       "category": "awarenessSkills",
