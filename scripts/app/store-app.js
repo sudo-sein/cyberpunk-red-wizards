@@ -222,41 +222,33 @@ export default class StoreApp extends HandlebarsApplicationMixin(ApplicationV2) 
     });
 
     el.querySelectorAll("[data-category]").forEach(checkbox => {
-      checkbox.addEventListener("change", async () => {
-        const availability = foundry.utils.deepClone(
-          game.settings.get(MODULE_ID, "storeAvailability")
-        );
-        availability.categoryEnabled[checkbox.dataset.category] = checkbox.checked;
-        await game.settings.set(MODULE_ID, "storeAvailability", availability);
-        broadcastStoreState();
-        this.render(true);
-      });
+      checkbox.addEventListener("change", () =>
+        this.#updateAvailability(a => { a.categoryEnabled[checkbox.dataset.category] = checkbox.checked; })
+      );
     });
 
-    el.querySelector(".crw-store-price-min")?.addEventListener("change", async (e) => {
-      const availability = foundry.utils.deepClone(
-        game.settings.get(MODULE_ID, "storeAvailability")
-      );
-      availability.priceMin = Math.max(0, Number(e.target.value) || 0);
-      await game.settings.set(MODULE_ID, "storeAvailability", availability);
-      broadcastStoreState();
-      this.render(true);
-    });
+    el.querySelector(".crw-store-price-min")?.addEventListener("change", (e) =>
+      this.#updateAvailability(a => { a.priceMin = Math.max(0, Number(e.target.value) || 0); })
+    );
 
-    el.querySelector(".crw-store-price-max")?.addEventListener("change", async (e) => {
-      const availability = foundry.utils.deepClone(
-        game.settings.get(MODULE_ID, "storeAvailability")
-      );
-      availability.priceMax = Math.max(0, Number(e.target.value) || 0);
-      await game.settings.set(MODULE_ID, "storeAvailability", availability);
-      broadcastStoreState();
-      this.render(true);
-    });
+    el.querySelector(".crw-store-price-max")?.addEventListener("change", (e) =>
+      this.#updateAvailability(a => { a.priceMax = Math.max(0, Number(e.target.value) || 0); })
+    );
 
   }
 
   #findItem(uuid) {
     return this.#allItems?.find(i => i.uuid === uuid) ?? null;
+  }
+
+  async #updateAvailability(mutator) {
+    const availability = foundry.utils.deepClone(
+      game.settings.get(MODULE_ID, "storeAvailability")
+    );
+    mutator(availability);
+    await game.settings.set(MODULE_ID, "storeAvailability", availability);
+    broadcastStoreState();
+    this.render(true);
   }
 
   static async #onBuyItem(event, target) {
@@ -296,48 +288,21 @@ export default class StoreApp extends HandlebarsApplicationMixin(ApplicationV2) 
   }
 
   static async #onResetPriceRange() {
-    const availability = foundry.utils.deepClone(
-      game.settings.get(MODULE_ID, "storeAvailability")
-    );
-    availability.priceMin = 0;
-    availability.priceMax = 0;
-    await game.settings.set(MODULE_ID, "storeAvailability", availability);
-    broadcastStoreState();
-    this.render(true);
+    await this.#updateAvailability(a => { a.priceMin = 0; a.priceMax = 0; });
   }
 
   static async #onHideItem(event, target) {
     const uuid = target.dataset.uuid;
-    const availability = foundry.utils.deepClone(
-      game.settings.get(MODULE_ID, "storeAvailability")
-    );
-    if (!availability.blockedItems.includes(uuid)) {
-      availability.blockedItems.push(uuid);
-      await game.settings.set(MODULE_ID, "storeAvailability", availability);
-      broadcastStoreState();
-      this.render(true);
-    }
+    await this.#updateAvailability(a => { if (!a.blockedItems.includes(uuid)) a.blockedItems.push(uuid); });
   }
 
   static async #onRestoreItem(event, target) {
     const uuid = target.dataset.uuid;
-    const availability = foundry.utils.deepClone(
-      game.settings.get(MODULE_ID, "storeAvailability")
-    );
-    availability.blockedItems = availability.blockedItems.filter(u => u !== uuid);
-    await game.settings.set(MODULE_ID, "storeAvailability", availability);
-    broadcastStoreState();
-    this.render(true);
+    await this.#updateAvailability(a => { a.blockedItems = a.blockedItems.filter(u => u !== uuid); });
   }
 
   static async #onRestoreAllItems() {
-    const availability = foundry.utils.deepClone(
-      game.settings.get(MODULE_ID, "storeAvailability")
-    );
-    availability.blockedItems = [];
-    await game.settings.set(MODULE_ID, "storeAvailability", availability);
-    broadcastStoreState();
-    this.render(true);
+    await this.#updateAvailability(a => { a.blockedItems = []; });
   }
 
   static #onClearSearch() {
