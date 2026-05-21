@@ -1,8 +1,7 @@
 import { TIER_ORDER } from "../data/npc-loader.js";
+import { STAT_KEYS } from "../constants.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
-
-const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
 
 export const ARMOR_OPTIONS = [
   { id: "none", name: "None", sp: 0, packName: "", headItem: "", bodyItem: "" },

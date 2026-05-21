@@ -1,7 +1,6 @@
 import StepBase from "./step-base.js";
 import { loadRole } from "../data/role-loader.js";
-
-const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
+import { STAT_KEYS } from "../constants.js";
 const TOTAL_POINTS = 62;
 const MIN_STAT = 2;
 const MAX_STAT = 8;

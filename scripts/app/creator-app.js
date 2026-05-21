@@ -7,6 +7,7 @@ import StepSkills from "../steps/step-skills.js";
 import StepGear from "../steps/step-gear.js";
 import StepSummary from "../steps/step-summary.js";
 import { requestCharacterCreation } from "../creator/creator-socket.js";
+import { MODULE_ID } from "../constants.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -57,7 +58,7 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
     this.#currentStep = 0;
     this.state = {
       handle: "",
-      method: game.settings.get("cyberpunk-red-wizards", "defaultMethod"),
+      method: game.settings.get(MODULE_ID, "defaultMethod"),
       role: null,
       lifepath: {},
       relationships: { friends: [], loveAffairs: [], enemies: [] },

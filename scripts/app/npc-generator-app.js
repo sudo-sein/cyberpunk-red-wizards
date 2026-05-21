@@ -1,10 +1,8 @@
 import { loadAllTemplates, TIER_ORDER, getCustomTemplates, saveCustomTemplates, clearNpcCache } from "../data/npc-loader.js";
 import { createNpcFromTemplate } from "../npc/npc-factory.js";
+import { STAT_KEYS, STAT_ABBRS } from "../constants.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
-
-const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
-const STAT_ABBRS = { int: "INT", ref: "REF", dex: "DEX", tech: "TECH", cool: "COOL", will: "WILL", luck: "LUCK", move: "MOVE", body: "BODY", emp: "EMP" };
 const VISIBLE_SKILLS_COUNT = 8;
 
 export default class NpcGeneratorApp extends HandlebarsApplicationMixin(ApplicationV2) {

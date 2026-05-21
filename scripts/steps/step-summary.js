@@ -2,8 +2,7 @@ import StepBase from "./step-base.js";
 import { calculateAllDerived } from "../utils/derived-stats.js";
 import { runFullChecklist } from "../utils/validation.js";
 import { loadRole, fetchCompendiumItem, fetchCompendiumItems } from "../data/role-loader.js";
-
-const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
+import { STAT_KEYS } from "../constants.js";
 
 // Specialty skills not in internal_skills — must be fetched from dedicated packs
 // Specialty skills not in internal_skills — fetch from dedicated packs.

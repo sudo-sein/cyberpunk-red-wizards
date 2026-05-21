@@ -1,6 +1,5 @@
 import { fetchCompendiumItem } from "../data/role-loader.js";
-
-const STAT_KEYS = ["int", "ref", "dex", "tech", "cool", "will", "luck", "move", "body", "emp"];
+import { STAT_KEYS } from "../constants.js";
 
 export async function createNpcFromTemplate(template, overrides = {}) {
   const name = overrides.name || template.name || game.i18n.localize(template.nameKey);
