@@ -3,6 +3,7 @@ import { deepStrictEqual as eq } from "node:assert/strict";
 import {
   splitTopLevel, extractStatNumbers, splitNameAndLevel,
   parseQuantity, stripQualityPrefix, splitOnParenBoundary, escapeRegExp,
+  armorKeywordList,
 } from "../../scripts/import/tokenize.js";
 
 test("splitTopLevel ignores commas inside parens", () => {
@@ -46,6 +47,22 @@ test("stripQualityPrefix", () => {
   const map = { "Poor Quality": "poor", "Excellent": "excellent" };
   eq(stripQualityPrefix("Poor Quality Shotgun", map), { name: "Shotgun", quality: "poor" });
   eq(stripQualityPrefix("Assault Rifle", map), { name: "Assault Rifle", quality: "standard" });
+});
+test("stripQualityPrefix strips a trailing marker (PL suffix form)", () => {
+  const map = { "niskiej jakości": "poor", "doskonałej jakości": "excellent" };
+  eq(stripQualityPrefix("Strzelba niskiej jakości", map), { name: "Strzelba", quality: "poor" });
+  eq(stripQualityPrefix("Kar. szturmowy doskonałej jakości", map),
+     { name: "Kar. szturmowy", quality: "excellent" });
+});
+test("stripQualityPrefix leaves a clean name untouched", () => {
+  const map = { "niskiej jakości": "poor" };
+  eq(stripQualityPrefix("Bardzo ciężki pistolet", map),
+     { name: "Bardzo ciężki pistolet", quality: "standard" });
+});
+test("armorKeywordList falls back to the single armorKeyword", () => {
+  eq(armorKeywordList({ armorKeyword: "Armor:" }), ["Armor:"]);
+  eq(armorKeywordList({ armorKeyword: "Pancerz:", armorKeywords: ["Pancerz:", "Armor:"] }),
+     ["Pancerz:", "Armor:"]);
 });
 test("splitOnParenBoundary inserts comma after ) before Capital", () => {
   eq(splitOnParenBoundary("Bulletproof Shield (10 HP) Binoculars, Flashlight"),

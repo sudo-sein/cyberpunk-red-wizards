@@ -9,6 +9,17 @@ function ciValue(obj, name) {
   return hit ? hit[1] : undefined;
 }
 
+// True when a name resolves to a concrete item without any parenthetical
+// splitting (used to short-circuit names whose canonical form contains parens).
+function lookupDirect(name, map) {
+  if (!name) return false;
+  if (ciValue(map.popupWeapons, name) !== undefined) return true;
+  if (ciValue(map.ammo, name) !== undefined) return true;
+  if (ciValue(map.equipment, name) !== undefined) return true;
+  if (ciValue(map.weapons, name) !== undefined) return true;
+  return (map.cyberwareWeapons || []).some(c => c.toLowerCase() === name.toLowerCase());
+}
+
 export function addCyberware(list, packName, itemName) {
   if (list.some(c => c.itemName === itemName)) return;
   list.push({ packName, itemName });
@@ -19,6 +30,23 @@ export function addCyberware(list, packName, itemName) {
 // In the weapons context, cyberware entries carry no quantity.
 export function resolveWeapon(rawName, damage, map) {
   const errors = [];
+
+  // "Weapon w/ Upgrade" — the base is the weapon and each "with" clause is a
+  // weapon upgrade that becomes a separate equipment item.
+  const withParts = rawName.split(/\s+w\/\s+/i);
+  if (withParts.length > 1) {
+    const baseRes = resolveWeapon(withParts[0], damage, map);
+    const entries = [...baseRes.entries];
+    errors.push(...baseRes.errors);
+    for (const acc of withParts.slice(1)) {
+      const accName = acc.trim();
+      const upgrade = ciValue(map.weaponUpgrades, accName);
+      if (upgrade) entries.push({ kind: "equipment", packName: upgrade.packName, itemName: upgrade.itemName, quantity: 1 });
+      else errors.push({ section: "weapons", message: `Unknown weapon upgrade: "${accName}"` });
+    }
+    return { entries, errors };
+  }
+
   const { name: stripped, quality } = stripQualityPrefix(rawName, map.qualityPrefixes);
   const name = stripped.trim();
   if (!name) return { entries: [], errors };
@@ -93,6 +121,29 @@ export function resolveEquipmentToken(token, map) {
   const withParts = trimmed.split(/\s+w\/\s+/i);
   if (withParts.length > 1) {
     for (const part of withParts) {
+      const sub = resolveEquipmentToken(part, map);
+      entries.push(...sub.entries);
+      warnings.push(...sub.warnings);
+    }
+    return { entries: dedupeByItem(entries), warnings };
+  }
+
+  // An item whose canonical name itself contains parentheses (e.g.
+  // "Implanted Linear Frame ∑ (Sigma)") must match as a whole before we try to
+  // split the parenthetical into separate options.
+  const { name: directName } = parseQuantity(trimmed);
+  if (lookupDirect(directName, map)) {
+    pushResolved(trimmed, entries, warnings, map, null);
+    return { entries: dedupeByItem(entries), warnings };
+  }
+
+  // "A & B" — two separate accessories joined by an ampersand (e.g. a "w/"
+  // clause like "Targeting Scope & Teleoptics"). Runs after the direct lookup
+  // so a canonical name containing "&" (e.g. "Grafted Muscle & Bone Lace")
+  // still matches as a whole.
+  const ampParts = trimmed.split(/\s+&\s+/);
+  if (ampParts.length > 1) {
+    for (const part of ampParts) {
       const sub = resolveEquipmentToken(part, map);
       entries.push(...sub.entries);
       warnings.push(...sub.warnings);

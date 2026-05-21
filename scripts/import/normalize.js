@@ -1,6 +1,7 @@
 // Raw pasted text -> array of clean lines. Strips the residual "▶ Armor" junk
 // block left over from an adjacent card, drops watermark lines, collapses
 // whitespace. Returns { lines, warnings }.
+import { armorKeywordList } from "./tokenize.js";
 
 // Zero-width / soft-hyphen / non-character format codes that PDF copy inserts
 // at hyphenation breaks (e.g. "Incen" + U+FFFE + "diary" -> "Incendiary").
@@ -40,22 +41,27 @@ export function normalize(text, map) {
   return { lines, warnings };
 }
 
-// Remove everything from the junk "▶ Armor" marker up to the SECOND real
-// armor label (the first real armor block). Real cards list armor as
-// "Armor:" with no "▶". If there is no second armor label, cut up to the
-// next known section header instead.
+// Remove everything from the junk "▶ Armor" marker up to the SECOND armor
+// label (the real card's armor block). Cards list armor with no "▶". The junk
+// block's own armor line is the first label after the marker; the real card's
+// is the second. Collecting positions across every configured armor keyword
+// keeps this working when the real card's keyword differs from the junk
+// block's (PL cards: junk "Armor:", real "Pancerz:"). If there is no second
+// label, cut up to the next known section header instead.
 function stripJunkArmorBlock(full, map) {
   const marker = map.labels.junkArmorMarker;
-  const armorLabel = map.labels.armorKeyword;
   const markerIdx = full.indexOf(marker);
   if (markerIdx === -1) return full;
 
-  const firstLabel = full.indexOf(armorLabel, markerIdx);
-  const secondLabel = firstLabel !== -1
-    ? full.indexOf(armorLabel, firstLabel + armorLabel.length)
-    : -1;
-  const cutEnd = secondLabel !== -1
-    ? secondLabel
+  const positions = [];
+  for (const label of armorKeywordList(map.labels)) {
+    let idx = full.indexOf(label, markerIdx + marker.length);
+    while (idx !== -1) { positions.push(idx); idx = full.indexOf(label, idx + label.length); }
+  }
+  positions.sort((a, b) => a - b);
+
+  const cutEnd = positions.length >= 2
+    ? positions[1]
     : findNextSectionStart(full, markerIdx + marker.length, map.sectionHeaders);
   if (cutEnd === -1) return full;
   return full.slice(0, markerIdx) + full.slice(cutEnd);

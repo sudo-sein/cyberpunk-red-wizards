@@ -12,7 +12,7 @@ export const ARMOR_OPTIONS = [
   { id: "medium-armorjack", name: "Medium Armorjack", sp: 12, packName: "core_armor", headItem: "Medium Armorjack (Head)", bodyItem: "Medium Armorjack (Body)" },
   { id: "heavy-armorjack", name: "Heavy Armorjack", sp: 13, packName: "core_armor", headItem: "Heavy Armorjack (Head)", bodyItem: "Heavy Armorjack (Body)" },
   { id: "flak", name: "Flak", sp: 15, packName: "core_armor", headItem: "Flak (Head)", bodyItem: "Flak (Body)" },
-  { id: "metalgear", name: "Metalgear", sp: 18, packName: "core_armor", headItem: "Metalgear™ (Head)", bodyItem: "Metalgear™ (Body)" },
+  { id: "metalgear", name: "Metalgear", sp: 18, packName: "core_armor", headItem: "Metalgear® (Head)", bodyItem: "Metalgear® (Body)" },
 ];
 
 export const WEAPON_OPTIONS = [

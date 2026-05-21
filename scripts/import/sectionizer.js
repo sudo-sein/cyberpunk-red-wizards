@@ -1,4 +1,4 @@
-import { escapeRegExp } from "./tokenize.js";
+import { escapeRegExp, armorKeywordList } from "./tokenize.js";
 
 // Clean lines -> named sections. A line opens a section ONLY when it starts
 // with that section's marker (line-anchored), so substrings like
@@ -7,6 +7,7 @@ import { escapeRegExp } from "./tokenize.js";
 export function sectionize(lines, map) {
   const H = map.sectionHeaders;
   const L = map.labels;
+  const armorKeywords = armorKeywordList(L);
   const statsRe = buildStatsRegex(H.stats);
 
   const sections = { stats: [], vitals: [], armor: [], weapons: [], skills: [], roleAbility: [], equipment: [] };
@@ -19,7 +20,7 @@ export function sectionize(lines, map) {
     if (line.startsWith(H.hp)) {
       current = sections.vitals; current.push(line); continue;
     }
-    if (isArmorOpener(line, L.armorKeyword)) {
+    if (isArmorOpener(line, armorKeywords)) {
       const block = []; sections.armor.push(block); current = block; current.push(line); continue;
     }
     if (line === L.weaponsKeyword) {
@@ -44,9 +45,10 @@ export function sectionize(lines, map) {
 }
 
 // After normalize strips the junk block, the only armor lines reaching the
-// sectionizer start with the armor keyword (e.g. "Armor: M Armorjack").
-function isArmorOpener(line, armorKeyword) {
-  return line.startsWith(armorKeyword);
+// sectionizer start with an armor keyword (e.g. "Armor: M Armorjack" or, on PL
+// cards, "Pancerz: Kevlar®").
+function isArmorOpener(line, armorKeywords) {
+  return armorKeywords.some(k => line.startsWith(k));
 }
 
 // Match the stats header tolerantly (some cards drop the leading "▶"):
