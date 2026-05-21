@@ -11,7 +11,7 @@ export const PRESERVE_ID = "__preserve_current__";
 // If `current` matches no preset (by itemName), append a PRESERVE option that
 // shows the current item's name and is selected. Returns { options, preserved }.
 export function buildOptions(presets, current, idOf, labelKey) {
-  const curName = current?.itemName ?? null;
+  const curName = current?.itemName || null; // treat "" the same as absent
   const match = curName != null ? presets.find(p => p.itemName === curName) : null;
   const options = presets.map(p => ({
     id: idOf(p),
@@ -25,9 +25,9 @@ export function buildOptions(presets, current, idOf, labelKey) {
   return { options, preserved: false };
 }
 
-// Map a selected option value back to a full item object. PRESERVE_ID returns
-// the untouched original; a preset id returns that preset; otherwise null.
-export function resolveSelection(selectedId, presets, current) {
-  if (selectedId === PRESERVE_ID) return current ?? null;
+// Map a selected preset id back to its full option object, or null if not
+// found. The PRESERVE_ID case is handled by callers (they round-trip the
+// original item directly), so this helper only does preset lookup.
+export function resolveSelection(selectedId, presets) {
   return presets.find(p => p.id === selectedId) ?? null;
 }

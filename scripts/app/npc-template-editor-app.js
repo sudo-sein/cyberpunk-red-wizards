@@ -186,24 +186,22 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
 
   #prepareCombat() {
     const t = this.#template;
-    const headMatch = this.#matchArmorOption(t.armor.head, "head");
-    const bodyMatch = this.#matchArmorOption(t.armor.body, "body");
-    const armorOptions = ARMOR_OPTIONS.map(o => ({
-      id: o.id,
-      label: o.id === "none" ? game.i18n.localize("crw.npc.editor.armorNone") : `${o.name} (SP ${o.sp})`,
-      headSelected: o.id === headMatch,
-      bodySelected: o.id === bodyMatch,
-    }));
-    if (headMatch === PRESERVE_ID || bodyMatch === PRESERVE_ID) {
-      armorOptions.push({
-        id: PRESERVE_ID,
-        label: t.armor.head?.itemName || t.armor.body?.itemName || "(current)",
-        headSelected: headMatch === PRESERVE_ID,
-        bodySelected: bodyMatch === PRESERVE_ID,
-      });
-    }
+    // Build a per-slot armor option list so an unknown (preserved) item in one
+    // slot shows its own correct label, independent of the other slot.
+    const armorSlotOptions = (match, slot) => {
+      const rows = ARMOR_OPTIONS.map(o => ({
+        id: o.id,
+        label: o.id === "none" ? game.i18n.localize("crw.npc.editor.armorNone") : `${o.name} (SP ${o.sp})`,
+        selected: o.id === match,
+      }));
+      if (match === PRESERVE_ID) {
+        rows.push({ id: PRESERVE_ID, label: slot?.itemName || "(current)", selected: true });
+      }
+      return rows;
+    };
     return {
-      armorOptions,
+      headArmorOptions: armorSlotOptions(this.#matchArmorOption(t.armor.head, "head"), t.armor.head),
+      bodyArmorOptions: armorSlotOptions(this.#matchArmorOption(t.armor.body, "body"), t.armor.body),
       weapons: t.weapons.map(w => {
         const { options } = buildOptions(
           WEAPON_OPTIONS.map(o => ({ ...o, label: `${o.itemName} (${o.damage})` })),
@@ -298,12 +296,12 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
         const prevWeapons = t.weapons;
         t.weapons = [];
         el.querySelectorAll("[name^='weapon-']").forEach((select, i) => {
-          const resolved = resolveSelection(select.value, WEAPON_OPTIONS, prevWeapons[i]);
-          if (resolved && resolved === prevWeapons[i]) {
-            t.weapons.push(resolved);
-          } else if (resolved) {
-            t.weapons.push({ packName: resolved.packName, itemName: resolved.itemName, quality: "standard", damage: resolved.damage });
+          if (select.value === PRESERVE_ID) {
+            if (prevWeapons[i]) t.weapons.push(prevWeapons[i]);
+            return;
           }
+          const resolved = resolveSelection(select.value, WEAPON_OPTIONS);
+          if (resolved) t.weapons.push({ packName: resolved.packName, itemName: resolved.itemName, quality: "standard", damage: resolved.damage });
         });
         break;
       }
@@ -322,18 +320,24 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
         el.querySelectorAll(".crw-editor-equip-row").forEach((row, i) => {
           const id = row.querySelector("select")?.value;
           const qty = Number(row.querySelector("input[type='number']")?.value) || 1;
-          const resolved = resolveSelection(id, EQUIPMENT_OPTIONS, prevEquip[i]);
-          if (resolved && resolved === prevEquip[i]) t.equipment.push({ ...resolved, quantity: qty });
-          else if (resolved) t.equipment.push({ packName: resolved.packName, itemName: resolved.itemName, quantity: qty });
+          if (id === PRESERVE_ID) {
+            if (prevEquip[i]) t.equipment.push({ ...prevEquip[i], quantity: qty });
+            return;
+          }
+          const resolved = resolveSelection(id, EQUIPMENT_OPTIONS);
+          if (resolved) t.equipment.push({ packName: resolved.packName, itemName: resolved.itemName, quantity: qty });
         });
 
         const prevCyber = t.cyberware;
         t.cyberware = [];
         el.querySelectorAll(".crw-editor-cyber-row").forEach((row, i) => {
           const id = row.querySelector("select")?.value;
-          const resolved = resolveSelection(id, CYBERWARE_OPTIONS, prevCyber[i]);
-          if (resolved && resolved === prevCyber[i]) t.cyberware.push(resolved);
-          else if (resolved) t.cyberware.push({ packName: resolved.packName, itemName: resolved.itemName });
+          if (id === PRESERVE_ID) {
+            if (prevCyber[i]) t.cyberware.push(prevCyber[i]);
+            return;
+          }
+          const resolved = resolveSelection(id, CYBERWARE_OPTIONS);
+          if (resolved) t.cyberware.push({ packName: resolved.packName, itemName: resolved.itemName });
         });
 
         const roleId = el.querySelector("[name='role']")?.value ?? "none";

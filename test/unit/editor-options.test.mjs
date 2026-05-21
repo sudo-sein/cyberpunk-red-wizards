@@ -29,15 +29,30 @@ test("buildOptions with no current item selects nothing extra", () => {
   strictEqual(options.length, 2);
 });
 
+test("buildOptions selects by id and preserves an unknown item when idOf = o => o.id (production shape)", () => {
+  const cur = { itemName: "Militech Cybermastiff" };
+  const { options, preserved } = buildOptions(presets, cur, o => o.id, "label");
+  strictEqual(preserved, true);
+  strictEqual(options.at(-1).id, PRESERVE_ID);
+  strictEqual(options.at(-1).selected, true);
+});
+
+test("buildOptions selects matching preset by id when idOf = o => o.id", () => {
+  const { options } = buildOptions(presets, { itemName: "SMG" }, o => o.id, "label");
+  eq(options.map(o => o.selected), [false, true]);
+});
+
+test("buildOptions treats empty-string itemName as absent (no preserve row)", () => {
+  const { options, preserved } = buildOptions(presets, { itemName: "" }, o => o.id, "label");
+  strictEqual(preserved, false);
+  strictEqual(options.length, 2);
+});
+
 test("resolveSelection returns the matched preset", () => {
-  eq(resolveSelection("smg", presets, { itemName: "SMG" }), presets[1]);
+  eq(resolveSelection("smg", presets), presets[1]);
 });
 
-test("resolveSelection returns the original object for the preserve id", () => {
-  const cur = { itemName: "Militech Cybermastiff", packName: "core_cyberware" };
-  eq(resolveSelection(PRESERVE_ID, presets, cur), cur);
-});
-
-test("resolveSelection returns null when nothing matches and no current", () => {
-  strictEqual(resolveSelection("nonexistent", presets, null), null);
+test("resolveSelection returns null when no preset id matches", () => {
+  strictEqual(resolveSelection("nonexistent", presets), null);
+  strictEqual(resolveSelection(PRESERVE_ID, presets), null);
 });
