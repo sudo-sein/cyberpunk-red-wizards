@@ -89,16 +89,20 @@ export default class StatblockImportApp extends HandlebarsApplicationMixin(Appli
   static async #onSaveTemplate() {
     if (!this.#state.result?.template) return;
 
-    const name = await new Promise(resolve => {
-      new Dialog({
-        title: game.i18n.localize("crw.import.templateName"),
-        content: `<input type="text" id="crw-import-name" value="${this.#state.result.template.name}" style="width:100%;margin-bottom:8px;" />`,
-        buttons: {
-          ok: { label: game.i18n.localize("crw.npc.editor.save"), callback: (html) => resolve(html.find("#crw-import-name").val()) },
-          cancel: { label: game.i18n.localize("crw.npc.editor.cancel"), callback: () => resolve(null) },
-        },
-        default: "ok",
-      }).render(true);
+    const { DialogV2 } = foundry.applications.api;
+    const defaultName = this.#state.result.template.name;
+    const name = await DialogV2.prompt({
+      window: { title: game.i18n.localize("crw.import.templateName") },
+      content: `<input type="text" name="crwImportName" style="width:100%;margin-bottom:8px;" autofocus />`,
+      render: (event, dialog) => {
+        const input = dialog.element.querySelector("input[name='crwImportName']");
+        if (input) input.value = defaultName;
+      },
+      ok: {
+        label: game.i18n.localize("crw.npc.editor.save"),
+        callback: (event, button) => button.form.elements.crwImportName.value,
+      },
+      rejectClose: false,
     });
     if (!name) return;
 

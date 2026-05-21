@@ -312,11 +312,13 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
     const template = this.#templates.find(t => t.id === this.#state.selectedTemplateId);
     if (!template || (template.source ?? "built-in") === "built-in") return;
 
-    const confirm = await Dialog.confirm({
-      title: game.i18n.localize("crw.npc.ui.deleteTemplate"),
+    const { DialogV2 } = foundry.applications.api;
+    const confirmed = await DialogV2.confirm({
+      window: { title: game.i18n.localize("crw.npc.ui.deleteTemplate") },
       content: `<p>${game.i18n.localize("crw.npc.ui.deleteConfirm")}</p>`,
+      rejectClose: false,
     });
-    if (!confirm) return;
+    if (!confirmed) return;
 
     const custom = getCustomTemplates();
     delete custom[template.id];
