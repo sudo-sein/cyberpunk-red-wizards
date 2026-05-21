@@ -1,4 +1,5 @@
 import { fetchCompendiumItem } from "../utils/compendium.js";
+import { addRoleItem } from "../utils/role.js";
 import { STAT_KEYS } from "../constants.js";
 import { waitFor } from "../utils/async.js";
 
@@ -146,13 +147,14 @@ export async function createNpcFromTemplate(template, overrides = {}) {
   }
   const cyberwareCount = itemsToCreate.length - cyberwareStartIdx;
 
-  // Role ability
+  // Role item is created separately via addRoleItem() to avoid the system's
+  // unguarded createItem hook firing actor.update() on player clients.
+  let roleItemData = null;
   if (template.role) {
     const roleItem = await want(template.role.packName, template.role.itemName);
     if (roleItem) {
-      const roleData = roleItem.toObject();
-      if (template.role.rank != null) roleData.system.rank = template.role.rank;
-      itemsToCreate.push(roleData);
+      roleItemData = roleItem.toObject();
+      if (template.role.rank != null) roleItemData.system.rank = template.role.rank;
     }
   }
 
@@ -169,6 +171,10 @@ export async function createNpcFromTemplate(template, overrides = {}) {
         "system.installedItems.list": [...existingInstalled, ...newCyberwareIds],
       });
     }
+  }
+
+  if (roleItemData) {
+    await addRoleItem(actor, roleItemData);
   }
 
   if (missing.length) {

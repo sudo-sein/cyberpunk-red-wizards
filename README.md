@@ -54,9 +54,31 @@ Each template includes pre-configured stats, armor, weapons, skills, cyberware, 
 - **Export** and **Import** custom templates as JSON to share them between worlds
 
 **Import from Statblock:**
-- Paste a Cyberpunk RED NPC statblock (English or Polish) and parse it into a template
-- Preview the parsed stats, gear, skills, and role — with warnings for anything unrecognized — then **Create NPC** directly or **Save as Template**
-- Statblock terms are mapped to the correct compendium items (weapons, armor, cyberware, gear, ammo, and role abilities)
+
+![Import from Statblock](docs/importer.png)
+
+Paste a Cyberpunk RED NPC statblock directly from the sourcebook (English or Polish) and the parser turns it into a full template automatically.
+
+**How it works:**
+
+1. **Paste** — Drop the raw statblock text into the import dialog
+2. **Parse** — The parser detects sections (Stats, HP, Armor, Weapons, Skills, Equipment) and maps each term to its exact compendium entry
+3. **Preview** — Review the result: stats, armor, weapons, skills, cyberware, equipment, and role ability; warnings flag anything unrecognized or ambiguous
+4. **Create or Save** — Hit **Create NPC** to spawn the actor immediately, or **Save as Template** to add it to your custom template list for repeated use
+
+**What gets parsed:**
+
+| Section | Details |
+|---------|---------|
+| Stats | INT, REF, DEX, TECH, COOL, WILL, LUCK, MOVE, BODY, EMP plus HP, Serious Wound threshold, Death Save |
+| Armor | Head and body SP values mapped to compendium armor items |
+| Weapons | Matched by name to compendium weapons; quality prefix detected (Poor / Standard / Excellent) |
+| Skills | Matched against actor skills; level calculated from the linked stat |
+| Cyberware | Cyberweapons (Rippers, Wolvers, etc.) routed to cyberware rather than weapons |
+| Equipment & Ammo | Matched to gear and ammo compendium packs |
+| Role Ability | Leading bold ability (e.g. *Interface 4*) resolved to role item and rank |
+
+Tier is inferred automatically from HP (Amateur ≤ 25 HP → Nightmare Boss > 55 HP).
 
 Access via the **NPC Template** button in the Actors sidebar.
 
@@ -109,6 +131,7 @@ Access via the **Store** button in the Items sidebar.
 ## Known Bugs
 
 - Newly created character sheet (Actor) tend to have inconsistent HP value from Character Creator calculation. Click on "Hit Points" label to update to accurate value.
+- If you update the module and you don't see changes/ updated version, you need to clear your browser cache in order to refresh scripts and styles of the module. In some cases you might need to disable and reenable whole module.
 
 ## Languages
 

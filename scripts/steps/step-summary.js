@@ -3,6 +3,7 @@ import { calculateAllDerived } from "../utils/derived-stats.js";
 import { runFullChecklist } from "../utils/validation.js";
 import { loadRole } from "../data/role-loader.js";
 import { fetchCompendiumItem, fetchCompendiumItems } from "../utils/compendium.js";
+import { addRoleItem } from "../utils/role.js";
 import { STAT_KEYS } from "../constants.js";
 
 // Specialty skills not in internal_skills — fetch from dedicated packs.
@@ -196,17 +197,18 @@ export default class StepSummary extends StepBase {
       await actor.createEmbeddedDocuments("Item", specialtySkillsToCreate);
     }
 
-    // Add role ability + equipment items
-    const itemsToCreate = [];
-
+    // Role item is created separately via addRoleItem() to avoid the system's
+    // unguarded createItem hook. Equipment goes through the normal batch below.
+    let roleItemData = null;
     if (state.role?.id) {
       const roleItem = await want("core_roles", game.i18n.localize(`crw.roles.${state.role.id}`));
       if (roleItem) {
-        const roleItemData = roleItem.toObject();
+        roleItemData = roleItem.toObject();
         roleItemData.system.rank = 4;
-        itemsToCreate.push(roleItemData);
       }
     }
+
+    const itemsToCreate = [];
 
     if (state.method !== "complete" && roleData?.equipment) {
       const equipCategories = ["weapons", "armor", "gear", "ammo", "cyberware"];
@@ -239,6 +241,10 @@ export default class StepSummary extends StepBase {
 
     if (itemsToCreate.length > 0) {
       await actor.createEmbeddedDocuments("Item", itemsToCreate);
+    }
+
+    if (roleItemData) {
+      await addRoleItem(actor, roleItemData);
     }
 
     if (missing.length) {
