@@ -1,11 +1,10 @@
 import { fetchCompendiumItem } from "../utils/compendium.js";
 import { STAT_KEYS } from "../constants.js";
+import { waitFor } from "../utils/async.js";
 
 export async function createNpcFromTemplate(template, overrides = {}) {
   const name = overrides.name || template.name || game.i18n.localize(template.nameKey);
   const actorType = overrides.actorType || "mook";
-
-  const isEveryday = false;
 
   const ActorClass = getDocumentClass("Actor");
 
@@ -22,7 +21,7 @@ export async function createNpcFromTemplate(template, overrides = {}) {
     prototypeToken: {
       name,
       actorLink: false,
-      disposition: isEveryday ? 0 : -1,
+      disposition: -1,
       sight: { enabled: true },
       bar1: { attribute: "derivedStats.hp" },
     },
@@ -30,9 +29,14 @@ export async function createNpcFromTemplate(template, overrides = {}) {
 
   if (!actor) {
     const created = await hookPromise;
-    // CPRActor.create() continues after the hook (installs cyberware).
-    // Wait for that to settle before we start modifying the actor.
-    await new Promise(r => setTimeout(r, 1000));
+    // CPRActor.create() continues asynchronously after the createActor hook
+    // (it populates core skills, then installs cyberware via an update). Poll
+    // for the actor to exist AND have its core skills, instead of a fixed
+    // delay. Falls back after timeoutMs so a quiet actor never hangs creation.
+    await waitFor(() => {
+      const a = game.actors.get(created.id);
+      return !!a && a.items.size > 0;
+    }, { intervalMs: 50, timeoutMs: 3000 });
     actor = game.actors.get(created.id);
     if (!actor) {
       throw new Error(`[NPC Factory] Failed to create actor "${name}" — not found after hook recovery.`);
