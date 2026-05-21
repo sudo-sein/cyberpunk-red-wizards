@@ -140,9 +140,15 @@ export default class StepSummary extends StepBase {
       },
     });
 
-    // Clear auto-installed cyberware — items stay in inventory but are not
-    // considered installed, so humanity is unaffected.
+    // CPRActor.create() auto-populates empty foundational cyberware containers
+    // (Fashionware/Internal/External "Option Slots") that the creator never
+    // uses. Uninstall first so deletion doesn't fight the install bookkeeping,
+    // then remove the item docs so they don't clutter the sheet.
     await actor.update({ "system.installedItems.list": [] });
+    const autoCyberwareIds = actor.itemTypes.cyberware.map((cw) => cw.id);
+    if (autoCyberwareIds.length) {
+      await actor.deleteEmbeddedDocuments("Item", autoCyberwareIds);
+    }
 
     const statsData = {};
     for (const key of STAT_KEYS) {
@@ -209,9 +215,15 @@ export default class StepSummary extends StepBase {
         const items = roleData.equipment[cat] ?? [];
         for (const item of items) {
           if (item.choice) {
-            const chosenName = state.gear.choices?.[choiceIdx] ?? item.choice[0];
+            const options = item.choice.map(o =>
+              typeof o === "string"
+                ? { itemName: o, packName: item.packName }
+                : { itemName: o.itemName, packName: o.packName ?? item.packName }
+            );
+            const chosenName = state.gear.choices?.[choiceIdx] ?? options[0].itemName;
             choiceIdx++;
-            const compItem = await want(item.packName, chosenName);
+            const opt = options.find(o => o.itemName === chosenName) ?? options[0];
+            const compItem = await want(opt.packName, opt.itemName);
             if (compItem) itemsToCreate.push(compItem.toObject());
           } else {
             const compItem = await want(item.packName, item.itemName);

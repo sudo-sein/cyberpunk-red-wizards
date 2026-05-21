@@ -161,13 +161,6 @@
       "difficulty": "x2"
     },
     {
-      "name": "Cyberdeck Design",
-      "fixedLevel": 4,
-      "stat": "tech",
-      "category": "techniqueSkills",
-      "difficulty": "x2"
-    },
-    {
       "name": "Cybertech",
       "fixedLevel": 4,
       "stat": "tech",
@@ -215,13 +208,6 @@
       "stat": "emp",
       "category": "socialSkills",
       "difficulty": "typical"
-    },
-    {
-      "name": "Interface",
-      "fixedLevel": 6,
-      "stat": "int",
-      "category": "educationSkills",
-      "difficulty": "x2"
     },
     {
       "name": "Language (Streetslang)",

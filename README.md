@@ -1,9 +1,10 @@
 ![](https://img.shields.io/badge/Foundry-v12-informational)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/sudo-sein/cyberpunk-red-wizards/latest/module.zip)
+![Total Download Count](https://img.shields.io/github/downloads/sudo-sein/cyberpunk-red-wizards/total)
 
 # Cyberpunk RED Wizards
 
-A Foundry VTT module for **Cyberpunk RED** that adds a step-by-step **Character Creator**, a one-click **NPC Generator**, and an in-game **Store** for buying equipment.
+A Foundry VTT module for **Cyberpunk RED** that adds a step-by-step **Character Creator**, an **NPC Generator** with a statblock importer and custom-template editor, and an in-game **Store** for buying equipment.
 
 Requires the [Cyberpunk RED - CORE](https://gitlab.com/cyberpunk-red-team/fvtt-cyberpunk-red-core) system and the [socketlib](https://github.com/manuelVo/foundryvtt-socketlib) module.
 
@@ -39,21 +40,23 @@ Access via the **Character Creator** button in the Actors sidebar.
 
 ## NPC Generator
 
-Instantly create combat-ready NPCs from pre-built templates organized by threat tier.
+Instantly create combat-ready NPCs from pre-built templates organized by threat tier — or build and import your own.
 
 ![NPC Generator](docs/npc.png)
 
-**Tiers:**
+**Tiers:** Amateur · Competent · Elite · Mini Boss · Nightmare Boss
 
-- Regular Civilians
-- Mooks / Hardened Mooks
-- Lieutenants / Hardened Lieutenants
-- Mini Bosses / Hardened Mini Bosses
-- Boss
+Each template includes pre-configured stats, armor, weapons, skills, cyberware, and equipment. Search and filter by tier, preview the full stat block, override the name, pick gear alternatives, and choose between **Mook** or **Character** actor type before creating.
 
-Each template includes pre-configured stats, armor, weapons, skills, cyberware, and equipment. Customize the name and choose between Mook or Character actor type before creating.
+**Custom templates:**
+- Start from a **New Blank Template** or **Save as Custom** from any built-in, then refine it in a multi-step editor (basics, combat, skills, extras)
+- **Edit** and **Delete** your custom templates
+- **Export** and **Import** custom templates as JSON to share them between worlds
 
-Search and filter templates by tier. Preview the full stat block before committing.
+**Import from Statblock:**
+- Paste a Cyberpunk RED NPC statblock (English or Polish) and parse it into a template
+- Preview the parsed stats, gear, skills, and role — with warnings for anything unrecognized — then **Create NPC** directly or **Save as Template**
+- Statblock terms are mapped to the correct compendium items (weapons, armor, cyberware, gear, ammo, and role abilities)
 
 Access via the **NPC Template** button in the Actors sidebar.
 
@@ -102,6 +105,10 @@ Access via the **Store** button in the Items sidebar.
 | Foundry VTT | v12 |
 | Cyberpunk RED - CORE | 0.92 |
 | socketlib | 1.0.10 |
+
+## Known Bugs
+
+- Newly created character sheet (Actor) tend to have inconsistent HP value from Character Creator calculation. Click on "Hit Points" label to update to accurate value.
 
 ## Languages
 

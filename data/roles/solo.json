@@ -278,10 +278,9 @@
       },
       {
         "choice": [
-          "Heavy Melee",
-          "Bullet Proof Shield"
-        ],
-        "packName": "core_weapons"
+          { "itemName": "Heavy Melee", "packName": "core_weapons" },
+          { "itemName": "Bullet Proof Shield", "packName": "core_armor" }
+        ]
       }
     ],
     "armor": [

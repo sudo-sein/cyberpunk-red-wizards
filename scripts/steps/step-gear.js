@@ -52,9 +52,10 @@ export default class StepGear extends StepBase {
       for (const item of rawItems) {
         if (item.choice) {
           const idx = choiceIndex++;
-          const selected = state.gear.choices[idx] ?? item.choice[0];
+          const optionNames = item.choice.map(o => (typeof o === "string" ? o : o.itemName));
+          const selected = state.gear.choices[idx] ?? optionNames[0];
           state.gear.choices[idx] = selected;
-          items.push({ choice: item.choice, choiceIndex: idx, selected });
+          items.push({ choice: optionNames, choiceIndex: idx, selected });
         } else {
           items.push({
             name: item.itemName,
@@ -86,16 +87,16 @@ export default class StepGear extends StepBase {
 
   activate(html, state, app) {
     if (state.method === "complete") {
-      html.querySelectorAll("input[name='startingBudget']").forEach(radio => {
-        radio.addEventListener("change", (e) => {
+      html.querySelectorAll("select[name='startingBudget']").forEach(select => {
+        select.addEventListener("change", (e) => {
           state.gear.startingBudget = parseInt(e.target.value);
         });
       });
       return;
     }
 
-    html.querySelectorAll("input[type='radio']").forEach(radio => {
-      radio.addEventListener("change", (e) => {
+    html.querySelectorAll("select[name^='choice-']").forEach(select => {
+      select.addEventListener("change", (e) => {
         const name = e.target.name;
         const idx = parseInt(name.replace("choice-", ""));
         state.gear.choices[idx] = e.target.value;

@@ -283,11 +283,11 @@
     "armor": [
       {
         "packName": "core_armor",
-        "itemName": "Kevlar (Body)"
+        "itemName": "Kevlar® (Body)"
       },
       {
         "packName": "core_armor",
-        "itemName": "Kevlar (Head)"
+        "itemName": "Kevlar® (Head)"
       }
     ],
     "gear": [
