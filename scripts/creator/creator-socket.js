@@ -1,4 +1,4 @@
-import { getSocket } from "../store/store-socket.js";
+import { getSocket } from "../socket.js";
 import StepSummary from "../steps/step-summary.js";
 
 export function initCreatorSocket() {

@@ -1,6 +1,7 @@
 import CharacterCreatorApp from "./app/creator-app.js";
 import NpcGeneratorApp from "./app/npc-generator-app.js";
-import { initSocket } from "./store/store-socket.js";
+import { initSharedSocket } from "./socket.js";
+import { initStoreSocket } from "./store/store-socket.js";
 import { initCreatorSocket } from "./creator/creator-socket.js";
 import StoreApp from "./app/store-app.js";
 import StorePackConfig from "./app/store-pack-config.js";
@@ -84,7 +85,8 @@ Hooks.once("init", () => {
 });
 
 Hooks.once("ready", () => {
-  initSocket();
+  initSharedSocket();
+  initStoreSocket();
   initCreatorSocket();
 });
 
