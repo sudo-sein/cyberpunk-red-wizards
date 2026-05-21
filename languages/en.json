@@ -319,7 +319,7 @@
   "crw.npc.source.custom": "Custom",
   "crw.npc.source.imported": "Imported",
 
-  "crw.npc.ui.saveAsCustom": "Save as Custom",
+  "crw.npc.ui.saveAsCustom": "Duplicate",
   "crw.npc.ui.editTemplate": "Edit",
   "crw.npc.ui.deleteTemplate": "Delete",
   "crw.npc.ui.deleteConfirm": "Are you sure you want to delete this template?",

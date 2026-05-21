@@ -319,7 +319,7 @@
   "crw.npc.source.custom": "Własny",
   "crw.npc.source.imported": "Zaimportowany",
 
-  "crw.npc.ui.saveAsCustom": "Zapisz jako Własny",
+  "crw.npc.ui.saveAsCustom": "Duplikuj",
   "crw.npc.ui.editTemplate": "Edytuj",
   "crw.npc.ui.deleteTemplate": "Usuń",
   "crw.npc.ui.deleteConfirm": "Czy na pewno chcesz usunąć ten szablon?",

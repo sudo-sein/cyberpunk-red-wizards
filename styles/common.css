@@ -104,7 +104,7 @@
   margin-bottom: 16px;
 }
 
-.crw-label {
+.application .crw-label {
   display: block;
   font-size: var(--cpr-font-smaller);
   text-transform: uppercase;
@@ -113,9 +113,8 @@
   margin-bottom: 8px;
 }
 
-.crw-input {
+.application .crw-input {
   width: 100%;
-  padding: 10px 14px;
   background-color: var(--cpr-background-box);
   border: 1px solid var(--cpr-background-border);
   border-radius: 4px;
@@ -124,6 +123,17 @@
   font-family: var(--cpr-font-primary);
   box-sizing: border-box;
 }
+
+/* .application .crw-select {
+  width: 100%;
+  background-color: var(--cpr-background-header);
+  border: 1px solid var(--cpr-background-border);
+  border-radius: 3px;
+  color: var(--cpr-text-normal);
+  font-family: var(--cpr-font-primary);
+  font-size: var(--cpr-font-small);
+  cursor: pointer;
+} */
 
 .crw-section-title {
   font-family: var(--cpr-font-hero);

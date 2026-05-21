@@ -71,16 +71,17 @@ export async function createNpcFromTemplate(template, overrides = {}) {
   // (Martial Arts/Science/etc.) from their dedicated packs, since those are
   // not auto-populated on the actor.
   for (const skill of template.skills) {
-    const skillItem = actor.items.getName(skill.name);
+    const skillName = normalizeSkillName(skill.name);
+    const skillItem = actor.items.getName(skillName);
     if (skillItem) {
       const statKey = skillItem.system?.stat ?? "int";
       const statValue = overrides.stats?.[statKey] ?? template.stats[statKey] ?? 0;
       await skillItem.update({ "system.level": Math.max(0, skill.base - statValue) });
       continue;
     }
-    const packName = specialtySkillPack(skill.name);
+    const packName = specialtySkillPack(skillName);
     if (!packName) continue;
-    const item = await want(packName, skill.name);
+    const item = await want(packName, skillName);
     if (!item) continue;
     const data = item.toObject();
     const statKey = data.system?.stat ?? "int";
@@ -193,6 +194,13 @@ function resolveAlternative(slot, overrides, key) {
 // to the compendium pack it lives in so the factory can create it. Returns null
 // for ordinary (auto-populated) skills. "Local Expert (Your Home)" and
 // "Language (Streetslang)" are auto-populated and resolve before reaching here.
+// CPR has no "Native" language item; statblocks that say "Language (Native)"
+// resolve to the English language skill.
+function normalizeSkillName(name) {
+  if (name === "Language (Native)") return "Language (English)";
+  return name;
+}
+
 function specialtySkillPack(name) {
   if (name.startsWith("Martial Arts (")) return "core_skills-martial-arts";
   if (name.startsWith("Science (")) return "core_skills-science";

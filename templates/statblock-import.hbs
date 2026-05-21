@@ -4,7 +4,7 @@
     <div class="crw-editor-row">
       <div class="crw-editor-field">
         <label class="crw-label">{{localize "crw.import.language"}}</label>
-        <select name="language" class="crw-input">
+        <select name="language" class="crw-input crw-select">
           <option value="en" {{#if (eq language "en")}}selected{{/if}}>English</option>
           <option value="pl" {{#if (eq language "pl")}}selected{{/if}}>Polski</option>
         </select>
@@ -19,7 +19,7 @@
 
     {{!-- Parse button --}}
     <div style="margin: 8px 0;">
-      <button type="button" class="crw-btn-next" data-action="parse">
+      <button type="button" class="crw-btn-parse" data-action="parse">
         <i class="fas fa-search"></i> {{localize "crw.import.parse"}}
       </button>
     </div>
