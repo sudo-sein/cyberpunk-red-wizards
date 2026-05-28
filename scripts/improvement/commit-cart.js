@@ -1,9 +1,4 @@
-import {
-  cumulativeSkillCost,
-  cumulativeRoleCost,
-  skillCost,
-  roleCost,
-} from "./ip-costs.js";
+import { skillCost, roleCost } from "./ip-costs.js";
 import { fetchRoleItemData } from "./compendium-roles.js";
 
 const MAX_LEVEL = 10;
@@ -25,7 +20,7 @@ export class CommitError extends Error {
  *
  * @param {Actor} actor
  * @param {{ skills: Map, roles: Map, newRoles: Map }} cart
- * @returns {Promise<{ totalCost: number, count: number }>}
+ * @returns {Promise<{ totalCost: number, count: number, warnings: Array<{code: string, name: string}> }>}
  */
 export async function commitCart(actor, cart) {
   const skillUpdates = [];
