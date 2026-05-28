@@ -285,13 +285,9 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
       }
     }
 
-    if (droppedMissing || this.#computeTotalCost() < /* arbitrary marker */ Infinity) {
-      // Only notify if we actually changed something material; the marker above
-      // is always true, so this condition collapses to droppedMissing — which is
-      // the only case where the user should see a toast. (Trim-to-fit is silent.)
-      if (droppedMissing) {
-        ui.notifications.warn(game.i18n.localize("crw.improvement.errors.cartStale"));
-      }
+    // Trim-to-fit is intentionally silent; only material drops (missing items) toast.
+    if (droppedMissing) {
+      ui.notifications.warn(game.i18n.localize("crw.improvement.errors.cartStale"));
     }
   }
 
