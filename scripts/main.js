@@ -1,4 +1,5 @@
 import CharacterCreatorApp from "./app/creator-app.js";
+import ImprovementApp from "./app/improvement-app.js";
 import NpcGeneratorApp from "./app/npc-generator-app.js";
 import { initSharedSocket } from "./socket.js";
 import { initStoreSocket } from "./store/store-socket.js";
@@ -19,6 +20,8 @@ Hooks.once("init", () => {
   loadTemplates([
     "modules/cyberpunk-red-wizards/templates/partials/step-bar.hbs",
     "modules/cyberpunk-red-wizards/templates/partials/skill-row.hbs",
+    "modules/cyberpunk-red-wizards/templates/partials/improvement-skill-row.hbs",
+    "modules/cyberpunk-red-wizards/templates/partials/improvement-role-row.hbs",
     "modules/cyberpunk-red-wizards/templates/npc-editor/basics.hbs",
     "modules/cyberpunk-red-wizards/templates/npc-editor/combat.hbs",
     "modules/cyberpunk-red-wizards/templates/npc-editor/skills.hbs",
@@ -142,6 +145,18 @@ Hooks.on("renderActorDirectory", (app, html) => {
       NpcGeneratorApp.open();
     });
     headerActions.append(npcBtn);
+  }
+
+  const footer = html[0]?.querySelector(".directory-footer")
+    ?? html.querySelector?.(".directory-footer");
+  const showImprovement = game.user.isGM || !!game.user.character;
+  if (footer && showImprovement) {
+    const ipBtn = document.createElement("button");
+    ipBtn.type = "button";
+    ipBtn.classList.add("crw-sidebar-btn");
+    ipBtn.innerHTML = `<i class="fas fa-arrow-up-right-dots"></i> ${game.i18n.localize("crw.buttons.improvement")}`;
+    ipBtn.addEventListener("click", () => ImprovementApp.open());
+    footer.append(ipBtn);
   }
 });
 
