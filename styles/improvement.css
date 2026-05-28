@@ -1,0 +1,161 @@
+.crw-improvement-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: var(--font-primary, "Signika", sans-serif);
+}
+
+.crw-improvement-empty,
+.crw-improvement-empty-roles {
+  padding: 1rem;
+  text-align: center;
+  color: var(--color-text-dark-secondary, #888);
+}
+
+.crw-improvement-actor-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.crw-improvement-actor-picker label { font-weight: 600; }
+.crw-improvement-actor-picker select { flex: 1; }
+
+.crw-improvement-body {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0.75rem;
+  flex: 1;
+  overflow: auto;
+  padding: 0.75rem;
+}
+
+.crw-improvement-skills > header,
+.crw-improvement-roles > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.crw-improvement-skills > header h3,
+.crw-improvement-roles > header h3 { margin: 0; }
+
+.crw-improvement-filter {
+  flex: 1;
+  max-width: 240px;
+}
+
+.crw-improvement-category {
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+}
+
+.crw-improvement-category summary {
+  cursor: pointer;
+  padding: 0.35rem 0.5rem;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.crw-improvement-category-badge {
+  margin-left: 0.4rem;
+  color: var(--color-text-hyperlink, #b00);
+  font-weight: 700;
+}
+
+.crw-improvement-category-body { padding: 0.25rem 0.4rem; }
+
+.crw-improvement-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.2rem 0.35rem;
+  border-radius: 3px;
+}
+
+.crw-improvement-row.is-in-cart {
+  background: rgba(255, 200, 0, 0.18);
+}
+
+.crw-improvement-row.is-new {
+  background: rgba(0, 180, 255, 0.12);
+}
+
+.crw-improvement-x2 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #b00;
+  border: 1px solid #b00;
+  border-radius: 3px;
+  padding: 0 3px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.crw-improvement-new-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #06c;
+  color: white;
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin-right: 4px;
+}
+
+.crw-improvement-delta {
+  color: #b00;
+  font-weight: 700;
+}
+
+.crw-improvement-row-cost {
+  font-size: 0.85rem;
+  color: var(--color-text-dark-secondary, #555);
+  white-space: nowrap;
+}
+
+.crw-improvement-row-controls button {
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.crw-improvement-buy-new-role {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.crw-improvement-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.03);
+  position: sticky;
+  bottom: 0;
+}
+
+.crw-improvement-balance strong { font-size: 1.1rem; }
+.crw-improvement-balance .is-negative { color: #b00; }
+.crw-improvement-delta-total {
+  margin-left: 0.5rem;
+  color: var(--color-text-dark-secondary, #555);
+}
+
+.crw-improvement-apply { font-weight: 700; }
+
+.crw-sidebar-btn {
+  /* re-use existing module pattern from creator/store buttons */
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+}

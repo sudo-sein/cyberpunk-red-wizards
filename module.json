@@ -24,7 +24,8 @@
     "styles/npc-generator.css",
     "styles/npc-editor.css",
     "styles/import.css",
-    "styles/store.css"
+    "styles/store.css",
+    "styles/improvement.css"
   ],
   "languages": [
     { "lang": "en", "name": "English", "path": "languages/en.json" },
