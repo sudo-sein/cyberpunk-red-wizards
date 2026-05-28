@@ -153,8 +153,7 @@
 
 .crw-improvement-apply { font-weight: 700; }
 
-.crw-sidebar-btn {
-  /* re-use existing module pattern from creator/store buttons */
+.directory-footer .crw-sidebar-btn {
   display: block;
   width: 100%;
   margin-top: 0.25rem;
