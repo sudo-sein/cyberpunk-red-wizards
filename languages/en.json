@@ -150,6 +150,7 @@
   "crw.nav.next": "Next",
   "crw.start.handle.label": "Handle (Character Name)",
   "crw.start.handle.placeholder": "Enter your street name...",
+  "crw.start.handle.random": "Generate random handle",
   "crw.start.method.label": "Creation Method",
   "crw.start.method.streetrat.desc": "Templates. Pre-built stats & skills. Fastest method.",
   "crw.start.method.edgerunner.desc": "Rolled stats, 86 pts for skills. Balanced control.",

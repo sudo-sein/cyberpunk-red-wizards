@@ -150,6 +150,7 @@
   "crw.nav.next": "Dalej",
   "crw.start.handle.label": "Ksywka (Imię Postaci)",
   "crw.start.handle.placeholder": "Wpisz swoją uliczną ksywkę...",
+  "crw.start.handle.random": "Wylosuj ksywkę",
   "crw.start.method.label": "Metoda Tworzenia",
   "crw.start.method.streetrat.desc": "Szablony. Gotowe statystyki i umiejętności. Najszybsza metoda.",
   "crw.start.method.edgerunner.desc": "Losowane statystyki, 86 pkt na umiejętności. Zbalansowana kontrola.",

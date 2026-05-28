@@ -1,8 +1,19 @@
 <div class="crw-step-start">
   <div class="crw-field-group">
     <label class="crw-label">{{localize "crw.start.handle.label"}}</label>
-    <input type="text" class="crw-input crw-handle-input" name="handle"
-           value="{{handle}}" placeholder="{{localize "crw.start.handle.placeholder"}}">
+    <div class="crw-handle-row">
+      <input type="text" class="crw-input crw-handle-input" name="handle"
+             value="{{handle}}" placeholder="{{localize "crw.start.handle.placeholder"}}">
+      <button
+        type="button"
+        class="crw-handle-random-btn"
+        data-action="randomHandle"
+        title="{{localize "crw.start.handle.random"}}"
+        aria-label="{{localize "crw.start.handle.random"}}"
+      >
+        <i class="fas fa-dice"></i>
+      </button>
+    </div>
   </div>
 
   <div class="crw-field-group">

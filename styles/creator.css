@@ -8,6 +8,35 @@
   gap: 10px;
 }
 
+.crw-handle-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.crw-handle-row .crw-handle-input {
+  flex: 1;
+}
+
+.crw-handle-random-btn {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid var(--cpr-background-border);
+  background-color: var(--cpr-background-header);
+  color: var(--cpr-text-icon-dimmed);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crw-handle-random-btn:hover {
+  background-color: var(--cpr-background-box);
+  color: var(--cpr-text-normal);
+}
+
 .crw-method-card {
   background-color: var(--cpr-background-box);
   border: 2px solid var(--cpr-background-border);
