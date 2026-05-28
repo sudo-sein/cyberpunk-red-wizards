@@ -1,5 +1,6 @@
 import * as ipCosts from "../improvement/ip-costs.js";
 import { getBuyableRolesFor } from "../improvement/compendium-roles.js";
+import { commitCart, CommitError } from "../improvement/commit-cart.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 
@@ -505,5 +506,49 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
   }
 
   static #onCancel(event, target) { this.close(); }
-  static #onApply(event, target) { /* Task 11 */ }
+
+  static async #onApply() {
+    if (!this.#cartHasContent()) {
+      ui.notifications.warn(game.i18n.localize("crw.improvement.errors.emptyCart"));
+      return;
+    }
+
+    let result;
+    try {
+      result = await commitCart(this.#actor, this.#cart);
+    } catch (err) {
+      console.error("[crw][improvement] commit failed", err);
+      if (err instanceof CommitError) {
+        switch (err.code) {
+          case "INSUFFICIENT_IP":
+            ui.notifications.error(game.i18n.format("crw.improvement.errors.insufficientIp", err.data));
+            return;
+          case "CAP_EXCEEDED":
+            ui.notifications.error(game.i18n.format("crw.improvement.errors.capExceeded", err.data));
+            return;
+          case "EMPTY_CART":
+            ui.notifications.warn(game.i18n.localize("crw.improvement.errors.emptyCart"));
+            return;
+          default:
+            ui.notifications.error(err.code);
+            return;
+        }
+      }
+      ui.notifications.error(String(err?.message ?? err));
+      return;
+    }
+
+    for (const warn of result.warnings ?? []) {
+      if (warn.code === "ITEM_MISSING") {
+        ui.notifications.warn(game.i18n.format("crw.improvement.errors.itemMissing", { name: warn.name }));
+      }
+    }
+
+    ui.notifications.info(game.i18n.format("crw.improvement.success", {
+      cost: result.totalCost,
+      count: result.count,
+    }));
+
+    this.close();
+  }
 }
