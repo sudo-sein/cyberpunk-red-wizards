@@ -1,7 +1,7 @@
 import StepBase from "./step-base.js";
 import { loadRole } from "../data/role-loader.js";
 import { STAT_KEYS } from "../constants.js";
-import { getStatPointBudget } from "../utils/creator-settings.js";
+import { getEffectiveStatPointBudget } from "../utils/creator-settings.js";
 
 const MIN_STAT = 2;
 const MAX_STAT = 8;
@@ -26,7 +26,7 @@ export default class StepStats extends StepBase {
 
   async prepareContext(state) {
     if (state.method === "complete") {
-      const totalPoints = getStatPointBudget();
+      const totalPoints = getEffectiveStatPointBudget(state.statPointBudgetOverride);
       const statRows = STAT_KEYS.map(key => ({
         key,
         abbr: game.i18n.localize(`crw.stats.${key}`),
@@ -84,7 +84,7 @@ export default class StepStats extends StepBase {
   }
 
   _activatePointBuy(html, state, app) {
-    const totalPoints = getStatPointBudget();
+    const totalPoints = getEffectiveStatPointBudget(state.statPointBudgetOverride);
     html.querySelectorAll("[data-action='statInc']").forEach(btn => {
       btn.addEventListener("click", () => {
         const key = btn.dataset.stat;
@@ -182,7 +182,7 @@ export default class StepStats extends StepBase {
 
   validate(state) {
     if (state.method === "complete") {
-      const totalPoints = getStatPointBudget();
+      const totalPoints = getEffectiveStatPointBudget(state.statPointBudgetOverride);
       const spent = STAT_KEYS.reduce((sum, k) => sum + state.stats[k], 0);
       return spent === totalPoints && STAT_KEYS.every(k => state.stats[k] >= MIN_STAT && state.stats[k] <= MAX_STAT);
     }

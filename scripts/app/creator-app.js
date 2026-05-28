@@ -8,6 +8,7 @@ import StepGear from "../steps/step-gear.js";
 import StepSummary from "../steps/step-summary.js";
 import { requestCharacterCreation, NO_ACTIVE_GM } from "../creator/creator-socket.js";
 import { MODULE_ID } from "../constants.js";
+import { getStatPointBudget } from "../utils/creator-settings.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -66,6 +67,7 @@ export default class CharacterCreatorApp extends HandlebarsApplicationMixin(Appl
       skills: [],
       gear: {},
       cyberware: [],
+      statPointBudgetOverride: game.user.isGM ? getStatPointBudget() : null,
     };
     this.registerSteps([
       new StepStart(),

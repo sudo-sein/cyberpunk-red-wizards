@@ -42,4 +42,19 @@
       {{/each}}
     </div>
   </div>
+
+  {{#if showStatBudgetOverride}}
+  <div class="crw-field-group">
+    <label class="crw-label">{{localize "crw.start.statBudgetOverride.label"}}</label>
+    <div class="crw-role-grid crw-stat-budget-override-grid" style="--crw-budget-override-columns: {{statBudgetOverrideColumns}};">
+      {{#each statBudgetOverrides}}
+      <div class="crw-role-btn {{#if this.selected}}crw-selected{{/if}}"
+           data-action="selectStatBudgetOverride" data-budget="{{this.value}}">
+        <div class="crw-role-name">{{this.value}}</div>
+        <div class="crw-role-ability">{{this.label}}</div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
 </div>

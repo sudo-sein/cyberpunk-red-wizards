@@ -14,6 +14,13 @@ export function getStatPointBudget() {
   return normalizeBudget(configured, DEFAULT_STAT_POINT_BUDGET);
 }
 
+export function getEffectiveStatPointBudget(overrideValue) {
+  if (Number.isFinite(overrideValue)) {
+    return normalizeBudget(overrideValue, DEFAULT_STAT_POINT_BUDGET);
+  }
+  return getStatPointBudget();
+}
+
 export function getSkillPointBudget() {
   const configured = globalThis.game?.settings?.get?.(MODULE_ID, "skillPointBudget");
   return normalizeBudget(configured, DEFAULT_SKILL_POINT_BUDGET);
@@ -22,6 +29,13 @@ export function getSkillPointBudget() {
 export function getCreatorPointBudgets() {
   return {
     statPointBudget: getStatPointBudget(),
+    skillPointBudget: getSkillPointBudget(),
+  };
+}
+
+export function getEffectiveCreatorPointBudgets(state = {}) {
+  return {
+    statPointBudget: getEffectiveStatPointBudget(state?.statPointBudgetOverride),
     skillPointBudget: getSkillPointBudget(),
   };
 }

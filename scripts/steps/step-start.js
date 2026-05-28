@@ -1,5 +1,8 @@
 import StepBase from "./step-base.js";
-import { getCreatorPointBudgets } from "../utils/creator-settings.js";
+import {
+  getEffectiveCreatorPointBudgets,
+  getStatPointBudget,
+} from "../utils/creator-settings.js";
 
 const HANDLES_FILE_PATH = "modules/cyberpunk-red-wizards/data/handles.txt";
 let handlesCachePromise = null;
@@ -74,6 +77,29 @@ const METHODS = [
   { id: "complete", labelKey: "crw.methods.complete", descKey: "crw.start.method.complete.desc", timeKey: "crw.start.method.complete.time" },
 ];
 
+const STAT_BUDGET_OVERRIDES = [
+  { value: 50, labelKey: "crw.start.statBudgetOverride.backgroundCharacter" },
+  { value: 62, labelKey: "crw.start.statBudgetOverride.startingCharacter" },
+  { value: 70, labelKey: "crw.start.statBudgetOverride.majorCharacter" },
+  { value: 75, labelKey: "crw.start.statBudgetOverride.minorHero" },
+  { value: 80, labelKey: "crw.start.statBudgetOverride.majorHero" },
+];
+
+function buildStatBudgetOverrides() {
+  const configuredBudget = getStatPointBudget();
+  const options = [...STAT_BUDGET_OVERRIDES];
+
+  if (!options.some((option) => option.value === configuredBudget)) {
+    options.push({
+      value: configuredBudget,
+      labelKey: "crw.start.statBudgetOverride.customBudget",
+    });
+  }
+
+  options.sort((a, b) => a.value - b.value);
+  return options;
+}
+
 export default class StepStart extends StepBase {
   constructor() {
     super("start", "crw.steps.start");
@@ -84,7 +110,8 @@ export default class StepStart extends StepBase {
   }
 
   prepareContext(state) {
-    const budgets = getCreatorPointBudgets();
+    const budgets = getEffectiveCreatorPointBudgets(state);
+    const statBudgetOverrides = buildStatBudgetOverrides();
     return {
       handle: state.handle,
       selectedMethod: state.method,
@@ -102,6 +129,13 @@ export default class StepStart extends StepBase {
         id: r,
         label: game.i18n.localize(`crw.roles.${r}`),
         ability: game.i18n.localize(`crw.roleAbility.${r}`),
+      })),
+      showStatBudgetOverride: game.user.isGM,
+      statBudgetOverrideColumns: statBudgetOverrides.length,
+      statBudgetOverrides: statBudgetOverrides.map((option) => ({
+        value: option.value,
+        label: game.i18n.localize(option.labelKey),
+        selected: state.statPointBudgetOverride === option.value,
       })),
     };
   }
@@ -134,6 +168,13 @@ export default class StepStart extends StepBase {
           state.gear = {};
           state.cyberware = [];
         }
+        app.render(true);
+      });
+    });
+
+    html.querySelectorAll("[data-action='selectStatBudgetOverride']").forEach(el => {
+      el.addEventListener("click", () => {
+        state.statPointBudgetOverride = parseInt(el.dataset.budget, 10);
         app.render(true);
       });
     });

@@ -88,6 +88,10 @@
   gap: 8px;
 }
 
+.crw-stat-budget-override-grid {
+  grid-template-columns: repeat(var(--crw-budget-override-columns, 5), minmax(0, 1fr));
+}
+
 .crw-role-btn {
   background-color: var(--cpr-background-box);
   border: 1px solid var(--cpr-background-border);
@@ -149,6 +153,15 @@
   background-color: var(--cpr-background-box);
   border-radius: 2px;
   margin-bottom: 16px;
+}
+
+.crw-skills-sticky-header {
+  position: sticky;
+  top: -16px;
+  z-index: 3;
+  background-color: var(--cpr-background-window, var(--cpr-background-sheet, #111));
+  padding-top: 16px;
+  border-bottom: 1px solid var(--cpr-background-border);
 }
 
 .crw-budget-fill {
@@ -386,10 +399,7 @@
   margin-bottom: 12px;
 }
 
-.crw-skill-categories {
-}
-
-.crw-category-title {
+.application h4.crw-category-title {
   display: flex;
   align-items: center;
   gap: 6px;

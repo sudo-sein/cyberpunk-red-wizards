@@ -4,6 +4,22 @@ import { getSkillPointBudget } from "../utils/creator-settings.js";
 
 const MODULE_PATH = "modules/cyberpunk-red-wizards";
 const MAX_LEVEL = 6;
+const BASELINE_SKILL_LEVEL = 2;
+const REQUIRED_BASELINE_SKILLS = new Set([
+  "Athletics",
+  "Brawling",
+  "Concentration",
+  "Conversation",
+  "Education",
+  "Evasion",
+  "First Aid",
+  "Human Perception",
+  "Language (Streetslang)",
+  "Local Expert",
+  "Perception",
+  "Persuasion",
+  "Stealth",
+]);
 
 const CATEGORY_ORDER = [
   "awarenessSkills", "bodySkills", "controlSkills", "educationSkills",
@@ -73,15 +89,12 @@ export default class StepSkills extends StepBase {
     if (state.skills.length === 0) {
       const allSkills = await loadAllSkills();
       state.skills = allSkills.map(s => ({ ...s }));
+    }
 
-      if (state.method === "edgerunner") {
-        const roleData = await loadRole(state.role.id);
-        if (roleData?.skills) {
-          const roleMap = new Map(roleData.skills.map(s => [s.name, s]));
-          for (const skill of state.skills) {
-            const rs = roleMap.get(skill.name);
-            if (rs) skill.level = 2;
-          }
+    if (this._usesRequiredBaselineSkills(state)) {
+      for (const skill of state.skills) {
+        if (REQUIRED_BASELINE_SKILLS.has(skill.name) && skill.level < BASELINE_SKILL_LEVEL) {
+          skill.level = BASELINE_SKILL_LEVEL;
         }
       }
     }
@@ -137,9 +150,37 @@ export default class StepSkills extends StepBase {
     return result;
   }
 
+  _usesRequiredBaselineSkills(state) {
+    return state.method === "edgerunner" || state.method === "complete";
+  }
+
+  _getMinimumSkillLevel(state, skillName) {
+    if (this._usesRequiredBaselineSkills(state) && REQUIRED_BASELINE_SKILLS.has(skillName)) {
+      return BASELINE_SKILL_LEVEL;
+    }
+    return 0;
+  }
+
+  _validateRequiredBaselineSkills(state) {
+    if (!this._usesRequiredBaselineSkills(state)) return true;
+
+    const levelsByName = new Map(state.skills.map(skill => [skill.name, skill.level]));
+    for (const requiredSkill of REQUIRED_BASELINE_SKILLS) {
+      if ((levelsByName.get(requiredSkill) ?? -1) < BASELINE_SKILL_LEVEL) return false;
+    }
+    return true;
+  }
+
   activate(html, state, app) {
     if (state.method === "streetrat") return;
     const totalPoints = getSkillPointBudget();
+
+    html.querySelectorAll("[data-action='skillDec']").forEach(btn => {
+      const skillName = btn.dataset.skill;
+      const skill = state.skills.find(s => s.name === skillName);
+      if (!skill) return;
+      btn.disabled = skill.level <= this._getMinimumSkillLevel(state, skill.name);
+    });
 
     html.querySelectorAll("[data-action='skillInc']").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -160,7 +201,8 @@ export default class StepSkills extends StepBase {
         const skillName = btn.dataset.skill;
         const skill = state.skills.find(s => s.name === skillName);
         if (!skill) return;
-        if (skill.level > 0) {
+        const minLevel = this._getMinimumSkillLevel(state, skill.name);
+        if (skill.level > minLevel) {
           skill.level--;
           app.render(true);
         }
@@ -188,7 +230,11 @@ export default class StepSkills extends StepBase {
       return state.skills.length > 0;
     }
     const spent = this._calculateSpent(state.skills);
-    return spent === getSkillPointBudget() && state.skills.every(s => s.level >= 0 && s.level <= MAX_LEVEL);
+    return (
+      spent === getSkillPointBudget() &&
+      state.skills.every(s => s.level >= 0 && s.level <= MAX_LEVEL) &&
+      this._validateRequiredBaselineSkills(state)
+    );
   }
 
   serialize(html, state) {
