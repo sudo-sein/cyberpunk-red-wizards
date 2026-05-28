@@ -45,7 +45,7 @@ export async function fetchRoleItemData(packId, sourceId) {
   const pack = game.packs.get(packId);
   if (!pack) throw new Error(`Pack not found: ${packId}`);
   const doc = await pack.getDocument(sourceId);
-  if (!doc) throw new Error(`Role not found in pack: ${sourceId}`);
+  if (!doc) throw new Error(`Role document not found in ${packId}: ${sourceId}`);
   // toObject() gives a clean creation-ready payload including system + flags.
   return doc.toObject();
 }
