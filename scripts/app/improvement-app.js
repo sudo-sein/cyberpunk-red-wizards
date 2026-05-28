@@ -1,4 +1,5 @@
 import * as ipCosts from "../improvement/ip-costs.js";
+import { getBuyableRolesFor } from "../improvement/compendium-roles.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 
@@ -456,7 +457,45 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
     this.render(true);
   }
 
-  static #onOpenBuyRoleDialog(event, target) { /* Task 10 */ }
+  static async #onOpenBuyRoleDialog() {
+    const buyable = await getBuyableRolesFor(this.#actor);
+    // Exclude ones already in the cart.
+    const inCartSynthetic = new Set(this.#cart.newRoles.keys());
+    const available = buyable.filter((r) => !inCartSynthetic.has(r.syntheticId));
+
+    if (available.length === 0) {
+      ui.notifications.warn(game.i18n.localize("crw.improvement.buyNewRole.empty"));
+      return;
+    }
+
+    const options = available
+      .map((r) => `<option value="${r.syntheticId}">${r.name}</option>`)
+      .join("");
+
+    const picked = await DialogV2.prompt({
+      window: { title: game.i18n.localize("crw.improvement.buyNewRole.dialogTitle") },
+      content: `
+        <p>${game.i18n.localize("crw.improvement.buyNewRole.dropdownLabel")}:</p>
+        <select name="syntheticId" style="width:100%">${options}</select>
+      `,
+      ok: {
+        label: game.i18n.localize("crw.improvement.buyNewRole.confirm"),
+        callback: (event, button) => button.form.elements.syntheticId.value,
+      },
+    }).catch(() => null);
+
+    if (!picked) return;
+    const role = available.find((r) => r.syntheticId === picked);
+    if (!role) return;
+
+    this.#cart.newRoles.set(role.syntheticId, {
+      packId: role.packId,
+      sourceId: role.sourceId,
+      name: role.name,
+      plannedRank: 1,
+    });
+    this.render(true);
+  }
 
   static #onResetCart() {
     this.#cart.skills.clear();
