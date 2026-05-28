@@ -5,7 +5,11 @@ import { initStoreSocket } from "./store/store-socket.js";
 import { initCreatorSocket } from "./creator/creator-socket.js";
 import StoreApp from "./app/store-app.js";
 import StorePackConfig from "./app/store-pack-config.js";
-import { MODULE_ID } from "./constants.js";
+import {
+  MODULE_ID,
+  DEFAULT_STAT_POINT_BUDGET,
+  DEFAULT_SKILL_POINT_BUDGET,
+} from "./constants.js";
 
 Hooks.once("init", () => {
   Handlebars.registerHelper("eq", (a, b) => a === b);
@@ -33,6 +37,26 @@ Hooks.once("init", () => {
       complete: "crw.methods.complete",
     },
     default: "streetrat",
+  });
+
+  game.settings.register(MODULE_ID, "statPointBudget", {
+    name: "crw.settings.statPointBudget.name",
+    hint: "crw.settings.statPointBudget.hint",
+    scope: "world",
+    config: true,
+    type: Number,
+    default: DEFAULT_STAT_POINT_BUDGET,
+    restricted: true,
+  });
+
+  game.settings.register(MODULE_ID, "skillPointBudget", {
+    name: "crw.settings.skillPointBudget.name",
+    hint: "crw.settings.skillPointBudget.hint",
+    scope: "world",
+    config: true,
+    type: Number,
+    default: DEFAULT_SKILL_POINT_BUDGET,
+    restricted: true,
   });
 
   game.settings.register(MODULE_ID, "storeMarkup", {

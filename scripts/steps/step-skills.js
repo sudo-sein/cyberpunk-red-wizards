@@ -1,8 +1,8 @@
 import StepBase from "./step-base.js";
 import { loadRole } from "../data/role-loader.js";
+import { getSkillPointBudget } from "../utils/creator-settings.js";
 
 const MODULE_PATH = "modules/cyberpunk-red-wizards";
-const TOTAL_POINTS = 86;
 const MAX_LEVEL = 6;
 
 const CATEGORY_ORDER = [
@@ -88,10 +88,13 @@ export default class StepSkills extends StepBase {
 
     const spent = this._calculateSpent(state.skills);
     const grouped = this._groupByCategory(state.skills);
+    const totalPoints = getSkillPointBudget();
 
     return {
-      remaining: TOTAL_POINTS - spent,
-      spentPercent: Math.min(100, Math.round((spent / TOTAL_POINTS) * 100)),
+      totalPoints,
+      remaining: totalPoints - spent,
+      spentPercent: totalPoints > 0 ? Math.min(100, Math.round((spent / totalPoints) * 100)) : 0,
+      hint: game.i18n.format("crw.skills.hint", { totalPoints }),
       showFilter: true,
       categories: grouped,
     };
@@ -136,6 +139,7 @@ export default class StepSkills extends StepBase {
 
   activate(html, state, app) {
     if (state.method === "streetrat") return;
+    const totalPoints = getSkillPointBudget();
 
     html.querySelectorAll("[data-action='skillInc']").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -144,7 +148,7 @@ export default class StepSkills extends StepBase {
         if (!skill) return;
         const cost = skill.difficulty === "x2" ? 2 : 1;
         const spent = this._calculateSpent(state.skills);
-        if (skill.level < MAX_LEVEL && (spent + cost) <= TOTAL_POINTS) {
+        if (skill.level < MAX_LEVEL && (spent + cost) <= totalPoints) {
           skill.level++;
           app.render(true);
         }
@@ -184,7 +188,7 @@ export default class StepSkills extends StepBase {
       return state.skills.length > 0;
     }
     const spent = this._calculateSpent(state.skills);
-    return spent === TOTAL_POINTS && state.skills.every(s => s.level >= 0 && s.level <= MAX_LEVEL);
+    return spent === getSkillPointBudget() && state.skills.every(s => s.level >= 0 && s.level <= MAX_LEVEL);
   }
 
   serialize(html, state) {

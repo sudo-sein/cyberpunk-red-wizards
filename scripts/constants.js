@@ -3,6 +3,8 @@
 // in the node:test harness without Foundry globals.
 
 export const MODULE_ID = "cyberpunk-red-wizards";
+export const DEFAULT_STAT_POINT_BUDGET = 62;
+export const DEFAULT_SKILL_POINT_BUDGET = 86;
 
 // Canonical CPR stat order. Used for iteration and for mapping stat-template
 // columns (index position is significant — do not reorder).

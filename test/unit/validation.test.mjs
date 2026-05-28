@@ -14,6 +14,11 @@ test("validateStatsComplete fails when sum != 62", () => {
 test("validateStatsComplete fails when a stat is out of range", () => {
   strictEqual(validateStatsComplete({ ...full, emp: 2, luck: 12 }).valid, false);
 });
+test("validateStatsComplete honors custom total budget", () => {
+  const custom = { ...full, int: 4, ref: 4, dex: 6, tech: 6, cool: 6, will: 6, luck: 6, move: 6, body: 6, emp: 8 }; // sum 58
+  strictEqual(validateStatsComplete(custom, 58).valid, true);
+  strictEqual(validateStatsComplete(custom, 62).valid, false);
+});
 test("validateStatsRolled requires all > 0", () => {
   strictEqual(validateStatsRolled(full).valid, true);
   strictEqual(validateStatsRolled({ ...full, luck: 0 }).valid, false);
@@ -29,6 +34,9 @@ test("validateSkillsPointBuy honors x2 difficulty cost", () => {
 });
 test("validateSkillsPointBuy fails when over the cap", () => {
   strictEqual(validateSkillsPointBuy([{ level: 6, difficulty: "x1" }]).valid, false);
+});
+test("validateSkillsPointBuy honors custom total budget", () => {
+  strictEqual(validateSkillsPointBuy([{ level: 6, difficulty: "x1" }], 6).valid, true);
 });
 test("validateHumanity fails when loss meets humanity", () => {
   strictEqual(validateHumanity(40, 40).valid, false);

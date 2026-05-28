@@ -1,7 +1,8 @@
 import StepBase from "./step-base.js";
 import { loadRole } from "../data/role-loader.js";
 import { STAT_KEYS } from "../constants.js";
-const TOTAL_POINTS = 62;
+import { getStatPointBudget } from "../utils/creator-settings.js";
+
 const MIN_STAT = 2;
 const MAX_STAT = 8;
 
@@ -25,6 +26,7 @@ export default class StepStats extends StepBase {
 
   async prepareContext(state) {
     if (state.method === "complete") {
+      const totalPoints = getStatPointBudget();
       const statRows = STAT_KEYS.map(key => ({
         key,
         abbr: game.i18n.localize(`crw.stats.${key}`),
@@ -34,8 +36,10 @@ export default class StepStats extends StepBase {
       const spent = STAT_KEYS.reduce((sum, k) => sum + state.stats[k], 0);
       return {
         statRows,
-        remaining: TOTAL_POINTS - spent,
-        spentPercent: Math.round((spent / TOTAL_POINTS) * 100),
+        totalPoints,
+        remaining: totalPoints - spent,
+        spentPercent: totalPoints > 0 ? Math.round((spent / totalPoints) * 100) : 0,
+        hint: game.i18n.format("crw.stats.hint", { totalPoints }),
       };
     }
 
@@ -80,11 +84,12 @@ export default class StepStats extends StepBase {
   }
 
   _activatePointBuy(html, state, app) {
+    const totalPoints = getStatPointBudget();
     html.querySelectorAll("[data-action='statInc']").forEach(btn => {
       btn.addEventListener("click", () => {
         const key = btn.dataset.stat;
         const spent = STAT_KEYS.reduce((sum, k) => sum + state.stats[k], 0);
-        if (state.stats[key] < MAX_STAT && spent < TOTAL_POINTS) {
+        if (state.stats[key] < MAX_STAT && spent < totalPoints) {
           state.stats[key]++;
           app.render(true);
         }
@@ -177,8 +182,9 @@ export default class StepStats extends StepBase {
 
   validate(state) {
     if (state.method === "complete") {
+      const totalPoints = getStatPointBudget();
       const spent = STAT_KEYS.reduce((sum, k) => sum + state.stats[k], 0);
-      return spent === TOTAL_POINTS && STAT_KEYS.every(k => state.stats[k] >= MIN_STAT && state.stats[k] <= MAX_STAT);
+      return spent === totalPoints && STAT_KEYS.every(k => state.stats[k] >= MIN_STAT && state.stats[k] <= MAX_STAT);
     }
     if (state.method === "streetrat") {
       return this._selectedColumn !== null;

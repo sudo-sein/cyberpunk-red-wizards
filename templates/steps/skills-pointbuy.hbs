@@ -3,7 +3,7 @@
     <span class="crw-label">{{localize "crw.skills.title"}}</span>
     <div>
       <span class="crw-budget-value">{{remaining}}</span>
-      <span class="crw-budget-label"> / 86 {{localize "crw.skills.remaining"}}</span>
+      <span class="crw-budget-label"> / {{totalPoints}} {{localize "crw.skills.remaining"}}</span>
     </div>
   </div>
   <div class="crw-budget-bar">
@@ -25,5 +25,5 @@
     {{/each}}
   </div>
 
-  <div class="crw-hint">{{localize "crw.skills.hint"}}</div>
+  <div class="crw-hint">{{hint}}</div>
 </div>

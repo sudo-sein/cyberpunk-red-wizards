@@ -1,4 +1,5 @@
 import StepBase from "./step-base.js";
+import { getCreatorPointBudgets } from "../utils/creator-settings.js";
 
 const HANDLES_FILE_PATH = "modules/cyberpunk-red-wizards/data/handles.txt";
 let handlesCachePromise = null;
@@ -83,6 +84,7 @@ export default class StepStart extends StepBase {
   }
 
   prepareContext(state) {
+    const budgets = getCreatorPointBudgets();
     return {
       handle: state.handle,
       selectedMethod: state.method,
@@ -90,7 +92,10 @@ export default class StepStart extends StepBase {
       methods: METHODS.map(m => ({
         id: m.id,
         label: game.i18n.localize(m.labelKey),
-        desc: game.i18n.localize(m.descKey),
+        desc: game.i18n.format(m.descKey, {
+          statPointsTotal: budgets.statPointBudget,
+          skillPointsTotal: budgets.skillPointBudget,
+        }),
         time: game.i18n.localize(m.timeKey),
       })),
       roles: ROLES.map(r => ({

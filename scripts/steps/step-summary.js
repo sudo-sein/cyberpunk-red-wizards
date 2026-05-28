@@ -5,6 +5,7 @@ import { runFullChecklist } from "../utils/validation.js";
 import { loadRole } from "../data/role-loader.js";
 import { fetchCompendiumItem, fetchCompendiumItems } from "../utils/compendium.js";
 import { addRoleItem } from "../utils/role.js";
+import { getCreatorPointBudgets } from "../utils/creator-settings.js";
 
 // Specialty skills not in internal_skills — fetch from dedicated packs.
 // defaultName: specific item to look for; falls back to first item in pack.
@@ -25,7 +26,11 @@ export default class StepSummary extends StepBase {
   }
 
   async prepareContext(state) {
-    const checks = runFullChecklist(state);
+    const budgets = getCreatorPointBudgets();
+    const checks = runFullChecklist(state, {
+      statPointsTotal: budgets.statPointBudget,
+      skillPointsTotal: budgets.skillPointBudget,
+    });
     const derived = calculateAllDerived(state.stats);
     const roleData = state.role?.id ? await loadRole(state.role.id) : null;
 
@@ -111,7 +116,11 @@ export default class StepSummary extends StepBase {
   }
 
   validate(state) {
-    const checks = runFullChecklist(state);
+    const budgets = getCreatorPointBudgets();
+    const checks = runFullChecklist(state, {
+      statPointsTotal: budgets.statPointBudget,
+      skillPointsTotal: budgets.skillPointBudget,
+    });
     return checks.every(c => c.passed);
   }
 
