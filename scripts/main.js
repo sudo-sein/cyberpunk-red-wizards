@@ -155,8 +155,9 @@ Hooks.on("renderActorDirectory", (app, html) => {
     ipBtn.type = "button";
     ipBtn.classList.add("crw-sidebar-btn");
     ipBtn.innerHTML = `<i class="fas fa-arrow-up-right-dots"></i> ${game.i18n.localize("crw.buttons.improvement")}`;
+    ipBtn.classList.add("crw-improvement-btn");
     ipBtn.addEventListener("click", () => ImprovementApp.open());
-    footer.append(ipBtn);
+    if (!footer.querySelector(".crw-improvement-btn")) footer.append(ipBtn);
   }
 });
 
