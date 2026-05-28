@@ -1,0 +1,16 @@
+<div class="crw-improvement-row crw-improvement-role-row{{#if delta}} is-in-cart{{/if}}{{#if isNew}} is-new{{/if}}" data-role-id="{{id}}">
+  <span class="crw-improvement-row-name">
+    {{#if isNew}}<span class="crw-improvement-new-badge">{{localize 'crw.improvement.role.newBadge'}}</span>{{/if}}
+    {{name}}
+  </span>
+  <span class="crw-improvement-row-value">
+    {{localize 'crw.improvement.role.rankLabel'}}: {{rank}}{{#if delta}} → {{plannedRank}}{{/if}}
+  </span>
+  <span class="crw-improvement-row-cost">
+    {{#if delta}}+{{plannedTotalCost}} IP / {{/if}}{{localize 'crw.improvement.role.next'}} {{nextCost}}
+  </span>
+  <span class="crw-improvement-row-controls">
+    <button type="button" class="crw-improvement-dec" data-action="decrementRole" data-id="{{id}}" {{#unless canDecrement}}disabled{{/unless}}>−</button>
+    <button type="button" class="crw-improvement-inc" data-action="incrementRole" data-id="{{id}}" {{#unless canIncrement}}disabled title="{{disabledReason}}"{{/unless}}>+</button>
+  </span>
+</div>
