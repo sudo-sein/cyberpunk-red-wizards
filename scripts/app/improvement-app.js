@@ -411,12 +411,60 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
   }
 
   // ── action handlers (stubs, filled in later tasks) ──
-  static #onIncrementSkill(event, target) { /* Task 9 */ }
-  static #onDecrementSkill(event, target) { /* Task 9 */ }
-  static #onIncrementRole(event, target) { /* Task 9 */ }
-  static #onDecrementRole(event, target) { /* Task 9 */ }
+  static #onIncrementSkill(event, target) {
+    const id = target.dataset.id;
+    const current = this.#cart.skills.get(id) ?? 0;
+    this.#cart.skills.set(id, current + 1);
+    this.render(true);
+  }
+
+  static #onDecrementSkill(event, target) {
+    const id = target.dataset.id;
+    const current = this.#cart.skills.get(id) ?? 0;
+    const next = Math.max(0, current - 1);
+    if (next === 0) this.#cart.skills.delete(id);
+    else this.#cart.skills.set(id, next);
+    this.render(true);
+  }
+
+  static #onIncrementRole(event, target) {
+    const id = target.dataset.id;
+    if (id.startsWith("new:")) {
+      const entry = this.#cart.newRoles.get(id);
+      if (!entry) return;
+      entry.plannedRank += 1;
+    } else {
+      const current = this.#cart.roles.get(id) ?? 0;
+      this.#cart.roles.set(id, current + 1);
+    }
+    this.render(true);
+  }
+
+  static #onDecrementRole(event, target) {
+    const id = target.dataset.id;
+    if (id.startsWith("new:")) {
+      const entry = this.#cart.newRoles.get(id);
+      if (!entry) return;
+      entry.plannedRank -= 1;
+      if (entry.plannedRank <= 0) this.#cart.newRoles.delete(id);
+    } else {
+      const current = this.#cart.roles.get(id) ?? 0;
+      const next = Math.max(0, current - 1);
+      if (next === 0) this.#cart.roles.delete(id);
+      else this.#cart.roles.set(id, next);
+    }
+    this.render(true);
+  }
+
   static #onOpenBuyRoleDialog(event, target) { /* Task 10 */ }
-  static #onResetCart(event, target) { /* Task 9 */ }
+
+  static #onResetCart() {
+    this.#cart.skills.clear();
+    this.#cart.roles.clear();
+    this.#cart.newRoles.clear();
+    this.render(true);
+  }
+
   static #onCancel(event, target) { this.close(); }
   static #onApply(event, target) { /* Task 11 */ }
 }
