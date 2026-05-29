@@ -7,6 +7,7 @@ import { initCreatorSocket } from "./creator/creator-socket.js";
 import { initImprovementPresence } from "./improvement/improvement-presence.js";
 import StoreApp from "./app/store-app.js";
 import StorePackConfig from "./app/store-pack-config.js";
+import NpcCategoryConfig from "./app/npc-category-config.js";
 import {
   MODULE_ID,
   DEFAULT_STAT_POINT_BUDGET,
@@ -109,6 +110,29 @@ Hooks.once("init", () => {
     config: false,
     type: Object,
     default: {},
+  });
+
+  game.settings.register(MODULE_ID, "npcCategories", {
+    scope: "world",
+    config: false,
+    type: Array,
+    default: ["Amateur", "Competent", "Elite", "Mini Boss", "Nightmare Boss"],
+  });
+
+  game.settings.register(MODULE_ID, "npcBuiltinCategoryOverrides", {
+    scope: "world",
+    config: false,
+    type: Object,
+    default: {},
+  });
+
+  game.settings.registerMenu(MODULE_ID, "npcCategoriesMenu", {
+    name: "crw.npc.categories.settingName",
+    label: "crw.npc.categories.settingLabel",
+    hint: "crw.npc.categories.settingHint",
+    icon: "fas fa-layer-group",
+    type: NpcCategoryConfig,
+    restricted: true,
   });
 });
 
