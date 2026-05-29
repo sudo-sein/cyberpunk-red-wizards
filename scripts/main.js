@@ -4,6 +4,7 @@ import NpcGeneratorApp from "./app/npc-generator-app.js";
 import { initSharedSocket } from "./socket.js";
 import { initStoreSocket } from "./store/store-socket.js";
 import { initCreatorSocket } from "./creator/creator-socket.js";
+import { initImprovementPresence } from "./improvement/improvement-presence.js";
 import StoreApp from "./app/store-app.js";
 import StorePackConfig from "./app/store-pack-config.js";
 import {
@@ -112,9 +113,10 @@ Hooks.once("init", () => {
 });
 
 Hooks.once("ready", () => {
-  initSharedSocket();
+  const socket = initSharedSocket();
   initStoreSocket();
   initCreatorSocket();
+  initImprovementPresence(socket);
 });
 
 Hooks.on("renderActorDirectory", (app, html) => {

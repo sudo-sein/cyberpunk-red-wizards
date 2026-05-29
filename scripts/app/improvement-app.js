@@ -5,8 +5,10 @@ import { buildSelectOptions } from "../improvement/ui-html.js";
 import { categoryLabelKey } from "../improvement/skill-categories.js";
 import { plannedChangeCount } from "../improvement/cart-metrics.js";
 import { categoryIsOpen } from "../improvement/category-open-state.js";
+import { announceImprovementOpen, announceImprovementClose, IMPROVEMENT_PRESENCE_HOOK } from "../improvement/improvement-presence.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
+const MAX_LEVEL = 10;
 
 export default class ImprovementApp extends HandlebarsApplicationMixin(ApplicationV2) {
   static DEFAULT_OPTIONS = {
@@ -70,8 +72,9 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
       return;
     }
 
-    const app = new ImprovementApp({ actor: target });
+    const app = new ImprovementApp({ actor: target, id: `crw-improvement-${target.id}` });
     ImprovementApp.instances.set(target.id, app);
+    announceImprovementOpen(target.id);
     await app.render(true);
   }
 
@@ -105,12 +108,14 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
   #cart = { skills: new Map(), roles: new Map(), newRoles: new Map() };
   #filterValue = "";
   #categoryOpenStates = new Map();
-  #updateHookId = null;
+  #hookIds = [];
   #isApplying = false;
+  #presenceCloseAnnounced = false;
 
   constructor({ actor, ...rest } = {}) {
     super(rest);
     this.#actor = actor;
+    if (this.#actor) this.#ensureHooks();
   }
 
   get title() {
@@ -200,14 +205,6 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
         this.#categoryOpenStates.set(key, event.currentTarget.open);
       });
     }
-
-    if (this.#updateHookId === null) {
-      this.#updateHookId = Hooks.on("updateActor", (changed) => {
-        if (changed.id !== this.#actor.id) return;
-        this.#clampCartToCurrentActor();
-        this.render(true);
-      });
-    }
   }
 
   // ── private helpers ──
@@ -216,6 +213,77 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
     return this.#cart.skills.size > 0
       || this.#cart.roles.size > 0
       || this.#cart.newRoles.size > 0;
+  }
+
+  #ensureHooks() {
+    if (this.#hookIds.length > 0) return;
+
+    this.#hookIds.push({
+      hook: "updateActor",
+      id: Hooks.on("updateActor", (changed) => this.#onExternalActorChanged(changed)),
+    });
+    this.#hookIds.push({
+      hook: "createItem",
+      id: Hooks.on("createItem", (item) => this.#onExternalItemChanged(item)),
+    });
+    this.#hookIds.push({
+      hook: "updateItem",
+      id: Hooks.on("updateItem", (item) => this.#onExternalItemChanged(item)),
+    });
+    this.#hookIds.push({
+      hook: "deleteItem",
+      id: Hooks.on("deleteItem", (item) => this.#onExternalItemChanged(item)),
+    });
+    this.#hookIds.push({
+      hook: IMPROVEMENT_PRESENCE_HOOK,
+      id: Hooks.on(IMPROVEMENT_PRESENCE_HOOK, (payload) => this.#onImprovementPresence(payload)),
+    });
+  }
+
+  #onImprovementPresence(payload) {
+    if (payload.actorId !== this.#actor.id) return;
+    if (payload.userId === game.user.id) return;
+    if (payload.state !== "open") return;
+
+    ui.notifications.warn(game.i18n.localize("crw.improvement.errors.concurrentEditor"));
+  }
+
+  #onExternalActorChanged(changed) {
+    if (this.#isApplying) return;
+    if (changed.id !== this.#actor.id) return;
+
+    this.#handleExternalActorChanged();
+  }
+
+  #onExternalItemChanged(item) {
+    if (this.#isApplying) return;
+    if (!this.#isItemForActor(item)) return;
+
+    this.#handleExternalActorChanged();
+  }
+
+  #isItemForActor(item) {
+    return item?.parent?.id === this.#actor.id
+      || item?.parent === this.#actor
+      || item?.actor?.id === this.#actor.id;
+  }
+
+  #actorHasRole({ packId, sourceId, name }) {
+    const sourceUuid = `Compendium.${packId}.${sourceId}`;
+
+    for (const item of this.#actor.items) {
+      if (item.type !== "role") continue;
+      if (item.getFlag?.("core", "sourceId") === sourceUuid) return true;
+      if (item.name === name) return true;
+    }
+
+    return false;
+  }
+
+  #handleExternalActorChanged() {
+    ui.notifications.warn(game.i18n.localize("crw.improvement.errors.actorChanged"));
+    this.#clampCartToCurrentActor();
+    this.render(true);
   }
 
   #actorChoices() {
@@ -254,11 +322,24 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
   #clampCartToCurrentActor() {
     let droppedMissing = false;
 
-    for (const [id] of this.#cart.skills) {
-      if (!this.#actor.items.get(id)) { this.#cart.skills.delete(id); droppedMissing = true; }
+    for (const [id, delta] of this.#cart.skills) {
+      const item = this.#actor.items.get(id);
+      if (!item) { this.#cart.skills.delete(id); droppedMissing = true; continue; }
+      const maxDelta = Math.max(0, MAX_LEVEL - (item.system.level ?? 0));
+      const nextDelta = Math.min(delta, maxDelta);
+      if (nextDelta <= 0) this.#cart.skills.delete(id);
+      else this.#cart.skills.set(id, nextDelta);
     }
-    for (const [id] of this.#cart.roles) {
-      if (!this.#actor.items.get(id)) { this.#cart.roles.delete(id); droppedMissing = true; }
+    for (const [id, delta] of this.#cart.roles) {
+      const item = this.#actor.items.get(id);
+      if (!item) { this.#cart.roles.delete(id); droppedMissing = true; continue; }
+      const maxDelta = Math.max(0, MAX_LEVEL - (item.system.rank ?? 0));
+      const nextDelta = Math.min(delta, maxDelta);
+      if (nextDelta <= 0) this.#cart.roles.delete(id);
+      else this.#cart.roles.set(id, nextDelta);
+    }
+    for (const [syntheticId, entry] of this.#cart.newRoles) {
+      if (this.#actorHasRole(entry)) this.#cart.newRoles.delete(syntheticId);
     }
 
     // Trim cart if projected IP is now negative.
@@ -423,9 +504,14 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
   }
 
   async close(options) {
-    if (this.#updateHookId !== null) {
-      Hooks.off("updateActor", this.#updateHookId);
-      this.#updateHookId = null;
+    for (const { hook, id } of this.#hookIds) {
+      Hooks.off(hook, id);
+    }
+    this.#hookIds = [];
+
+    if (this.#actor && !this.#presenceCloseAnnounced) {
+      announceImprovementClose(this.#actor.id);
+      this.#presenceCloseAnnounced = true;
     }
     if (this.#actor) ImprovementApp.instances.delete(this.#actor.id);
     return super.close(options);
@@ -539,6 +625,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
 
     this.#isApplying = true;
     this.render(true);
+    let shouldRenderAfterApply = true;
 
     try {
       let result;
@@ -560,6 +647,15 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
             case "COMMIT_IN_PROGRESS":
               ui.notifications.warn(game.i18n.localize("crw.improvement.errors.commitInProgress"));
               return;
+            case "INVALID_CART":
+              ui.notifications.error(game.i18n.localize("crw.improvement.errors.invalidCart"));
+              return;
+            case "INVALID_ROLE_SOURCE":
+              ui.notifications.error(game.i18n.localize("crw.improvement.errors.invalidRoleSource"));
+              return;
+            case "DUPLICATE_ROLE":
+              ui.notifications.error(game.i18n.format("crw.improvement.errors.duplicateRole", err.data));
+              return;
             default:
               ui.notifications.error(err.code);
               return;
@@ -580,10 +676,11 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
         count: result.count,
       }));
 
+      shouldRenderAfterApply = false;
       this.close();
     } finally {
       this.#isApplying = false;
-      if (this.element) this.render(true);
+      if (shouldRenderAfterApply && this.element) this.render(true);
     }
   }
 }

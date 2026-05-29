@@ -1,8 +1,31 @@
 import { skillCost, roleCost } from "./ip-costs.js";
-import { fetchRoleItemData } from "./compendium-roles.js";
+import { ROLE_PACK_ID, fetchRoleItemData } from "./compendium-roles.js";
 
 const MAX_LEVEL = 10;
 const COMMIT_LOCKS = new WeakSet();
+
+function assertPositiveSafeInteger(value, field) {
+  if (!Number.isSafeInteger(value) || value <= 0) {
+    throw new CommitError("INVALID_CART", { field });
+  }
+}
+
+function sourceUuid(packId, sourceId) {
+  return `Compendium.${packId}.${sourceId}`;
+}
+
+function actorHasRole(actor, { packId, sourceId, name }) {
+  const uuid = sourceUuid(packId, sourceId);
+  const items = actor.items?.values ? actor.items.values() : actor.items ?? [];
+
+  for (const item of items) {
+    if (item.type !== "role") continue;
+    if (item.getFlag?.("core", "sourceId") === uuid) return true;
+    if (item.name === name) return true;
+  }
+
+  return false;
+}
 
 export class CommitError extends Error {
   constructor(code, data = {}) {
@@ -39,11 +62,14 @@ export async function commitCart(actor, cart) {
 
     // ── Existing skills ──
     for (const [id, delta] of cart.skills) {
-      if (delta <= 0) continue;
+      assertPositiveSafeInteger(delta, "skill.delta");
       const item = actor.items.get(id);
       if (!item) {
         warnings.push({ code: "ITEM_MISSING", name: game.i18n.localize("crw.improvement.labels.skill") });
         continue;
+      }
+      if (item.type !== "skill") {
+        throw new CommitError("INVALID_CART", { field: "skill.itemType", name: item.name });
       }
       const startLevel = item.system.level ?? 0;
       if (startLevel + delta > MAX_LEVEL) {
@@ -68,11 +94,14 @@ export async function commitCart(actor, cart) {
 
     // ── Existing roles ──
     for (const [id, delta] of cart.roles) {
-      if (delta <= 0) continue;
+      assertPositiveSafeInteger(delta, "role.delta");
       const item = actor.items.get(id);
       if (!item) {
         warnings.push({ code: "ITEM_MISSING", name: game.i18n.localize("crw.improvement.labels.role") });
         continue;
+      }
+      if (item.type !== "role") {
+        throw new CommitError("INVALID_CART", { field: "role.itemType", name: item.name });
       }
       const startRank = item.system.rank ?? 0;
       if (startRank + delta > MAX_LEVEL) {
@@ -98,12 +127,40 @@ export async function commitCart(actor, cart) {
     // ── New roles ──
     // Resolve compendium documents to creation payloads; cost the full ladder from 0.
     const newRoleCreates = [];
+    const pendingNewRoleSources = new Set();
+    const pendingNewRoleNames = new Set();
     for (const [, entry] of cart.newRoles) {
-      if (entry.plannedRank <= 0) continue;
+      assertPositiveSafeInteger(entry.plannedRank, "newRole.plannedRank");
       if (entry.plannedRank > MAX_LEVEL) {
         throw new CommitError("CAP_EXCEEDED", { name: entry.name });
       }
-      const payload = await fetchRoleItemData(entry.packId, entry.sourceId);
+      if (entry.packId !== ROLE_PACK_ID) {
+        throw new CommitError("INVALID_ROLE_SOURCE", { name: entry.name });
+      }
+      if (actorHasRole(actor, { packId: entry.packId, sourceId: entry.sourceId })) {
+        throw new CommitError("DUPLICATE_ROLE", { name: entry.name });
+      }
+      const uuid = sourceUuid(entry.packId, entry.sourceId);
+      if (pendingNewRoleSources.has(uuid)) {
+        throw new CommitError("DUPLICATE_ROLE", { name: entry.name });
+      }
+      pendingNewRoleSources.add(uuid);
+      let payload;
+      try {
+        payload = await fetchRoleItemData(entry.packId, entry.sourceId);
+      } catch (err) {
+        throw new CommitError("INVALID_ROLE_SOURCE", { name: entry.name, cause: err?.message ?? String(err) });
+      }
+      if (payload.type !== "role") {
+        throw new CommitError("INVALID_ROLE_SOURCE", { name: entry.name });
+      }
+      if (actorHasRole(actor, { packId: entry.packId, sourceId: entry.sourceId, name: payload.name })) {
+        throw new CommitError("DUPLICATE_ROLE", { name: payload.name });
+      }
+      if (pendingNewRoleNames.has(payload.name)) {
+        throw new CommitError("DUPLICATE_ROLE", { name: payload.name });
+      }
+      pendingNewRoleNames.add(payload.name);
       payload.system = payload.system || {};
       payload.system.rank = entry.plannedRank;
       newRoleCreates.push(payload);
@@ -113,7 +170,7 @@ export async function commitCart(actor, cart) {
       ledgerEntries.push({
         amount: -purchaseCost,
         reason: game.i18n.format("crw.improvement.ledger.newRole", {
-          name: entry.name,
+          name: payload.name,
           rank: 1,
         }),
       });
@@ -124,7 +181,7 @@ export async function commitCart(actor, cart) {
         ledgerEntries.push({
           amount: -cost,
           reason: game.i18n.format("crw.improvement.ledger.role", {
-            name: entry.name,
+            name: payload.name,
             from: i - 1,
             to: i,
           }),
@@ -147,8 +204,28 @@ export async function commitCart(actor, cart) {
     if (skillUpdates.length || roleUpdates.length) {
       await actor.updateEmbeddedDocuments("Item", [...skillUpdates, ...roleUpdates]);
     }
-    for (const entry of ledgerEntries) {
-      actor.deltaLedgerProperty("improvementPoints", entry.amount, entry.reason);
+    // deltaLedgerProperty fires this.update() without await and returns no promise, so
+    // calling it in a loop results in all entries reading the same stale in-memory IP.
+    // Build all transactions manually and apply in a single update.
+    {
+      const prop = "improvementPoints";
+      const valProp = `system.${prop}.value`;
+      const txProp = `system.${prop}.transactions`;
+      const existingTx = foundry.utils.getProperty(actor, txProp) ?? [];
+      const newTx = [...existingTx];
+      let runningIP = currentIP;
+      for (const entry of ledgerEntries) {
+        runningIP += entry.amount;
+        newTx.push([
+          game.i18n.format("CPR.ledger.decreaseSentence", {
+            property: prop,
+            amount: -entry.amount,
+            total: runningIP,
+          }),
+          entry.reason,
+        ]);
+      }
+      await actor.update({ [valProp]: runningIP, [txProp]: newTx });
     }
 
     return { totalCost, count, warnings };

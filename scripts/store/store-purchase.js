@@ -1,5 +1,3 @@
-const { DialogV2 } = foundry.applications.api;
-
 export function calculateFinalPrice(basePrice, markup) {
   return Math.ceil(basePrice * (markup / 100));
 }
@@ -20,6 +18,7 @@ export async function purchaseItem(actor, itemEntry, markup) {
     ${!canAfford ? `<p style="color: var(--cpr-color-red); font-weight: bold;">${game.i18n.localize("crw.store.confirm.insufficientFunds")}</p>` : ""}
   `;
 
+  const { DialogV2 } = foundry.applications.api;
   const confirmed = await DialogV2.confirm({
     window: { title: game.i18n.localize("crw.store.confirm.title") },
     content,
