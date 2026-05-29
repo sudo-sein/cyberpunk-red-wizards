@@ -1,6 +1,9 @@
 import * as ipCosts from "../improvement/ip-costs.js";
 import { getBuyableRolesFor } from "../improvement/compendium-roles.js";
 import { commitCart, CommitError } from "../improvement/commit-cart.js";
+import { buildSelectOptions } from "../improvement/ui-html.js";
+import { categoryLabelKey } from "../improvement/skill-categories.js";
+import { plannedChangeCount } from "../improvement/cart-metrics.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 
@@ -21,6 +24,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
       incrementRole: ImprovementApp.#onIncrementRole,
       decrementRole: ImprovementApp.#onDecrementRole,
       openBuyRoleDialog: ImprovementApp.#onOpenBuyRoleDialog,
+      clearFilter: ImprovementApp.#onClearFilter,
       resetCart: ImprovementApp.#onResetCart,
       cancel: ImprovementApp.#onCancel,
       apply: ImprovementApp.#onApply,
@@ -80,7 +84,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
     }
     if (choices.length === 1) return choices[0];
 
-    const options = choices.map((a) => `<option value="${a.id}">${a.name}</option>`).join("");
+    const options = buildSelectOptions(choices.map((a) => ({ value: a.id, label: a.name })));
     return await DialogV2.prompt({
       window: { title: game.i18n.localize("crw.improvement.actorPicker.label") },
       content: `<select name="actorId" style="width:100%">${options}</select>`,
@@ -100,6 +104,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
   #cart = { skills: new Map(), roles: new Map(), newRoles: new Map() };
   #filterValue = "";
   #updateHookId = null;
+  #isApplying = false;
 
   constructor({ actor, ...rest } = {}) {
     super(rest);
@@ -122,6 +127,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
 
     // Compute totalCost first (without per-row context) to drive canIncrement gating.
     const totalCost = this.#computeTotalCost();
+    const plannedChanges = plannedChangeCount(this.#cart);
     const projectedIP = currentIP - totalCost;
 
     const skillCategories = this.#buildSkillCategories(projectedIP);
@@ -143,9 +149,11 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
       projectedIP,
       projectedNegative: projectedIP < 0,
       totalCost,
+      plannedChanges,
       cartHasContent: this.#cartHasContent(),
       canBuyNewRole,
       buyNewRoleDisabledReason,
+      isApplying: this.#isApplying,
     };
   }
 
@@ -342,7 +350,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
       .filter(([, rows]) => rows.length > 0)
       .map(([key, rows]) => ({
         key,
-        label: `CPR.global.skills.category.${key}`,
+        label: categoryLabelKey(key),
         rows,
         plannedCount: rows.filter((r) => r.delta > 0).length,
         open: rows.some((r) => r.delta > 0) || !!filter,
@@ -469,9 +477,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
       return;
     }
 
-    const options = available
-      .map((r) => `<option value="${r.syntheticId}">${r.name}</option>`)
-      .join("");
+    const options = buildSelectOptions(available.map((r) => ({ value: r.syntheticId, label: r.name })));
 
     const picked = await DialogV2.prompt({
       window: { title: game.i18n.localize("crw.improvement.buyNewRole.dialogTitle") },
@@ -505,50 +511,68 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
     this.render(true);
   }
 
+  static #onClearFilter() {
+    if (!this.#filterValue) return;
+    this.#filterValue = "";
+    this.render(true);
+  }
+
   static #onCancel(event, target) { this.close(); }
 
   static async #onApply() {
+    if (this.#isApplying) return;
     if (!this.#cartHasContent()) {
       ui.notifications.warn(game.i18n.localize("crw.improvement.errors.emptyCart"));
       return;
     }
 
-    let result;
+    this.#isApplying = true;
+    this.render(true);
+
     try {
-      result = await commitCart(this.#actor, this.#cart);
-    } catch (err) {
-      console.error("[crw][improvement] commit failed", err);
-      if (err instanceof CommitError) {
-        switch (err.code) {
-          case "INSUFFICIENT_IP":
-            ui.notifications.error(game.i18n.format("crw.improvement.errors.insufficientIp", err.data));
-            return;
-          case "CAP_EXCEEDED":
-            ui.notifications.error(game.i18n.format("crw.improvement.errors.capExceeded", err.data));
-            return;
-          case "EMPTY_CART":
-            ui.notifications.warn(game.i18n.localize("crw.improvement.errors.emptyCart"));
-            return;
-          default:
-            ui.notifications.error(err.code);
-            return;
+      let result;
+      try {
+        result = await commitCart(this.#actor, this.#cart);
+      } catch (err) {
+        console.error("[crw][improvement] commit failed", err);
+        if (err instanceof CommitError) {
+          switch (err.code) {
+            case "INSUFFICIENT_IP":
+              ui.notifications.error(game.i18n.format("crw.improvement.errors.insufficientIp", err.data));
+              return;
+            case "CAP_EXCEEDED":
+              ui.notifications.error(game.i18n.format("crw.improvement.errors.capExceeded", err.data));
+              return;
+            case "EMPTY_CART":
+              ui.notifications.warn(game.i18n.localize("crw.improvement.errors.emptyCart"));
+              return;
+            case "COMMIT_IN_PROGRESS":
+              ui.notifications.warn(game.i18n.localize("crw.improvement.errors.commitInProgress"));
+              return;
+            default:
+              ui.notifications.error(err.code);
+              return;
+          }
+        }
+        ui.notifications.error(String(err?.message ?? err));
+        return;
+      }
+
+      for (const warn of result.warnings ?? []) {
+        if (warn.code === "ITEM_MISSING") {
+          ui.notifications.warn(game.i18n.format("crw.improvement.errors.itemMissing", { name: warn.name }));
         }
       }
-      ui.notifications.error(String(err?.message ?? err));
-      return;
+
+      ui.notifications.info(game.i18n.format("crw.improvement.success", {
+        cost: result.totalCost,
+        count: result.count,
+      }));
+
+      this.close();
+    } finally {
+      this.#isApplying = false;
+      if (this.element) this.render(true);
     }
-
-    for (const warn of result.warnings ?? []) {
-      if (warn.code === "ITEM_MISSING") {
-        ui.notifications.warn(game.i18n.format("crw.improvement.errors.itemMissing", { name: warn.name }));
-      }
-    }
-
-    ui.notifications.info(game.i18n.format("crw.improvement.success", {
-      cost: result.totalCost,
-      count: result.count,
-    }));
-
-    this.close();
   }
 }

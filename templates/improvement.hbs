@@ -4,8 +4,8 @@
   {{else}}
     {{#if showActorPicker}}
       <div class="crw-improvement-actor-picker">
-        <label>{{localize "crw.improvement.actorPicker.label"}}</label>
-        <select class="crw-improvement-actor-select">
+        <label for="crw-improvement-actor-select">{{localize "crw.improvement.actorPicker.label"}}</label>
+        <select id="crw-improvement-actor-select" class="crw-improvement-actor-select">
           {{#each actors}}
             <option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>
           {{/each}}
@@ -16,11 +16,22 @@
     <div class="crw-improvement-body">
       <section class="crw-improvement-skills">
         <header>
-          <h3>{{localize "crw.improvement.cart.skills"}}</h3>
-          <input type="text" class="crw-improvement-filter"
-                 placeholder="{{localize 'crw.improvement.filterPlaceholder'}}"
-                 value="{{filterValue}}" />
+          <h3>
+            {{localize "crw.improvement.cart.skills"}}
+            {{#if plannedChanges}}<span class="crw-improvement-cart-badge">{{plannedChanges}}</span>{{/if}}
+          </h3>
+          <span class="crw-improvement-filter-wrap">
+            <input type="text" class="crw-improvement-filter" name="skillFilter" autocomplete="off"
+                   placeholder="{{localize 'crw.improvement.filterPlaceholder'}}"
+                   value="{{filterValue}}" />
+            {{#if filterValue}}
+              <button type="button" class="crw-improvement-filter-clear" data-action="clearFilter" aria-label="{{localize 'crw.improvement.filterClearLabel'}}">×</button>
+            {{/if}}
+          </span>
         </header>
+        {{#if plannedChanges}}
+          <div class="crw-improvement-cart-summary">{{localize "crw.improvement.cart.summary" count=plannedChanges cost=totalCost}}</div>
+        {{/if}}
         {{#each skillCategories}}
           <details class="crw-improvement-category" {{#if open}}open{{/if}} data-category="{{key}}">
             <summary>
@@ -50,7 +61,8 @@
         </div>
         <button type="button" class="crw-improvement-buy-new-role"
                 data-action="openBuyRoleDialog"
-                {{#unless canBuyNewRole}}disabled title="{{buyNewRoleDisabledReason}}"{{/unless}}>
+                {{#unless canBuyNewRole}}disabled title="{{buyNewRoleDisabledReason}}"{{/unless}}
+                {{#if isApplying}}disabled{{/if}}>
           + {{localize "crw.improvement.buyNewRole.button"}}
         </button>
       </section>
@@ -65,9 +77,9 @@
         <span class="crw-improvement-delta-total">(−{{totalCost}})</span>
       </span>
       <span class="crw-improvement-footer-actions">
-        <button type="button" data-action="resetCart" {{#unless cartHasContent}}disabled{{/unless}}>{{localize "crw.improvement.cart.reset"}}</button>
-        <button type="button" data-action="cancel">{{localize "crw.improvement.cart.cancel"}}</button>
-        <button type="button" data-action="apply" class="crw-improvement-apply" {{#unless cartHasContent}}disabled{{/unless}}>
+        <button type="button" class="crw-improvement-reset" data-action="resetCart" {{#unless cartHasContent}}disabled{{/unless}} {{#if isApplying}}disabled{{/if}}>{{localize "crw.improvement.cart.reset"}}</button>
+        <button type="button" class="crw-improvement-cancel" data-action="cancel" {{#if isApplying}}disabled{{/if}}>{{localize "crw.improvement.cart.cancel"}}</button>
+        <button type="button" data-action="apply" class="crw-improvement-apply" {{#unless cartHasContent}}disabled{{/unless}} {{#if isApplying}}disabled{{/if}}>
           {{localize "crw.improvement.cart.apply"}} (−{{totalCost}})
         </button>
       </span>

@@ -1,93 +1,162 @@
-.crw-improvement-window {
+.crw-improvement-window-root .crw-improvement-window {
   display: flex;
   flex-direction: column;
   height: 100%;
   font-family: var(--font-primary, "Signika", sans-serif);
+  --crw-accent: #f39c12;
+  --crw-accent-strong: #ffb347;
+  --crw-muted: #9aa6b2;
 }
 
-.crw-improvement-empty,
-.crw-improvement-empty-roles {
+.crw-improvement-window-root .crw-improvement-empty,
+.crw-improvement-window-root .crw-improvement-empty-roles {
   padding: 1rem;
   text-align: center;
   color: var(--color-text-dark-secondary, #888);
 }
 
-.crw-improvement-actor-picker {
+.crw-improvement-window-root .crw-improvement-actor-picker {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0.4rem 0.7rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.crw-improvement-actor-picker label { font-weight: 600; }
-.crw-improvement-actor-picker select { flex: 1; }
+.crw-improvement-window-root .crw-improvement-actor-picker label { font-weight: 600; }
+.crw-improvement-window-root .crw-improvement-actor-picker select { flex: 1; max-width: 280px; }
 
-.crw-improvement-body {
+.crw-improvement-window-root .crw-improvement-body {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 0.75rem;
   flex: 1;
   overflow: auto;
-  padding: 0.75rem;
+  padding: 0.65rem 0.75rem 0.5rem;
 }
 
-.crw-improvement-skills > header,
-.crw-improvement-roles > header {
+.crw-improvement-window-root .crw-improvement-skills > header,
+.crw-improvement-window-root .crw-improvement-roles > header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
-.crw-improvement-skills > header h3,
-.crw-improvement-roles > header h3 { margin: 0; }
+.crw-improvement-window-root .crw-improvement-skills > header h3,
+.crw-improvement-window-root .crw-improvement-roles > header h3 {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
 
-.crw-improvement-filter {
+.crw-improvement-window-root .crw-improvement-cart-badge {
+  min-width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  padding: 0 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.1rem;
+  text-align: center;
+  background: var(--crw-accent);
+  color: #161616;
+}
+
+.crw-improvement-window-root .crw-improvement-cart-summary {
+  margin: 0.15rem 0 0.4rem;
+  padding: 0.2rem 0.45rem;
+  border-left: 2px solid var(--crw-accent);
+  background: rgba(243, 156, 18, 0.12);
+  color: #d1d9e0;
+  font-size: 0.8rem;
+}
+
+.crw-improvement-window-root .crw-improvement-filter-wrap {
+  position: relative;
   flex: 1;
-  max-width: 240px;
+  max-width: 260px;
 }
 
-.crw-improvement-category {
-  margin-bottom: 0.5rem;
+.crw-improvement-window-root .crw-improvement-filter {
+  width: 100%;
+  padding-right: 1.7rem;
+}
+
+.crw-improvement-window-root .crw-improvement-filter-clear {
+  position: absolute;
+  right: 0.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.crw-improvement-window-root .crw-improvement-category {
+  margin-bottom: 0.45rem;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 4px;
 }
 
-.crw-improvement-category summary {
+.crw-improvement-window-root .crw-improvement-category summary {
   cursor: pointer;
-  padding: 0.35rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   font-weight: 600;
   background: rgba(0, 0, 0, 0.04);
 }
 
-.crw-improvement-category-badge {
+.crw-improvement-window-root .crw-improvement-category-badge {
   margin-left: 0.4rem;
   color: var(--color-text-hyperlink, #b00);
   font-weight: 700;
 }
 
-.crw-improvement-category-body { padding: 0.25rem 0.4rem; }
+.crw-improvement-window-root .crw-improvement-category-body { padding: 0.25rem 0.4rem; }
 
-.crw-improvement-row {
+.crw-improvement-window-root .crw-improvement-row {
   display: grid;
-  grid-template-columns: 1fr auto auto auto;
-  gap: 0.5rem;
+  grid-template-columns: minmax(8rem, 1fr) minmax(4.5rem, auto) minmax(10rem, auto) auto;
+  gap: 0.4rem;
   align-items: center;
-  padding: 0.2rem 0.35rem;
+  padding: 0.2rem 0.4rem;
   border-radius: 3px;
+  position: relative;
 }
 
-.crw-improvement-row.is-in-cart {
+.crw-improvement-window-root .crw-improvement-roles .crw-improvement-row {
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "name controls"
+    "value cost";
+  row-gap: 0.2rem;
+}
+
+.crw-improvement-window-root .crw-improvement-row.is-in-cart {
   background: rgba(255, 200, 0, 0.18);
 }
 
-.crw-improvement-row.is-new {
+.crw-improvement-window-root .crw-improvement-row.is-in-cart::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+  background: var(--crw-accent-strong);
+}
+
+.crw-improvement-window-root .crw-improvement-row.is-new {
   background: rgba(0, 180, 255, 0.12);
 }
 
-.crw-improvement-x2 {
+.crw-improvement-window-root .crw-improvement-x2 {
   font-size: 0.75rem;
   font-weight: 700;
   color: #b00;
@@ -98,7 +167,7 @@
   vertical-align: middle;
 }
 
-.crw-improvement-new-badge {
+.crw-improvement-window-root .crw-improvement-new-badge {
   font-size: 0.7rem;
   font-weight: 700;
   background: #06c;
@@ -108,52 +177,147 @@
   margin-right: 4px;
 }
 
-.crw-improvement-delta {
-  color: #b00;
+.crw-improvement-window-root .crw-improvement-delta {
+  color: #f55;
   font-weight: 700;
 }
 
-.crw-improvement-row-cost {
-  font-size: 0.85rem;
-  color: var(--color-text-dark-secondary, #555);
+.crw-improvement-window-root .crw-improvement-row-name {
+  min-width: 0;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #f0f3f6;
+  font-weight: 600;
 }
 
-.crw-improvement-row-controls button {
+.crw-improvement-window-root .crw-improvement-row-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.crw-improvement-window-root .crw-improvement-row-cost {
+  font-size: 0.85rem;
+  color: #c6d0da;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.crw-improvement-window-root .crw-improvement-roles .crw-improvement-row-name { grid-area: name; }
+.crw-improvement-window-root .crw-improvement-roles .crw-improvement-row-controls { grid-area: controls; justify-self: end; }
+.crw-improvement-window-root .crw-improvement-roles .crw-improvement-row-value { grid-area: value; text-align: left; }
+.crw-improvement-window-root .crw-improvement-roles .crw-improvement-row-cost { grid-area: cost; }
+
+.crw-improvement-window-root .crw-improvement-row-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.crw-improvement-window-root .crw-improvement-row-controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 1.75rem;
+  min-width: 1.75rem;
   height: 1.75rem;
   padding: 0;
   font-weight: 700;
   line-height: 1;
 }
 
-.crw-improvement-buy-new-role {
-  margin-top: 0.5rem;
+.crw-improvement-window-root .crw-improvement-buy-new-role {
+  margin-top: 0.35rem;
   width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #d6dee8;
 }
 
-.crw-improvement-footer {
+.crw-improvement-window-root .crw-improvement-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.6rem 0.75rem;
+  padding: 0.42rem 0.75rem;
   border-top: 1px solid rgba(0, 0, 0, 0.15);
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(5, 10, 15, 0.55);
   position: sticky;
   bottom: 0;
 }
 
-.crw-improvement-balance strong { font-size: 1.1rem; }
-.crw-improvement-balance .is-negative { color: #b00; }
-.crw-improvement-delta-total {
+.crw-improvement-window-root .crw-improvement-balance strong { font-size: 1.02rem; }
+.crw-improvement-window-root .crw-improvement-balance .is-negative { color: #b00; }
+.crw-improvement-window-root .crw-improvement-delta-total {
   margin-left: 0.5rem;
-  color: var(--color-text-dark-secondary, #555);
+  color: var(--crw-muted);
 }
 
-.crw-improvement-apply { font-weight: 700; }
+.crw-improvement-window-root .crw-improvement-footer-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
 
-.directory-footer .crw-sidebar-btn {
+.crw-improvement-window-root .crw-improvement-reset {
+  border: 0;
+  background: transparent;
+  color: var(--crw-muted);
+}
+
+.crw-improvement-window-root .crw-improvement-cancel {
+  background: rgba(255, 255, 255, 0.08);
+  color: #dce6ef;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.crw-improvement-window-root .crw-improvement-apply {
+  font-weight: 700;
+  background: linear-gradient(180deg, #f3ad2f, #d88b08);
+  color: #1e1e1e;
+  border: 1px solid #b97706;
+}
+
+.crw-improvement-window-root .crw-improvement-window button:focus-visible,
+.crw-improvement-window-root .crw-improvement-window select:focus-visible,
+.crw-improvement-window-root .crw-improvement-window input:focus-visible {
+  outline: 2px solid var(--crw-accent-strong);
+  outline-offset: 1px;
+}
+
+@media (max-width: 900px) {
+  .crw-improvement-window-root .crw-improvement-body {
+    grid-template-columns: 1fr;
+  }
+
+  .crw-improvement-window-root .crw-improvement-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "name controls"
+      "value cost";
+    row-gap: 0.2rem;
+  }
+
+  .crw-improvement-window-root .crw-improvement-row-name { grid-area: name; }
+  .crw-improvement-window-root .crw-improvement-row-controls { grid-area: controls; justify-self: end; }
+  .crw-improvement-window-root .crw-improvement-row-value { grid-area: value; text-align: left; }
+  .crw-improvement-window-root .crw-improvement-row-cost { grid-area: cost; }
+
+  .crw-improvement-window-root .crw-improvement-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .crw-improvement-window-root .crw-improvement-footer-actions {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
+.crw-improvement-window-root .directory-footer .crw-sidebar-btn {
   display: block;
   width: 100%;
   margin-top: 0.25rem;
