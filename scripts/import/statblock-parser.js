@@ -4,6 +4,7 @@ import {
   parseStats, parseVitals, parseArmor, parseWeapons, parseSkills, parseEquipment, parseRoleAbility,
 } from "./parse-sections.js";
 import { addCyberware } from "./resolver.js";
+import { UNCATEGORIZED } from "../data/npc-categories.js";
 
 const MODULE_PATH = "modules/cyberpunk-red-wizards";
 
@@ -25,7 +26,7 @@ export async function parseStatblock(text, language = "en") {
     id: foundry.utils.randomID(),
     name: "Imported NPC",
     nameKey: null,
-    tier: "Uncategorized",
+    tier: UNCATEGORIZED,
     source: "imported",
     stats: { int: 0, ref: 0, dex: 0, tech: 0, cool: 0, will: 0, luck: 0, move: 0, body: 0, emp: 0 },
     hp: 0,
@@ -83,7 +84,6 @@ export async function parseStatblock(text, language = "en") {
   warnings.push(...equipResult.warnings);
 
   template.cyberware = cyberware;
-  template.tier = "Uncategorized";
 
   return { template, errors, warnings };
 }

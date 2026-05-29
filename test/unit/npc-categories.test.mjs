@@ -29,17 +29,15 @@ test("getCategories falls back to defaults when unset", () => {
   deepStrictEqual(getCategories(), DEFAULT_CATEGORIES);
 });
 
-test("getEffectiveCategory: custom in-list, custom missing, built-in override, built-in default", () => {
-  installFakeSettings({
-    [`${M}.npcCategories`]: ["Amateur", "Goons"],
-    [`${M}.npcBuiltinCategoryOverrides`]: { "amateur": "Goons" },
-  });
+test("getEffectiveCategory: tier in list resolves to itself, otherwise Uncategorized", () => {
+  // Override resolution for built-ins happens in loadAllTemplates (see
+  // npc-loader.test); here template.tier is already authoritative.
+  installFakeSettings({ [`${M}.npcCategories`]: ["Amateur", "Goons"] });
   const cats = getCategories();
-  const ov = { "amateur": "Goons" };
-  strictEqual(getEffectiveCategory({ source: "custom", tier: "Goons" }, cats, ov), "Goons");
-  strictEqual(getEffectiveCategory({ source: "custom", tier: "Deleted" }, cats, ov), UNCATEGORIZED);
-  strictEqual(getEffectiveCategory({ source: "built-in", id: "amateur", tier: "Amateur" }, cats, ov), "Goons");
-  strictEqual(getEffectiveCategory({ source: "built-in", id: "elite", tier: "Amateur" }, cats, ov), "Amateur");
+  strictEqual(getEffectiveCategory({ source: "custom", tier: "Goons" }, cats), "Goons");
+  strictEqual(getEffectiveCategory({ source: "custom", tier: "Deleted" }, cats), UNCATEGORIZED);
+  strictEqual(getEffectiveCategory({ source: "built-in", tier: "Amateur" }, cats), "Amateur");
+  strictEqual(getEffectiveCategory({ source: "built-in", tier: "Goons" }, cats), "Goons");
 });
 
 test("addCategory appends; rejects blank, duplicate, reserved", async () => {
@@ -47,7 +45,9 @@ test("addCategory appends; rejects blank, duplicate, reserved", async () => {
   deepStrictEqual(await addCategory("Goons"), ["Amateur", "Goons"]);
   await rejects(() => addCategory("  "), /blank/);
   await rejects(() => addCategory("Amateur"), /duplicate/);
+  await rejects(() => addCategory("amateur"), /duplicate/);   // case-insensitive
   await rejects(() => addCategory("Uncategorized"), /reserved/);
+  await rejects(() => addCategory("uncategorized"), /reserved/); // case-insensitive
 });
 
 test("removeCategory drops the entry; assignments resolve to Uncategorized", async () => {

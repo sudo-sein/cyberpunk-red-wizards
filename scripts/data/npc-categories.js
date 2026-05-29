@@ -26,21 +26,20 @@ export function getCategories() {
 }
 
 /**
- * The category group a template renders under. A built-in resolves via its
- * override then its JSON tier; a custom via its own tier. If the result is not
- * in the active category list, it falls back to UNCATEGORIZED.
+ * The category group a template renders under: its assigned tier if that tier
+ * is in the active list, otherwise UNCATEGORIZED. Built-in override resolution
+ * is handled upstream by loadAllTemplates, so template.tier is authoritative here.
  */
-export function getEffectiveCategory(template, categories = getCategories(), overrides = getBuiltinCategoryOverrides()) {
-  const isBuiltin = (template.source ?? "built-in") === "built-in";
-  const assigned = isBuiltin ? (overrides[template.id] ?? template.tier) : template.tier;
-  return categories.includes(assigned) ? assigned : UNCATEGORIZED;
+export function getEffectiveCategory(template, categories = getCategories()) {
+  return categories.includes(template.tier) ? template.tier : UNCATEGORIZED;
 }
 
 function validateNewName(name, categories) {
   const trimmed = String(name ?? "").trim();
   if (!trimmed) throw new Error("Category name is blank.");
-  if (trimmed === UNCATEGORIZED) throw new Error("'Uncategorized' is a reserved category name.");
-  if (categories.includes(trimmed)) throw new Error(`Category "${trimmed}" is a duplicate.`);
+  const lower = trimmed.toLowerCase();
+  if (lower === UNCATEGORIZED.toLowerCase()) throw new Error("'Uncategorized' is a reserved category name.");
+  if (categories.some(c => c.toLowerCase() === lower)) throw new Error(`Category "${trimmed}" is a duplicate.`);
   return trimmed;
 }
 

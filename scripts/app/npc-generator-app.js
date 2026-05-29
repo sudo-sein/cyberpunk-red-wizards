@@ -88,9 +88,10 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
 
     const { filter, selectedTemplateId, overrides, showAllSkills } = this.#state;
 
+    const categories = getCategories();
     const searchLower = filter.search.toLowerCase();
     const filtered = this.#templates.filter(t => {
-      if (filter.tier !== "all" && getEffectiveCategory(t) !== filter.tier) return false;
+      if (filter.tier !== "all" && getEffectiveCategory(t, categories) !== filter.tier) return false;
       if (searchLower) {
         const name = this._getTemplateName(t).toLowerCase();
         if (!name.includes(searchLower)) return false;
@@ -98,7 +99,6 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
       return true;
     });
 
-    const categories = getCategories();
     const groupOrder = [...categories, UNCATEGORIZED];
     const mapTemplate = (t) => ({
       id: t.id,
