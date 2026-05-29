@@ -8,6 +8,16 @@ import {
 export const UNCATEGORIZED = "Uncategorized";
 export const DEFAULT_CATEGORIES = ["Amateur", "Competent", "Elite", "Mini Boss", "Nightmare Boss"];
 
+// Old slug tiers (pre display-name migration) mapped to their new default
+// category names. Used by the one-time migration of existing custom templates.
+export const LEGACY_CATEGORY_RENAMES = {
+  "amateur": "Amateur",
+  "competent": "Competent",
+  "elite": "Elite",
+  "mini-boss": "Mini Boss",
+  "nightmare-boss": "Nightmare Boss",
+};
+
 export function getCategories() {
   const stored = getCategoriesSetting();
   return Array.isArray(stored) && stored.length ? stored : [...DEFAULT_CATEGORIES];
@@ -82,4 +92,20 @@ export async function renameCategory(oldName, newName) {
   if (overridesChanged) await saveBuiltinCategoryOverrides(overrides);
 
   return next;
+}
+
+/**
+ * One-time migration: rewrite legacy slug tiers ("competent", "mini-boss", ...)
+ * on existing custom templates to the new default category names. Idempotent —
+ * returns whether anything changed (and only writes the setting when it did).
+ */
+export async function migrateCustomTemplateCategories() {
+  const custom = getCustomTemplates();
+  let changed = false;
+  for (const tpl of Object.values(custom)) {
+    const mapped = LEGACY_CATEGORY_RENAMES[tpl.tier];
+    if (mapped) { tpl.tier = mapped; changed = true; }
+  }
+  if (changed) await saveCustomTemplates(custom);
+  return changed;
 }

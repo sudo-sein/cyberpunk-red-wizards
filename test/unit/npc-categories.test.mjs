@@ -6,6 +6,7 @@ import {
   UNCATEGORIZED, DEFAULT_CATEGORIES,
   getCategories, getEffectiveCategory,
   addCategory, removeCategory, reorderCategory, renameCategory,
+  migrateCustomTemplateCategories,
 } from "../../scripts/data/npc-categories.js";
 
 const M = "cyberpunk-red-wizards";
@@ -82,4 +83,25 @@ test("renameCategory rejects invalid new names", async () => {
   await rejects(() => renameCategory("Amateur", "Competent"), /duplicate/);
   await rejects(() => renameCategory("Amateur", "Uncategorized"), /reserved/);
   await rejects(() => renameCategory("Amateur", ""), /blank/);
+});
+
+test("migrateCustomTemplateCategories remaps legacy slug tiers to display names", async () => {
+  const store = installFakeSettings({
+    [`${M}.customNpcTemplates`]: {
+      a: { id: "a", source: "custom", tier: "competent" },
+      b: { id: "b", source: "imported", tier: "mini-boss" },
+      c: { id: "c", source: "custom", tier: "Goons" },
+    },
+  });
+  const changed = await migrateCustomTemplateCategories();
+  strictEqual(changed, true);
+  strictEqual(store.get(`${M}.customNpcTemplates`).a.tier, "Competent");
+  strictEqual(store.get(`${M}.customNpcTemplates`).b.tier, "Mini Boss");
+  strictEqual(store.get(`${M}.customNpcTemplates`).c.tier, "Goons");
+});
+
+test("migrateCustomTemplateCategories is a no-op when nothing to migrate", async () => {
+  installFakeSettings({ [`${M}.customNpcTemplates`]: { a: { id: "a", tier: "Amateur" } } });
+  const changed = await migrateCustomTemplateCategories();
+  strictEqual(changed, false);
 });

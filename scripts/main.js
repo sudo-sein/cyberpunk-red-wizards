@@ -8,6 +8,7 @@ import { initImprovementPresence } from "./improvement/improvement-presence.js";
 import StoreApp from "./app/store-app.js";
 import StorePackConfig from "./app/store-pack-config.js";
 import NpcCategoryConfig from "./app/npc-category-config.js";
+import { migrateCustomTemplateCategories } from "./data/npc-categories.js";
 import {
   MODULE_ID,
   DEFAULT_STAT_POINT_BUDGET,
@@ -134,6 +135,13 @@ Hooks.once("init", () => {
     type: NpcCategoryConfig,
     restricted: true,
   });
+
+  game.settings.register(MODULE_ID, "npcCategoryMigrationDone", {
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: false,
+  });
 });
 
 Hooks.once("ready", () => {
@@ -141,6 +149,12 @@ Hooks.once("ready", () => {
   initStoreSocket();
   initCreatorSocket();
   initImprovementPresence(socket);
+
+  if (game.user.isGM && !game.settings.get(MODULE_ID, "npcCategoryMigrationDone")) {
+    migrateCustomTemplateCategories()
+      .then(() => game.settings.set(MODULE_ID, "npcCategoryMigrationDone", true))
+      .catch(err => console.error("CRW | NPC category migration failed", err));
+  }
 });
 
 Hooks.on("renderActorDirectory", (app, html) => {
