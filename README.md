@@ -84,6 +84,23 @@ Access via the **NPC Template** button in the Actors sidebar.
 
 ---
 
+## Improvement
+
+Spend a character's **Improvement Points (IP)** to raise skills and roles, with a planning cart that lets you stage changes and see the full cost before committing.
+
+![Improvement](docs/improvement.png)
+
+- **Skills** grouped by category (Awareness, Body, Control, …) with a filter box; **+/−** to stage level changes
+- **Roles** raised by rank alongside skills
+- IP costs follow Cyberpunk RED Core (p. 134): skills cost `20 × next level` (`40 ×` for Difficult skills), roles cost `60 × next rank`
+- A running **Planned** banner and `IP: before → after` footer show the net spend before you apply
+- **Reset cart** to clear staged changes, **Cancel** to close, or **Apply** to commit them to the actor
+- Presence awareness warns when another user has the same character's Improvement window open
+
+Access via the **Improvement** button at the bottom of the Actors sidebar (available to the GM and to players with an assigned character).
+
+---
+
 ## Store
 
 A shared shopping interface where players browse and buy equipment from the system's compendium packs. Purchases are deducted from the character's Eurodollars automatically.
