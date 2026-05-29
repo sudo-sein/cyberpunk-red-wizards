@@ -317,7 +317,7 @@
 
   "crw.npc.categories.settingName": "Kategorie NPC",
   "crw.npc.categories.settingLabel": "Konfiguruj kategorie",
-  "crw.npc.categories.settingHint": "Dodawaj, zmieniaj nazwy, zmieniaj kolejność lub usuwaj kategorie, w których grupowane są szablony NPC. Szablony, których kategoria została usunięta, pojawiają się w grupie Bez kategorii.",
+  "crw.npc.categories.settingHint": "Dodawaj, zmieniaj nazwy, zmieniaj kolejność lub usuwaj kategorie, w których grupowane są szablony NPC. Szablony, których kategoria została usunięta, pojawiają się w grupie \"Uncategorized\".",
   "crw.npc.categories.add": "Dodaj kategorię",
   "crw.npc.categories.addPlaceholder": "Nazwa nowej kategorii",
   "crw.npc.categories.remove": "Usuń",

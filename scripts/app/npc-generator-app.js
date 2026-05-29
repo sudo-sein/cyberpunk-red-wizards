@@ -403,7 +403,7 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
       id: foundry.utils.randomID(),
       name: "New Template",
       nameKey: null,
-      tier: "amateur",
+      tier: UNCATEGORIZED,
       source: "custom",
       stats: { int: 4, ref: 4, dex: 4, tech: 4, cool: 4, will: 4, luck: 0, move: 4, body: 4, emp: 4 },
       hp: 20,

@@ -55,6 +55,22 @@ export default class NpcCategoryConfig extends FormApplication {
         ui.notifications.warn(err.message);
       }
     });
+
+    el.querySelectorAll("[name='rename']").forEach(input => {
+      input.addEventListener("change", async (e) => {
+        const row = e.currentTarget.closest(".crw-category-row");
+        const oldName = row.dataset.name;
+        const newName = e.currentTarget.value.trim();
+        if (!newName || newName === oldName) return;
+        try {
+          await renameCategory(oldName, newName);
+          this.render(true);
+        } catch (err) {
+          ui.notifications.warn(err.message);
+          e.currentTarget.value = oldName;
+        }
+      });
+    });
   }
 
   async _updateObject(_event, formData) {
