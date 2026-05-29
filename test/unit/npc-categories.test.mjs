@@ -56,6 +56,13 @@ test("removeCategory drops the entry; assignments resolve to Uncategorized", asy
   strictEqual(getEffectiveCategory({ source: "custom", tier: "Goons" }, getCategories()), UNCATEGORIZED);
 });
 
+test("emptying the list is respected (does NOT resurrect defaults)", async () => {
+  installFakeSettings({ [`${M}.npcCategories`]: ["Solo"] });
+  deepStrictEqual(await removeCategory("Solo"), []);
+  deepStrictEqual(getCategories(), []);
+  strictEqual(getEffectiveCategory({ source: "custom", tier: "Solo" }, getCategories()), UNCATEGORIZED);
+});
+
 test("reorderCategory moves up/down and clamps at ends", async () => {
   installFakeSettings({ [`${M}.npcCategories`]: ["A", "B", "C"] });
   deepStrictEqual(await reorderCategory("B", "up"), ["B", "A", "C"]);

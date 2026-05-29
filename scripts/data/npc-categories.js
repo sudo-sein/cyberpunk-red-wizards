@@ -20,7 +20,9 @@ export const LEGACY_CATEGORY_RENAMES = {
 
 export function getCategories() {
   const stored = getCategoriesSetting();
-  return Array.isArray(stored) && stored.length ? stored : [...DEFAULT_CATEGORIES];
+  // Only fall back when never configured (undefined). An explicitly emptied
+  // list is respected — every template then resolves to Uncategorized.
+  return Array.isArray(stored) ? stored : [...DEFAULT_CATEGORIES];
 }
 
 /**
