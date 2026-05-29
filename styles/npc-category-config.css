@@ -1,0 +1,83 @@
+#crw-npc-category-config .notes {
+  margin: 0 0 8px;
+  font-size: var(--cpr-font-smaller);
+  color: var(--cpr-text-normal);
+}
+
+#crw-npc-category-config .crw-category-list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+#crw-npc-category-config .crw-category-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+/* Override the global .crw-input width:100% so the name field shares the row. */
+#crw-npc-category-config .crw-category-name {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+#crw-npc-category-config .crw-category-actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 4px;
+}
+
+#crw-npc-category-config .crw-icon-btn {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  background-color: var(--cpr-background-box);
+  color: var(--cpr-text-normal);
+  border: 1px solid var(--cpr-background-border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#crw-npc-category-config .crw-icon-btn:hover:not(:disabled) {
+  background-color: var(--cpr-background-border);
+}
+
+#crw-npc-category-config .crw-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+#crw-npc-category-config .crw-icon-btn.crw-danger {
+  color: var(--cpr-color-red);
+}
+
+#crw-npc-category-config .crw-icon-btn.crw-danger:hover:not(:disabled) {
+  background-color: rgba(244, 67, 54, 0.15);
+}
+
+#crw-npc-category-config .crw-category-add {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid var(--cpr-background-border);
+}
+
+#crw-npc-category-config .crw-category-add .crw-input {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+#crw-npc-category-config .sheet-footer {
+  margin-top: 8px;
+}
