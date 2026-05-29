@@ -33,7 +33,10 @@ export default class NpcCategoryConfig extends FormApplication {
       btn.addEventListener("click", async (e) => {
         const row = e.currentTarget.closest(".crw-category-row");
         const dir = e.currentTarget.dataset.action === "moveUp" ? "up" : "down";
-        await reorderCategory(row.dataset.name, dir);
+        await this.#applyPendingRenames();
+        // Read the (possibly just-renamed) current name from the row's input.
+        const name = row.querySelector("[name='rename']").value.trim();
+        await reorderCategory(name, dir);
         this.render(true);
       });
     });
@@ -41,13 +44,16 @@ export default class NpcCategoryConfig extends FormApplication {
     el.querySelectorAll("[data-action='remove']").forEach(btn => {
       btn.addEventListener("click", async (e) => {
         const row = e.currentTarget.closest(".crw-category-row");
-        await removeCategory(row.dataset.name);
+        await this.#applyPendingRenames();
+        const name = row.querySelector("[name='rename']").value.trim();
+        await removeCategory(name);
         this.render(true);
       });
     });
 
     el.querySelector("[data-action='add']")?.addEventListener("click", async () => {
       const input = el.querySelector("[name='newCategory']");
+      await this.#applyPendingRenames();
       try {
         await addCategory(input.value);
         this.render(true);
@@ -55,37 +61,30 @@ export default class NpcCategoryConfig extends FormApplication {
         ui.notifications.warn(err.message);
       }
     });
-
-    el.querySelectorAll("[name='rename']").forEach(input => {
-      input.addEventListener("change", async (e) => {
-        const row = e.currentTarget.closest(".crw-category-row");
-        const oldName = row.dataset.name;
-        const newName = e.currentTarget.value.trim();
-        if (!newName || newName === oldName) return;
-        try {
-          await renameCategory(oldName, newName);
-          this.render(true);
-        } catch (err) {
-          ui.notifications.warn(err.message);
-          e.currentTarget.value = oldName;
-        }
-      });
-    });
   }
 
-  async _updateObject(_event, formData) {
-    // Apply any pending renames from the text inputs (data-name is the old value).
-    const rows = this.element[0].querySelectorAll(".crw-category-row");
+  // Commit any rename inputs whose value differs from the category they
+  // represent (data-name holds the original). Runs before every action and on
+  // submit, so there is exactly one rename mechanism and no mid-gesture
+  // re-render that could swallow a click.
+  async #applyPendingRenames() {
+    const rows = (this.element[0] ?? this.element).querySelectorAll(".crw-category-row");
     for (const row of rows) {
+      const input = row.querySelector("[name='rename']");
       const oldName = row.dataset.name;
-      const newName = row.querySelector("[name='rename']").value.trim();
-      if (newName && newName !== oldName) {
-        try {
-          await renameCategory(oldName, newName);
-        } catch (err) {
-          ui.notifications.warn(err.message);
-        }
+      const newName = input.value.trim();
+      if (!newName || newName === oldName) continue;
+      try {
+        await renameCategory(oldName, newName);
+        row.dataset.name = newName;
+      } catch (err) {
+        ui.notifications.warn(err.message);
+        input.value = oldName;
       }
     }
+  }
+
+  async _updateObject(_event, _formData) {
+    await this.#applyPendingRenames();
   }
 }
