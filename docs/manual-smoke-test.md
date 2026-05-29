@@ -64,18 +64,19 @@ Expected: with a GM, creation succeeds and the player owns the actor. With no GM
 
 **3.1 Browse & create from a built-in template**
 1. Actors → **NPC Template**.
-2. Confirm templates are grouped by tier (amateur → nightmare-boss), searchable, and filterable by tier.
+2. Confirm templates are grouped by category (e.g. Amateur → Nightmare Boss by default), searchable, and filterable by category. Templates with a removed category appear under **Uncategorized**.
 3. Select a template → the detail pane shows stats, HP/SW/death save, armor, weapons, skills (top 8 + "show all"), equipment, cyberware, role.
 4. Toggle **Mook/Character** actor type, optionally override the name and any gear "alternatives" dropdowns.
 5. Click **Create**.
 
 Expected: actor created and sheet opens **fully populated** — stats set, core skills present, armor/weapons equipped, cyberware installed, role ability at the listed rank. **No ~1s freeze and no half-populated sheet** (this is the readiness-poll path — see §6.2). No console errors.
 
-**3.2 Save-as-custom / export / import**
+**3.2 Save-as-custom / export / import / category config**
 1. Select a built-in template → **Save as custom** → editor opens (see §4) → Save.
 2. Confirm the custom copy appears (custom badge), is selectable, and **Create** works from it.
 3. **Export** custom templates → a JSON file downloads.
 4. **Import** that JSON in a fresh state → templates import; duplicate names get ` (2)` suffixes; already-present IDs are skipped; summary notification reports imported/skipped/renamed counts.
+5. GM: open **Module Settings → NPC Categories → Configure Categories**. Add a new category, move it up/down, rename an existing one, remove one. Save. Confirm the generator groups update accordingly and any template whose category was removed falls under **Uncategorized**.
 
 ---
 
@@ -118,7 +119,7 @@ Expected: HP = `10 + 5*ceil((BODY+WILL)/2)` and **Serious Wound = ceil(HP/2)** �
 **5.1 Parse → preview → create**
 1. NPC Template → **Import statblock** (or the import entry).
 2. Paste a CPR NPC statblock, pick the language (en/pl), **Parse**.
-3. Confirm the preview shows parsed stats, HP/SW/death save, armor, weapons, skills, equipment, cyberware, role; errors/warnings listed if any.
+3. Confirm the preview shows parsed stats, HP/SW/death save, armor, weapons, skills, equipment, cyberware, role; errors/warnings listed if any. A **Category** dropdown is shown (defaults to Uncategorized) — the GM picks the appropriate category before saving or creating.
 4. **Create NPC** → actor created and populated (same expectations as §3.1).
 
 **5.2 Save as template — name dialog (DialogV2)** 🔁
