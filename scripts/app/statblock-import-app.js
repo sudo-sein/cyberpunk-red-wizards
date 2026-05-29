@@ -1,6 +1,7 @@
 import { parseStatblock } from "../import/statblock-parser.js";
 import { createNpcFromTemplate } from "../npc/npc-factory.js";
 import { getCustomTemplates, saveCustomTemplates } from "../data/npc-loader.js";
+import { getCategories, UNCATEGORIZED } from "../data/npc-categories.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -62,6 +63,10 @@ export default class StatblockImportApp extends HandlebarsApplicationMixin(Appli
       hasErrors: (result?.errors?.length ?? 0) > 0,
       hasWarnings: (result?.warnings?.length ?? 0) > 0,
       stats: result?.template ? Object.entries(result.template.stats).map(([key, value]) => ({ abbr: key.toUpperCase(), value })) : [],
+      categories: [...getCategories(), UNCATEGORIZED].map(name => ({
+        name,
+        selected: name === (result?.template?.tier ?? UNCATEGORIZED),
+      })),
     };
   }
 
@@ -74,6 +79,10 @@ export default class StatblockImportApp extends HandlebarsApplicationMixin(Appli
 
     el.querySelector("[name='statblockText']")?.addEventListener("input", (e) => {
       this.#state.inputText = e.target.value;
+    });
+
+    el.querySelector("[name='importCategory']")?.addEventListener("change", (e) => {
+      if (this.#state.result?.template) this.#state.result.template.tier = e.target.value;
     });
   }
 
