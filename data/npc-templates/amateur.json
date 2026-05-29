@@ -2,7 +2,7 @@
   {
     "id": "amateur",
     "nameKey": "crw.npc.amateur",
-    "tier": "amateur",
+    "tier": "Amateur",
     "source": "built-in",
     "stats": { "int": 4, "ref": 5, "dex": 4, "tech": 4, "cool": 4, "will": 4, "luck": 0, "move": 5, "body": 4, "emp": 4 },
     "hp": 20,
