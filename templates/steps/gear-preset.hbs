@@ -9,7 +9,7 @@
     {{#if choice}}
     <div class="crw-gear-choice">
       <span class="crw-gear-choice-label">{{localize "crw.gear.chooseOne"}}</span>
-      <select class="crw-gear-select" name="choice-{{choiceIndex}}">
+      <select class="crw-gear-select crw-input" name="choice-{{choiceIndex}}">
         {{#each choice}}
         <option value="{{this}}" {{#if (eq this ../selected)}}selected{{/if}}>{{this}}</option>
         {{/each}}

@@ -3,6 +3,7 @@
 /.idea
 /.superpowers
 CLAUDE.md
+AGENTS.md
 /docs/superpowers
 /node_modules
 /test/fixtures-local

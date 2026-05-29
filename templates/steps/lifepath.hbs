@@ -13,7 +13,7 @@
     {{#each tables}}
     <div class="crw-lifepath-row" data-table-id="{{id}}">
       <label class="crw-lifepath-label">{{label}}</label>
-      <select class="crw-lifepath-select" data-table="{{id}}">
+      <select class="crw-lifepath-select crw-input" data-table="{{id}}">
         <option value="">{{localize "crw.lifepath.select"}}</option>
         {{#each entries}}
         <option value="{{label}}" {{#if (eq label ../currentValue)}}selected{{/if}}>

@@ -1,8 +1,10 @@
 import CharacterCreatorApp from "./app/creator-app.js";
+import ImprovementApp from "./app/improvement-app.js";
 import NpcGeneratorApp from "./app/npc-generator-app.js";
 import { initSharedSocket } from "./socket.js";
 import { initStoreSocket } from "./store/store-socket.js";
 import { initCreatorSocket } from "./creator/creator-socket.js";
+import { initImprovementPresence } from "./improvement/improvement-presence.js";
 import StoreApp from "./app/store-app.js";
 import StorePackConfig from "./app/store-pack-config.js";
 import {
@@ -19,6 +21,8 @@ Hooks.once("init", () => {
   loadTemplates([
     "modules/cyberpunk-red-wizards/templates/partials/step-bar.hbs",
     "modules/cyberpunk-red-wizards/templates/partials/skill-row.hbs",
+    "modules/cyberpunk-red-wizards/templates/partials/improvement-skill-row.hbs",
+    "modules/cyberpunk-red-wizards/templates/partials/improvement-role-row.hbs",
     "modules/cyberpunk-red-wizards/templates/npc-editor/basics.hbs",
     "modules/cyberpunk-red-wizards/templates/npc-editor/combat.hbs",
     "modules/cyberpunk-red-wizards/templates/npc-editor/skills.hbs",
@@ -109,9 +113,10 @@ Hooks.once("init", () => {
 });
 
 Hooks.once("ready", () => {
-  initSharedSocket();
+  const socket = initSharedSocket();
   initStoreSocket();
   initCreatorSocket();
+  initImprovementPresence(socket);
 });
 
 Hooks.on("renderActorDirectory", (app, html) => {
@@ -142,6 +147,19 @@ Hooks.on("renderActorDirectory", (app, html) => {
       NpcGeneratorApp.open();
     });
     headerActions.append(npcBtn);
+  }
+
+  const footer = html[0]?.querySelector(".directory-footer")
+    ?? html.querySelector?.(".directory-footer");
+  const showImprovement = game.user.isGM || !!game.user.character;
+  if (footer && showImprovement) {
+    const ipBtn = document.createElement("button");
+    ipBtn.type = "button";
+    ipBtn.classList.add("crw-sidebar-btn");
+    ipBtn.innerHTML = `<i class="fas fa-arrow-up-right-dots"></i> ${game.i18n.localize("crw.buttons.improvement")}`;
+    ipBtn.classList.add("crw-improvement-btn");
+    ipBtn.addEventListener("click", () => ImprovementApp.open());
+    if (!footer.querySelector(".crw-improvement-btn")) footer.append(ipBtn);
   }
 });
 

@@ -36,7 +36,7 @@
             <div class="crw-relationships-enemy-grid">
               {{#each fields}}
               <span class="crw-relationships-field-label">{{label}}:</span>
-              <select class="crw-relationships-select" data-type="{{typeId}}" data-index="{{entryIndex}}" data-table="{{tableId}}">
+              <select class="crw-relationships-select crw-input" data-type="{{typeId}}" data-index="{{entryIndex}}" data-table="{{tableId}}">
                 <option value="">{{localize "crw.relationships.select"}}</option>
                 {{#each options}}
                 <option value="{{value}}" {{#if (eq value ../currentValue)}}selected{{/if}}>{{label}}</option>
@@ -54,7 +54,7 @@
           <div class="crw-relationships-entry" data-type="{{typeId}}" data-index="{{index}}">
             <span class="crw-relationships-index">#{{displayIndex}}</span>
             {{#each fields}}
-            <select class="crw-relationships-select" data-type="{{typeId}}" data-index="{{entryIndex}}" data-table="{{tableId}}">
+            <select class="crw-relationships-select crw-input" data-type="{{typeId}}" data-index="{{entryIndex}}" data-table="{{tableId}}">
               <option value="">{{localize "crw.relationships.select"}}</option>
               {{#each options}}
               <option value="{{value}}" {{#if (eq value ../currentValue)}}selected{{/if}}>{{label}}</option>

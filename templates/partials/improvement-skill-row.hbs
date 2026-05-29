@@ -1,0 +1,19 @@
+<div class="crw-improvement-row{{#if delta}} is-in-cart{{/if}}" data-skill-id="{{id}}">
+  <span class="crw-improvement-row-name">
+    {{name}}
+    {{#if isDifficult}}<span class="crw-improvement-x2" title="{{localize 'crw.improvement.skill.difficultTip'}}">×2</span>{{/if}}
+  </span>
+  <span class="crw-improvement-row-value">
+    {{level}}{{#if delta}} <span class="crw-improvement-delta">+{{delta}}</span>{{/if}}
+  </span>
+  <span class="crw-improvement-row-planned{{#unless delta}} is-empty{{/unless}}">
+    {{#if delta}}{{localize 'crw.improvement.cost.planned'}} +{{plannedTotalCost}} IP{{/if}}
+  </span>
+  <span class="crw-improvement-row-next">
+    {{localize 'crw.improvement.skill.next'}} {{nextCost}} IP
+  </span>
+  <span class="crw-improvement-row-controls">
+    <button type="button" class="crw-improvement-dec" data-action="decrementSkill" data-id="{{id}}" aria-label="{{localize 'crw.improvement.skill.decrementLabel' name=name}}" {{#unless canDecrement}}disabled{{/unless}}>−</button>
+    <button type="button" class="crw-improvement-inc" data-action="incrementSkill" data-id="{{id}}" aria-label="{{localize 'crw.improvement.skill.incrementLabel' name=name}}" {{#unless canIncrement}}disabled title="{{disabledReason}}"{{/unless}}>+</button>
+  </span>
+</div>

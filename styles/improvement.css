@@ -1,0 +1,358 @@
+.crw-improvement-window-root .crw-improvement-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: var(--cpr-font-primary);
+  background-color: var(--cpr-background-window);
+  color: var(--cpr-text-normal);
+  /* Brand accent (amber) — intentional, distinct from the system red. */
+  --crw-accent: #f39c12;
+  --crw-accent-strong: #ffb347;
+}
+
+.crw-improvement-window-root .window-content {
+  padding: 0;
+}
+
+.crw-improvement-window-root .crw-improvement-empty,
+.crw-improvement-window-root .crw-improvement-empty-roles {
+  padding: 1rem;
+  text-align: center;
+  color: var(--cpr-text-icon-dimmed);
+}
+
+.crw-improvement-window-root .crw-improvement-actor-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.7rem;
+  border-bottom: 1px solid var(--cpr-background-border);
+}
+
+.crw-improvement-window-root .crw-improvement-actor-picker label { font-weight: 600; }
+.crw-improvement-window-root .crw-improvement-actor-picker select { flex: 1; max-width: 280px; }
+
+.crw-improvement-window-root .crw-improvement-body {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0.75rem;
+  flex: 1;
+  overflow: auto;
+  padding: 0.65rem 0.75rem 0.5rem;
+}
+
+.crw-improvement-window-root .crw-improvement-skills > header,
+.crw-improvement-window-root .crw-improvement-roles > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.crw-improvement-window-root .crw-improvement-skills > header h3,
+.crw-improvement-window-root .crw-improvement-roles > header h3 {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.crw-improvement-window-root .crw-improvement-cart-badge {
+  min-width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  padding: 0 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.1rem;
+  text-align: center;
+  background: var(--crw-accent);
+  color: var(--cpr-color-near-black);
+}
+
+.crw-improvement-window-root .crw-improvement-cart-summary {
+  margin: 0.45rem 0.75rem 0;
+  padding: 0.25rem 0.55rem;
+  border-left: 2px solid var(--crw-accent);
+  background: rgba(243, 156, 18, 0.12);
+  color: var(--cpr-text-normal);
+  font-size: 0.8rem;
+}
+
+.crw-improvement-window-root .crw-improvement-filter-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 260px;
+}
+
+.crw-improvement-window-root .crw-improvement-filter {
+  width: 100%;
+  padding-right: 1.7rem;
+}
+
+.crw-improvement-window-root .crw-improvement-filter-clear {
+  position: absolute;
+  right: 0.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.crw-improvement-window-root .crw-improvement-category {
+  margin-bottom: 0.45rem;
+  border: 1px solid var(--cpr-background-border);
+  border-radius: 4px;
+}
+
+.crw-improvement-window-root .crw-improvement-category summary {
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  font-weight: 600;
+  background: var(--cpr-background-header);
+  color: var(--cpr-text-header);
+}
+
+.crw-improvement-window-root .crw-improvement-category-badge {
+  margin-left: 0.4rem;
+  color: var(--crw-accent-strong);
+  font-weight: 700;
+}
+
+.crw-improvement-window-root .crw-improvement-category-body { padding: 0.25rem 0.4rem; }
+
+.crw-improvement-window-root .crw-improvement-row {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) minmax(3.5rem, auto) minmax(7rem, auto) minmax(5.5rem, auto) auto;
+  grid-template-areas: "name value planned next controls";
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.3rem 0.4rem;
+  border-radius: 3px;
+  position: relative;
+}
+
+.crw-improvement-window-root .crw-improvement-roles .crw-improvement-row {
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "name controls"
+    "value controls"
+    "planned next";
+  row-gap: 0.15rem;
+  padding: 0.5rem 0.5rem 0.4rem;
+  border: 1px solid var(--cpr-background-border);
+  margin-bottom: 0.4rem;
+  background-color: var(--cpr-background-box);
+}
+
+.crw-improvement-window-root .crw-improvement-row.is-in-cart {
+  background: rgba(255, 200, 0, 0.18);
+}
+
+.crw-improvement-window-root .crw-improvement-row.is-in-cart::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+  background: var(--crw-accent-strong);
+}
+
+.crw-improvement-window-root .crw-improvement-row.is-new {
+  background: rgba(0, 180, 255, 0.12);
+}
+
+.crw-improvement-window-root .crw-improvement-x2 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--cpr-text-icon-highlight);
+  border: 1px solid var(--cpr-text-icon-highlight);
+  border-radius: 3px;
+  padding: 0 3px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.crw-improvement-window-root .crw-improvement-new-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #0066cc;
+  color: var(--cpr-color-white);
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin-right: 4px;
+}
+
+.crw-improvement-window-root .crw-improvement-delta {
+  color: var(--cpr-text-normal);
+  font-weight: 700;
+}
+
+.crw-improvement-window-root .crw-improvement-row-name {
+  grid-area: name;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--cpr-text-normal);
+  font-weight: 600;
+}
+
+.crw-improvement-window-root .crw-improvement-row-value {
+  grid-area: value;
+  text-align: right;
+  color: var(--cpr-text-normal);
+  font-variant-numeric: tabular-nums;
+}
+
+.crw-improvement-window-root .crw-improvement-row-planned,
+.crw-improvement-window-root .crw-improvement-row-next {
+  font-size: 0.85rem;
+  color: var(--cpr-text-icon-dimmed);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.crw-improvement-window-root .crw-improvement-row-planned { grid-area: planned; }
+.crw-improvement-window-root .crw-improvement-row-next { grid-area: next; }
+.crw-improvement-window-root .crw-improvement-row-planned.is-empty { visibility: hidden; }
+
+.crw-improvement-window-root .crw-improvement-roles .crw-improvement-row-controls { grid-area: controls; justify-self: end; align-self: start; margin-top: 0.1rem; }
+.crw-improvement-window-root .crw-improvement-roles .crw-improvement-row-value { grid-area: value; text-align: left; font-size: 0.82rem; color: var(--cpr-text-icon-dimmed); }
+.crw-improvement-window-root .crw-improvement-roles .crw-improvement-row-name { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.01em; }
+
+.crw-improvement-window-root .crw-improvement-row-controls {
+  grid-area: controls;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.crw-improvement-window-root .crw-improvement-row-controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.crw-improvement-window-root .crw-improvement-buy-new-role {
+  margin-top: 0.35rem;
+  width: 100%;
+  background: var(--cpr-background-header);
+  border: 1px solid var(--cpr-background-border);
+  color: var(--cpr-text-header);
+}
+
+.crw-improvement-window-root .crw-improvement-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.42rem 0.75rem;
+  border-top: 1px solid var(--cpr-background-border);
+  background: var(--cpr-background-header);
+  color: var(--cpr-text-header);
+  position: sticky;
+  bottom: 0;
+}
+
+.crw-improvement-window-root .crw-improvement-balance { color: var(--cpr-text-header); }
+.crw-improvement-window-root .crw-improvement-balance strong { font-size: 1.02rem; }
+.crw-improvement-window-root .crw-improvement-balance .is-negative { color: var(--cpr-text-icon-highlight); }
+.crw-improvement-window-root .crw-improvement-delta-total {
+  margin-left: 0.5rem;
+  color: var(--cpr-text-icon-dimmed);
+}
+
+.crw-improvement-window-root .crw-improvement-footer-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.crw-improvement-window-root .crw-improvement-footer-actions button {
+  word-wrap: nowrap;
+  white-space: nowrap;
+  padding: 0.25rem 0.55rem;
+}
+
+.crw-improvement-window-root .crw-improvement-reset {
+  border: 0;
+  background: transparent;
+  color: var(--cpr-text-icon-dimmed);
+}
+
+.crw-improvement-window-root .crw-improvement-cancel {
+  background: var(--cpr-background-box);
+  color: var(--cpr-text-normal);
+  border: 1px solid var(--cpr-background-border);
+}
+
+.crw-improvement-window-root .crw-improvement-apply {
+  font-weight: 700;
+  background: linear-gradient(180deg, var(--crw-accent-strong), var(--crw-accent));
+  color: var(--cpr-color-near-black);
+  border: 1px solid #b97706;
+}
+
+.crw-improvement-window-root .crw-improvement-window button:focus-visible,
+.crw-improvement-window-root .crw-improvement-window select:focus-visible,
+.crw-improvement-window-root .crw-improvement-window input:focus-visible {
+  outline: 2px solid var(--crw-accent-strong);
+  outline-offset: 1px;
+}
+
+@media (max-width: 900px) {
+  .crw-improvement-window-root .crw-improvement-body {
+    grid-template-columns: 1fr;
+  }
+
+  .crw-improvement-window-root .crw-improvement-row {
+    grid-template-columns: minmax(0, 1fr) minmax(7rem, auto) minmax(5.5rem, auto) auto;
+    grid-template-areas:
+      "name name name controls"
+      "value planned next controls";
+    row-gap: 0.2rem;
+  }
+
+  .crw-improvement-window-root .crw-improvement-roles .crw-improvement-row {
+    grid-template-columns: minmax(0, 1fr) minmax(7rem, auto) minmax(5.5rem, auto) auto;
+    grid-template-areas:
+      "name name name controls"
+      "value planned next controls";
+  }
+
+  .crw-improvement-window-root .crw-improvement-row-controls { grid-area: controls; justify-self: end; }
+  .crw-improvement-window-root .crw-improvement-row-value { grid-area: value; text-align: left; }
+
+  .crw-improvement-window-root .crw-improvement-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .crw-improvement-window-root .crw-improvement-footer-actions {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
+.crw-improvement-window-root .directory-footer .crw-sidebar-btn {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+}
