@@ -4,6 +4,7 @@ import { commitCart, CommitError } from "../improvement/commit-cart.js";
 import { buildSelectOptions } from "../improvement/ui-html.js";
 import { categoryLabelKey } from "../improvement/skill-categories.js";
 import { plannedChangeCount } from "../improvement/cart-metrics.js";
+import { categoryIsOpen } from "../improvement/category-open-state.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 
@@ -87,7 +88,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
     const options = buildSelectOptions(choices.map((a) => ({ value: a.id, label: a.name })));
     return await DialogV2.prompt({
       window: { title: game.i18n.localize("crw.improvement.actorPicker.label") },
-      content: `<select name="actorId" style="width:100%">${options}</select>`,
+      content: `<select name="actorId" class="crw-input" style="width:100%">${options}</select>`,
       ok: {
         callback: (event, button) => {
           const id = button.form.elements.actorId.value;
@@ -103,6 +104,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
   #ipCosts = ipCosts;
   #cart = { skills: new Map(), roles: new Map(), newRoles: new Map() };
   #filterValue = "";
+  #categoryOpenStates = new Map();
   #updateHookId = null;
   #isApplying = false;
 
@@ -188,6 +190,15 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
         filter.focus();
         filter.selectionStart = filter.selectionEnd = filter.value.length;
       }
+    }
+
+    for (const category of el.querySelectorAll(".crw-improvement-category")) {
+      category.addEventListener("toggle", (event) => {
+        const key = event.currentTarget.dataset.category;
+        const hasFilter = this.#filterValue.trim().length > 0;
+        if (!key || hasFilter) return;
+        this.#categoryOpenStates.set(key, event.currentTarget.open);
+      });
     }
 
     if (this.#updateHookId === null) {
@@ -308,7 +319,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
       "socialSkills", "techniqueSkills",
     ];
     const grouped = new Map(categoryOrder.map((k) => [k, []]));
-    const filter = this.#filterValue.toLowerCase();
+    const filter = this.#filterValue.trim().toLowerCase();
     const { cumulativeSkillCost, skillCost } = this.#ipCosts;
 
     for (const item of this.#actor.items) {
@@ -353,7 +364,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
         label: categoryLabelKey(key),
         rows,
         plannedCount: rows.filter((r) => r.delta > 0).length,
-        open: rows.some((r) => r.delta > 0) || !!filter,
+        open: categoryIsOpen({ key, filterValue: this.#filterValue, openStates: this.#categoryOpenStates }),
       }));
   }
 
@@ -483,7 +494,7 @@ export default class ImprovementApp extends HandlebarsApplicationMixin(Applicati
       window: { title: game.i18n.localize("crw.improvement.buyNewRole.dialogTitle") },
       content: `
         <p>${game.i18n.localize("crw.improvement.buyNewRole.dropdownLabel")}:</p>
-        <select name="syntheticId" style="width:100%">${options}</select>
+        <select name="syntheticId" class="crw-input" style="width:100%">${options}</select>
       `,
       ok: {
         label: game.i18n.localize("crw.improvement.buyNewRole.confirm"),

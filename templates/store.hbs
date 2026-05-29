@@ -3,7 +3,7 @@
   <div class="crw-store-header">
     <div class="crw-store-buyer">
       <label>{{localize "crw.store.buyer"}}:</label>
-      <select class="crw-store-actor-select">
+      <select class="crw-store-actor-select crw-input">
         {{#each actors}}
         <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
         {{/each}}

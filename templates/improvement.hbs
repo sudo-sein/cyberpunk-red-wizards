@@ -5,13 +5,21 @@
     {{#if showActorPicker}}
       <div class="crw-improvement-actor-picker">
         <label for="crw-improvement-actor-select">{{localize "crw.improvement.actorPicker.label"}}</label>
-        <select id="crw-improvement-actor-select" class="crw-improvement-actor-select">
+        <select id="crw-improvement-actor-select" class="crw-improvement-actor-select crw-input">
           {{#each actors}}
             <option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>
           {{/each}}
         </select>
       </div>
     {{/if}}
+
+    <div class="crw-improvement-cart-summary">
+      {{#if plannedChanges}}
+        {{localize "crw.improvement.cart.summary" count=plannedChanges cost=totalCost}}
+      {{else}}
+        {{localize "crw.improvement.cart.emptySummary"}}
+      {{/if}}
+    </div>
 
     <div class="crw-improvement-body">
       <section class="crw-improvement-skills">
@@ -21,7 +29,7 @@
             {{#if plannedChanges}}<span class="crw-improvement-cart-badge">{{plannedChanges}}</span>{{/if}}
           </h3>
           <span class="crw-improvement-filter-wrap">
-            <input type="text" class="crw-improvement-filter" name="skillFilter" autocomplete="off"
+            <input type="text" class="crw-improvement-filter crw-input" name="skillFilter" autocomplete="off"
                    placeholder="{{localize 'crw.improvement.filterPlaceholder'}}"
                    value="{{filterValue}}" />
             {{#if filterValue}}
@@ -29,9 +37,6 @@
             {{/if}}
           </span>
         </header>
-        {{#if plannedChanges}}
-          <div class="crw-improvement-cart-summary">{{localize "crw.improvement.cart.summary" count=plannedChanges cost=totalCost}}</div>
-        {{/if}}
         {{#each skillCategories}}
           <details class="crw-improvement-category" {{#if open}}open{{/if}} data-category="{{key}}">
             <summary>

@@ -8,6 +8,10 @@
   --crw-muted: #9aa6b2;
 }
 
+.crw-improvement-window-root .window-content {
+  padding: 0;
+}
+
 .crw-improvement-window-root .crw-improvement-empty,
 .crw-improvement-window-root .crw-improvement-empty-roles {
   padding: 1rem;
@@ -66,8 +70,8 @@
 }
 
 .crw-improvement-window-root .crw-improvement-cart-summary {
-  margin: 0.15rem 0 0.4rem;
-  padding: 0.2rem 0.45rem;
+  margin: 0.45rem 0.75rem 0;
+  padding: 0.25rem 0.55rem;
   border-left: 2px solid var(--crw-accent);
   background: rgba(243, 156, 18, 0.12);
   color: #d1d9e0;
@@ -121,7 +125,8 @@
 
 .crw-improvement-window-root .crw-improvement-row {
   display: grid;
-  grid-template-columns: minmax(8rem, 1fr) minmax(4.5rem, auto) minmax(10rem, auto) auto;
+  grid-template-columns: minmax(8rem, 1fr) minmax(3.5rem, auto) minmax(7rem, auto) minmax(5.5rem, auto) auto;
+  grid-template-areas: "name value planned next controls";
   gap: 0.4rem;
   align-items: center;
   padding: 0.2rem 0.4rem;
@@ -133,7 +138,8 @@
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
     "name controls"
-    "value cost";
+    "value controls"
+    "planned next";
   row-gap: 0.2rem;
 }
 
@@ -183,6 +189,7 @@
 }
 
 .crw-improvement-window-root .crw-improvement-row-name {
+  grid-area: name;
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -192,11 +199,13 @@
 }
 
 .crw-improvement-window-root .crw-improvement-row-value {
+  grid-area: value;
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-.crw-improvement-window-root .crw-improvement-row-cost {
+.crw-improvement-window-root .crw-improvement-row-planned,
+.crw-improvement-window-root .crw-improvement-row-next {
   font-size: 0.85rem;
   color: #c6d0da;
   white-space: nowrap;
@@ -206,12 +215,15 @@
   font-variant-numeric: tabular-nums;
 }
 
-.crw-improvement-window-root .crw-improvement-roles .crw-improvement-row-name { grid-area: name; }
+.crw-improvement-window-root .crw-improvement-row-planned { grid-area: planned; }
+.crw-improvement-window-root .crw-improvement-row-next { grid-area: next; }
+.crw-improvement-window-root .crw-improvement-row-planned.is-empty { visibility: hidden; }
+
 .crw-improvement-window-root .crw-improvement-roles .crw-improvement-row-controls { grid-area: controls; justify-self: end; }
 .crw-improvement-window-root .crw-improvement-roles .crw-improvement-row-value { grid-area: value; text-align: left; }
-.crw-improvement-window-root .crw-improvement-roles .crw-improvement-row-cost { grid-area: cost; }
 
 .crw-improvement-window-root .crw-improvement-row-controls {
+  grid-area: controls;
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -262,6 +274,12 @@
   gap: 0.35rem;
 }
 
+.crw-improvement-window-root .crw-improvement-footer-actions button {
+  word-wrap: nowrap;
+  white-space: nowrap;
+  padding: 0.25rem 0.55rem;
+}
+
 .crw-improvement-window-root .crw-improvement-reset {
   border: 0;
   background: transparent;
@@ -294,17 +312,22 @@
   }
 
   .crw-improvement-window-root .crw-improvement-row {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) minmax(7rem, auto) minmax(5.5rem, auto) auto;
     grid-template-areas:
-      "name controls"
-      "value cost";
+      "name name name controls"
+      "value planned next controls";
     row-gap: 0.2rem;
   }
 
-  .crw-improvement-window-root .crw-improvement-row-name { grid-area: name; }
+  .crw-improvement-window-root .crw-improvement-roles .crw-improvement-row {
+    grid-template-columns: minmax(0, 1fr) minmax(7rem, auto) minmax(5.5rem, auto) auto;
+    grid-template-areas:
+      "name name name controls"
+      "value planned next controls";
+  }
+
   .crw-improvement-window-root .crw-improvement-row-controls { grid-area: controls; justify-self: end; }
   .crw-improvement-window-root .crw-improvement-row-value { grid-area: value; text-align: left; }
-  .crw-improvement-window-root .crw-improvement-row-cost { grid-area: cost; }
 
   .crw-improvement-window-root .crw-improvement-footer {
     flex-direction: column;
