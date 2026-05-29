@@ -2,7 +2,7 @@
   "id": "street-thug",
   "name": "Street Thug",
   "nameKey": null,
-  "tier": "competent",
+  "tier": "Uncategorized",
   "source": "imported",
   "stats": { "int": 4, "ref": 6, "dex": 5, "tech": 3, "cool": 5, "will": 4, "luck": 3, "move": 6, "body": 5, "emp": 6 },
   "hp": 30,

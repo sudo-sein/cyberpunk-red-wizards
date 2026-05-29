@@ -1,4 +1,4 @@
-import { TIER_ORDER } from "../data/npc-loader.js";
+import { getCategories, UNCATEGORIZED } from "../data/npc-categories.js";
 import { STAT_KEYS } from "../constants.js";
 import { calculateHP, calculateSeriousWound } from "../utils/derived-stats.js";
 import { buildOptions, resolveSelection, PRESERVE_ID } from "../utils/editor-options.js";
@@ -124,10 +124,23 @@ export class NpcTemplateEditorApp extends HandlebarsApplicationMixin(Application
     }));
     return {
       name: t.name ?? "",
-      tiers: TIER_ORDER.map(id => ({ id, label: game.i18n.localize(`crw.npc.tierName.${id}`), selected: t.tier === id })),
+      tiers: this.#categoryOptions(t.tier),
       statRows: [entries.slice(0, 5), entries.slice(5, 10)],
       hp: t.hp,
     };
+  }
+
+  #categoryOptions(current) {
+    const categories = getCategories();
+    const options = categories.map(name => ({ id: name, label: name, selected: name === current }));
+    // Preserve an off-list current value (e.g. Uncategorized or a deleted category)
+    // so opening + saving the editor never silently relocates the template.
+    if (current && !categories.includes(current)) {
+      options.push({ id: current, label: current, selected: true });
+    } else if (!current) {
+      options.push({ id: UNCATEGORIZED, label: UNCATEGORIZED, selected: true });
+    }
+    return options;
   }
 
   #statMax(key) {

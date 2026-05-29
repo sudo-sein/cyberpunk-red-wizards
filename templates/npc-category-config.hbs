@@ -1,0 +1,22 @@
+<form class="crw-category-config">
+  <p class="notes">{{localize "crw.npc.categories.settingHint"}}</p>
+  <ol class="crw-category-list">
+    {{#each categories}}
+    <li class="crw-category-row" data-name="{{this.name}}">
+      <input type="text" name="rename" value="{{this.name}}" class="crw-input crw-category-name" />
+      <div class="crw-category-actions">
+        <button type="button" class="crw-icon-btn" data-action="moveUp" {{#if this.isFirst}}disabled{{/if}} title="{{localize 'crw.npc.categories.moveUp'}}"><i class="fas fa-arrow-up"></i></button>
+        <button type="button" class="crw-icon-btn" data-action="moveDown" {{#if this.isLast}}disabled{{/if}} title="{{localize 'crw.npc.categories.moveDown'}}"><i class="fas fa-arrow-down"></i></button>
+        <button type="button" class="crw-icon-btn crw-danger" data-action="remove" title="{{localize 'crw.npc.categories.remove'}}"><i class="fas fa-trash"></i></button>
+      </div>
+    </li>
+    {{/each}}
+  </ol>
+  <div class="crw-category-add">
+    <input type="text" name="newCategory" class="crw-input" placeholder="{{localize 'crw.npc.categories.addPlaceholder'}}" />
+    <button type="button" class="crw-icon-btn" data-action="add" title="{{localize 'crw.npc.categories.add'}}"><i class="fas fa-plus"></i></button>
+  </div>
+  <footer class="sheet-footer flexrow">
+    <button type="submit"><i class="fas fa-save"></i> {{localize "crw.npc.editor.save"}}</button>
+  </footer>
+</form>

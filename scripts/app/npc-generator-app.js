@@ -1,4 +1,5 @@
-import { loadAllTemplates, TIER_ORDER, getCustomTemplates, saveCustomTemplates, clearNpcCache } from "../data/npc-loader.js";
+import { loadAllTemplates, getCustomTemplates, saveCustomTemplates, clearNpcCache } from "../data/npc-loader.js";
+import { getCategories, getEffectiveCategory, UNCATEGORIZED } from "../data/npc-categories.js";
 import { createNpcFromTemplate } from "../npc/npc-factory.js";
 import { STAT_KEYS, STAT_ABBRS } from "../constants.js";
 
@@ -87,9 +88,10 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
 
     const { filter, selectedTemplateId, overrides, showAllSkills } = this.#state;
 
+    const categories = getCategories();
     const searchLower = filter.search.toLowerCase();
     const filtered = this.#templates.filter(t => {
-      if (filter.tier !== "all" && t.tier !== filter.tier) return false;
+      if (filter.tier !== "all" && getEffectiveCategory(t, categories) !== filter.tier) return false;
       if (searchLower) {
         const name = this._getTemplateName(t).toLowerCase();
         if (!name.includes(searchLower)) return false;
@@ -97,31 +99,35 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
       return true;
     });
 
+    const groupOrder = [...categories, UNCATEGORIZED];
+    const mapTemplate = (t) => ({
+      id: t.id,
+      displayName: this._getTemplateName(t),
+      hp: t.hp,
+      sp: Math.max(t.armor.head?.sp ?? 0, t.armor.body?.sp ?? 0),
+      topWeapon: t.weapons[0]?.itemName ?? "—",
+      selected: t.id === selectedTemplateId,
+      source: t.source ?? "built-in",
+      isCustom: (t.source ?? "built-in") !== "built-in",
+    });
+
     const tierGroups = [];
-    for (const tierId of TIER_ORDER) {
-      const tierTemplates = filtered.filter(t => t.tier === tierId);
-      if (tierTemplates.length === 0) continue;
+    for (const groupId of groupOrder) {
+      const groupTemplates = filtered.filter(t => getEffectiveCategory(t, categories) === groupId);
+      if (groupTemplates.length === 0) continue;
       tierGroups.push({
-        id: tierId,
-        label: game.i18n.localize(`crw.npc.tierName.${tierId}`),
-        count: tierTemplates.length,
-        templates: tierTemplates.map(t => ({
-          id: t.id,
-          displayName: this._getTemplateName(t),
-          hp: t.hp,
-          sp: Math.max(t.armor.head?.sp ?? 0, t.armor.body?.sp ?? 0),
-          topWeapon: t.weapons[0]?.itemName ?? "—",
-          selected: t.id === selectedTemplateId,
-          source: t.source ?? "built-in",
-          isCustom: (t.source ?? "built-in") !== "built-in",
-        })),
+        id: groupId,
+        label: groupId,
+        count: groupTemplates.length,
+        templates: groupTemplates.map(mapTemplate),
       });
     }
 
-    const tiers = TIER_ORDER.map(id => ({
-      id,
-      label: game.i18n.localize(`crw.npc.tierName.${id}`),
-      selected: filter.tier === id,
+    const hasUncategorized = filtered.some(t => getEffectiveCategory(t, categories) === UNCATEGORIZED);
+    const tiers = [...categories, ...(hasUncategorized ? [UNCATEGORIZED] : [])].map(name => ({
+      id: name,
+      label: name,
+      selected: filter.tier === name,
     }));
 
     let selected = null;
@@ -397,7 +403,7 @@ export default class NpcGeneratorApp extends HandlebarsApplicationMixin(Applicat
       id: foundry.utils.randomID(),
       name: "New Template",
       nameKey: null,
-      tier: "amateur",
+      tier: UNCATEGORIZED,
       source: "custom",
       stats: { int: 4, ref: 4, dex: 4, tech: 4, cool: 4, will: 4, luck: 0, move: 4, body: 4, emp: 4 },
       hp: 20,

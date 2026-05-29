@@ -4,6 +4,7 @@ import {
   parseStats, parseVitals, parseArmor, parseWeapons, parseSkills, parseEquipment, parseRoleAbility,
 } from "./parse-sections.js";
 import { addCyberware } from "./resolver.js";
+import { UNCATEGORIZED } from "../data/npc-categories.js";
 
 const MODULE_PATH = "modules/cyberpunk-red-wizards";
 
@@ -25,7 +26,7 @@ export async function parseStatblock(text, language = "en") {
     id: foundry.utils.randomID(),
     name: "Imported NPC",
     nameKey: null,
-    tier: "competent",
+    tier: UNCATEGORIZED,
     source: "imported",
     stats: { int: 0, ref: 0, dex: 0, tech: 0, cool: 0, will: 0, luck: 0, move: 0, body: 0, emp: 0 },
     hp: 0,
@@ -83,15 +84,6 @@ export async function parseStatblock(text, language = "en") {
   warnings.push(...equipResult.warnings);
 
   template.cyberware = cyberware;
-  template.tier = deriveTier(template.hp);
 
   return { template, errors, warnings };
-}
-
-function deriveTier(hp) {
-  if (hp <= 25) return "amateur";
-  if (hp <= 35) return "competent";
-  if (hp <= 40) return "elite";
-  if (hp <= 55) return "mini-boss";
-  return "nightmare-boss";
 }

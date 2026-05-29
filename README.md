@@ -40,13 +40,13 @@ Access via the **Character Creator** button in the Actors sidebar.
 
 ## NPC Generator
 
-Instantly create combat-ready NPCs from pre-built templates organized by threat tier — or build and import your own.
+Instantly create combat-ready NPCs from pre-built templates organized by category — or build and import your own.
 
 ![NPC Generator](docs/npc.png)
 
-**Tiers:** Amateur · Competent · Elite · Mini Boss · Nightmare Boss
+**Categories** are GM-editable: add, rename, reorder, or remove groups via **Module Settings → NPC Categories**. Templates whose category is removed appear under **Uncategorized**. The default categories are Amateur, Competent, Elite, Mini Boss, and Nightmare Boss — but any structure works.
 
-Each template includes pre-configured stats, armor, weapons, skills, cyberware, and equipment. Search and filter by tier, preview the full stat block, override the name, pick gear alternatives, and choose between **Mook** or **Character** actor type before creating.
+Each template includes pre-configured stats, armor, weapons, skills, cyberware, and equipment. Search and filter by category, preview the full stat block, override the name, pick gear alternatives, and choose between **Mook** or **Character** actor type before creating.
 
 **Custom templates:**
 - Start from a **New Blank Template** or **Save as Custom** from any built-in, then refine it in a multi-step editor (basics, combat, skills, extras)
@@ -78,9 +78,26 @@ Paste a Cyberpunk RED NPC statblock directly from the sourcebook (English or Pol
 | Equipment & Ammo | Matched to gear and ammo compendium packs |
 | Role Ability | Leading bold ability (e.g. *Interface 4*) resolved to role item and rank |
 
-Tier is inferred automatically from HP (Amateur ≤ 25 HP → Nightmare Boss > 55 HP).
+After parsing, the GM selects a category for the imported template in the preview dialog (defaults to Uncategorized). No category is inferred automatically from HP.
 
 Access via the **NPC Template** button in the Actors sidebar.
+
+---
+
+## Improvement
+
+Spend a character's **Improvement Points (IP)** to raise skills and roles, with a planning cart that lets you stage changes and see the full cost before committing.
+
+![Improvement](docs/improvement.png)
+
+- **Skills** grouped by category (Awareness, Body, Control, …) with a filter box; **+/−** to stage level changes
+- **Roles** raised by rank alongside skills
+- IP costs follow Cyberpunk RED Core (p. 134): skills cost `20 × next level` (`40 ×` for Difficult skills), roles cost `60 × next rank`
+- A running **Planned** banner and `IP: before → after` footer show the net spend before you apply
+- **Reset cart** to clear staged changes, **Cancel** to close, or **Apply** to commit them to the actor
+- Presence awareness warns when another user has the same character's Improvement window open
+
+Access via the **Improvement** button at the bottom of the Actors sidebar (available to the GM and to players with an assigned character).
 
 ---
 
