@@ -79,3 +79,28 @@ test("captures stats header line and the following number line", () => {
   eq(s.stats.length, 2);
   eq(s.stats[1], "5 — 7 4");
 });
+
+test("routes OCR-cased headers to the correct sections", () => {
+  const lines = [
+    "int ▶ ReF ▶ Dex ▶ teCh ▶ Cool 3 6 5 2 4",
+    "4 — 4 6 3",
+    "▶ hit Points ▶ seRously wounDeD ▶ DeAth sAve 35 18 6",
+    "Armor: Kevlar®", "Head 7 SP", "Body 7 SP",
+    "Weapons", "Poor Quality Shotgun 5d6",
+    "▶ skill bAses Athletics 9, Brawling 11",
+    "▶ CybeRwARe & sPeCiAl equiPment Slug Ammo x25, Radio Communicator",
+  ];
+  const s = sectionize(lines, map);
+  eq(s.stats.length, 2);
+  eq(s.vitals.join(" ").includes("35 18 6"), true);
+  eq(s.armor.length, 1);
+  eq(s.armor[0][0], "Armor: Kevlar®");
+  eq(s.weapons.length, 1);
+  eq(s.skills.join(" ").includes("Athletics 9"), true);
+  eq(s.equipment.join(" ").includes("Slug Ammo x25"), true);
+});
+test("captures inline content after a Weapons keyword on the same line", () => {
+  const s = sectionize(["Weapons Poor Quality Shotgun 5d6"], map);
+  eq(s.weapons.length, 1);
+  eq(s.weapons[0], ["Poor Quality Shotgun 5d6"]);
+});
