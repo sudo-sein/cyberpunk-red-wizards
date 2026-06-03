@@ -85,5 +85,33 @@ export async function parseStatblock(text, language = "en") {
 
   template.cyberware = cyberware;
 
-  return { template, errors, warnings };
+  const diagnostics = buildDiagnostics(template);
+  warnings.push(...diagnostics.warnings);
+
+  return { template, errors, warnings, diagnostics: diagnostics.report };
+}
+
+// Detect which expected sections actually produced data and warn on the gaps.
+// The expected core set is {stats, vitals, armor, weapons, skills}; gear
+// (equipment/cyberware) is optional and never scored or warned.
+function buildDiagnostics(template) {
+  const warnings = [];
+  const found = {
+    stats: Object.values(template.stats).some(v => v > 0),
+    vitals: !(template.hp === 0 && template.seriousWound === 0 && template.deathSave === 0),
+    armor: !!template.armor.head,
+    weapons: template.weapons.length > 0,
+    skills: template.skills.length > 0,
+  };
+  if (!found.vitals) warnings.push({ section: "vitals", message: "No Hit Points / vitals parsed" });
+  if (!found.armor) warnings.push({ section: "armor", message: "No armor parsed" });
+  if (!found.weapons) warnings.push({ section: "weapons", message: "No weapons parsed" });
+  if (!found.skills) warnings.push({ section: "skills", message: "No skills parsed" });
+
+  const core = ["stats", "vitals", "armor", "weapons", "skills"];
+  const report = {
+    sections: { ...found, equipment: template.equipment.length > 0 || template.cyberware.length > 0 },
+    score: { found: core.filter(k => found[k]).length, total: core.length },
+  };
+  return { warnings, report };
 }
