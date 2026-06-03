@@ -1,0 +1,16 @@
+int ▶ ReF ▶ Dex ▶ teCh ▶ Cool 4 6 5 3 5
+5 — 6 5 4
+▶ hit Points ▶ seRously wounDeD ▶ DeAth sAve 40 20 7
+▶ ARmoR
+Armor: Light Armorjack 11
+Head 11 SP
+Body 11 SP
+Weapons
+Medium Pistol 2d6
+Armor: Light Armorjack
+Head 11 SP
+Body 11 SP
+Weapons
+Medium Pistol 2d6
+▶ skill bAses Athletics 10, Brawling 10, Handgun 12, Perception 9, Stealth 8
+▶ CybeRwARe & sPeCiAl equiPment Pistol Ammo x25, Flashlight
