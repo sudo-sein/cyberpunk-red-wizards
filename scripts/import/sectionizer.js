@@ -37,9 +37,12 @@ export function sectionize(lines, map) {
 }
 
 // An armor line opens an armor block (e.g. "Armor: M Armorjack" or, on PL
-// cards, "Pancerz: Kevlar®"). Matched canonically to tolerate OCR casing.
+// cards, "Pancerz: Kevlar®"). Matched case-insensitively on the literal
+// keyword (colon included) so OCR letter-casing is tolerated while a
+// keyword-less line like "Armor Piercing Rifle Ammo" is NOT treated as armor.
 function isArmorOpener(line, armorKeywords) {
-  return armorKeywords.some(k => matchesHeader(line, k));
+  const lower = line.toLowerCase();
+  return armorKeywords.some(k => lower.startsWith(k.toLowerCase()));
 }
 
 // Match the stats header tolerantly: requires the five stat words in order

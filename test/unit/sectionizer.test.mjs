@@ -104,3 +104,13 @@ test("captures inline content after a Weapons keyword on the same line", () => {
   eq(s.weapons.length, 1);
   eq(s.weapons[0], ["Poor Quality Shotgun 5d6"]);
 });
+
+test("does not open an armor block for an 'Armor Piercing' equipment line", () => {
+  const lines = [
+    "▶ Cyberware & Special Equipment Grenade x2,",
+    "Armor Piercing Rifle Ammo x50",
+  ];
+  const s = sectionize(lines, map);
+  eq(s.armor.length, 0, "no spurious armor block");
+  eq(s.equipment.join(" ").includes("Armor Piercing Rifle Ammo x50"), true);
+});
