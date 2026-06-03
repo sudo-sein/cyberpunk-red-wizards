@@ -46,6 +46,16 @@
       </div>
       {{/if}}
 
+      {{!-- Confidence summary --}}
+      {{#if diagnosticsSummary}}
+      <div class="crw-import-messages crw-import-summary">
+        <div class="crw-category-title">{{localize "crw.import.confidence"}}</div>
+        <div class="crw-import-msg">
+          {{localize "crw.import.parsedSections"}}: {{diagnosticsSummary.found}} / {{diagnosticsSummary.total}}{{#if diagnosticsSummary.missing.length}} — {{localize "crw.import.missing"}}: {{diagnosticsSummary.missingLabel}}{{/if}}
+        </div>
+      </div>
+      {{/if}}
+
       {{!-- Preview --}}
       {{#if template}}
       <div class="crw-import-preview">

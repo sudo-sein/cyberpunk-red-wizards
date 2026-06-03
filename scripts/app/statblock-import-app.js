@@ -53,6 +53,14 @@ export default class StatblockImportApp extends HandlebarsApplicationMixin(Appli
 
   async _prepareContext() {
     const { language, inputText, result } = this.#state;
+    const diag = result?.diagnostics ?? null;
+    const CORE = ["stats", "vitals", "armor", "weapons", "skills"];
+    const diagnosticsSummary = diag ? {
+      found: diag.score.found,
+      total: diag.score.total,
+      missing: CORE.filter(k => !diag.sections[k]),
+      missingLabel: CORE.filter(k => !diag.sections[k]).join(", "),
+    } : null;
     return {
       language,
       inputText,
@@ -67,6 +75,7 @@ export default class StatblockImportApp extends HandlebarsApplicationMixin(Appli
         name,
         selected: name === (result?.template?.tier ?? UNCATEGORIZED),
       })),
+      diagnosticsSummary,
     };
   }
 
