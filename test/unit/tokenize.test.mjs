@@ -3,7 +3,7 @@ import { deepStrictEqual as eq } from "node:assert/strict";
 import {
   splitTopLevel, extractStatNumbers, splitNameAndLevel,
   parseQuantity, stripQualityPrefix, splitOnParenBoundary, escapeRegExp,
-  armorKeywordList,
+  armorKeywordList, canonical, matchesHeader,
 } from "../../scripts/import/tokenize.js";
 
 test("splitTopLevel ignores commas inside parens", () => {
@@ -74,4 +74,16 @@ test("splitOnParenBoundary leaves existing comma alone", () => {
 });
 test("escapeRegExp", () => {
   eq(escapeRegExp("a.b(c)"), "a\\.b\\(c\\)");
+});
+test("canonical folds bullet, case, and punctuation to alnum words", () => {
+  eq(canonical("▶ CybeRwARe & sPeCiAl equiPment"), "cyberware special equipment");
+  eq(canonical(" int ▶ ReF ▶ Dex ▶ teCh ▶ Cool"), "int ref dex tech cool");
+  eq(canonical("Head 7 SP"), "head 7 sp");
+});
+test("matchesHeader is case/punctuation tolerant and word-anchored", () => {
+  eq(matchesHeader("▶ hit Points ▶ seRously wounDeD 35 18 6", "▶ Hit Points"), true);
+  eq(matchesHeader("▶ skill bAses Athletics 9", "▶ Skill Bases"), true);
+  eq(matchesHeader("▶ CybeRwARe & sPeCiAl equiPment Slug Ammo x25", "▶ Cyberware & Special Equipment"), true);
+  eq(matchesHeader("Skillz of the trade", "▶ Skill Bases"), false);
+  eq(matchesHeader("Weaponstech 5", "Weapons"), false);
 });

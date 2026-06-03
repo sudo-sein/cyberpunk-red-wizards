@@ -81,3 +81,28 @@ export function armorKeywordList(labels) {
 export function splitOnParenBoundary(str) {
   return str.replace(/\)\s+(?=[A-ZÀ-ſ])/g, "), ");
 }
+
+// Decorative/format code points PDF copy injects, plus the ▶ section bullet.
+// U+00AD soft hyphen, U+200B zero-width space, U+200C ZWNJ, U+200D ZWJ,
+// U+2060 word joiner, U+FEFF BOM/ZWNBSP, U+FFFE, U+FFFF, U+25B6 ▶.
+const DECORATIVE = /[­​‌‍⁠﻿￾￿▶]/g;
+
+// Fold a line for header matching: drop the ▶ bullet and decorative chars,
+// lowercase, reduce to alphanumeric words separated by single spaces.
+// "▶ CybeRwARe & sPeCiAl equiPment" -> "cyberware special equipment".
+export function canonical(s) {
+  return (s ?? "")
+    .replace(DECORATIVE, " ")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+}
+
+// True when `line` begins with `headerPhrase` on a word boundary, ignoring
+// case, the ▶ bullet, and punctuation.
+export function matchesHeader(line, headerPhrase) {
+  const h = canonical(headerPhrase);
+  if (!h) return false;
+  const l = canonical(line);
+  return l === h || l.startsWith(h + " ");
+}
