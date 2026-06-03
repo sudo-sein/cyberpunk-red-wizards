@@ -64,3 +64,14 @@ test("collapses internal whitespace per line", () => {
   const { lines } = normalize("Head    13   SP", map);
   eq(lines[0], "Head 13 SP");
 });
+
+test("strips junk armor block when the ▶ marker has OCR casing", () => {
+  const text = [
+    "▶ ARmoR", "Armor: Kevlar 6", "Head 7 SP", "Body 7 SP",
+    "Weapons", "Poor Quality Shotgun 5d6", "Very Heavy Pistol 4d6",
+    "Armor: Kevlar®", "Head 7 SP", "Body 7 SP",
+  ].join("\n");
+  const { lines } = normalize(text, map);
+  eq(lines.includes("Armor: Kevlar 6"), false, "junk Kevlar 6 removed");
+  eq(lines.includes("Armor: Kevlar®"), true, "real armor kept");
+});
