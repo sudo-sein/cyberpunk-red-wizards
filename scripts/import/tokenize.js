@@ -106,3 +106,25 @@ export function matchesHeader(line, headerPhrase) {
   const l = canonical(line);
   return l === h || l.startsWith(h + " ");
 }
+
+// Strip a leading header phrase from a line, case/punctuation tolerant, and
+// return the remaining ORIGINAL text verbatim (downstream resolvers need the
+// real casing/punctuation of item names). Non-matching lines are returned
+// trimmed but otherwise unchanged.
+export function stripLeadingHeader(line, headerPhrase) {
+  const tokens = canonical(headerPhrase).split(" ").filter(Boolean);
+  if (!tokens.length) return (line ?? "").trim();
+  const sep = "[^\\p{L}\\p{N}]";
+  const pattern = "^" + sep + "*" + tokens.map(escapeRegExp).join(sep + "+") + sep + "*";
+  const re = new RegExp(pattern, "iu");
+  return re.test(line) ? line.replace(re, "").trim() : (line ?? "").trim();
+}
+
+// Case-insensitive lookup in a plain string-keyed object.
+export function ciGet(obj, name) {
+  if (!obj || name == null) return undefined;
+  if (obj[name] !== undefined) return obj[name];
+  const lower = String(name).toLowerCase();
+  const hit = Object.entries(obj).find(([k]) => k.toLowerCase() === lower);
+  return hit ? hit[1] : undefined;
+}

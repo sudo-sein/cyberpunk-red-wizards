@@ -4,6 +4,7 @@ import {
   splitTopLevel, extractStatNumbers, splitNameAndLevel,
   parseQuantity, stripQualityPrefix, splitOnParenBoundary, escapeRegExp,
   armorKeywordList, canonical, matchesHeader,
+  stripLeadingHeader, ciGet,
 } from "../../scripts/import/tokenize.js";
 
 test("splitTopLevel ignores commas inside parens", () => {
@@ -86,4 +87,21 @@ test("matchesHeader is case/punctuation tolerant and word-anchored", () => {
   eq(matchesHeader("▶ CybeRwARe & sPeCiAl equiPment Slug Ammo x25", "▶ Cyberware & Special Equipment"), true);
   eq(matchesHeader("Skillz of the trade", "▶ Skill Bases"), false);
   eq(matchesHeader("Weaponstech 5", "Weapons"), false);
+});
+test("stripLeadingHeader removes a case/punctuation-garbled header prefix", () => {
+  eq(stripLeadingHeader("▶ skill bAses Athletics 9, Brawling 11", "▶ Skill Bases"),
+     "Athletics 9, Brawling 11");
+  eq(stripLeadingHeader("▶ CybeRwARe & sPeCiAl equiPment Slug Ammo x25", "▶ Cyberware & Special Equipment"),
+     "Slug Ammo x25");
+  eq(stripLeadingHeader("Armor: Kevlar®", "Armor:"), "Kevlar®");
+  eq(stripLeadingHeader("Weapons", "Weapons"), "");
+});
+test("stripLeadingHeader leaves non-matching text untouched", () => {
+  eq(stripLeadingHeader("Athletics 9", "▶ Skill Bases"), "Athletics 9");
+});
+test("ciGet does case-insensitive object lookup", () => {
+  const o = { "Kevlar": { sp: 7 } };
+  eq(ciGet(o, "kevlar"), { sp: 7 });
+  eq(ciGet(o, "Kevlar"), { sp: 7 });
+  eq(ciGet(o, "Flak"), undefined);
 });
