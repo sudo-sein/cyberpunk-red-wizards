@@ -5,6 +5,7 @@ import {
 } from "./parse-sections.js";
 import { addCyberware } from "./resolver.js";
 import { UNCATEGORIZED } from "../data/npc-categories.js";
+import { CORE_IMPORT_SECTIONS } from "../constants.js";
 
 const MODULE_PATH = "modules/cyberpunk-red-wizards";
 
@@ -108,10 +109,9 @@ function buildDiagnostics(template) {
   if (!found.weapons) warnings.push({ section: "weapons", message: "No weapons parsed" });
   if (!found.skills) warnings.push({ section: "skills", message: "No skills parsed" });
 
-  const core = ["stats", "vitals", "armor", "weapons", "skills"];
   const report = {
     sections: { ...found, equipment: template.equipment.length > 0 || template.cyberware.length > 0 },
-    score: { found: core.filter(k => found[k]).length, total: core.length },
+    score: { found: CORE_IMPORT_SECTIONS.filter(k => found[k]).length, total: CORE_IMPORT_SECTIONS.length },
   };
   return { warnings, report };
 }
