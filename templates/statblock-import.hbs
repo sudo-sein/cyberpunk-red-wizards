@@ -3,7 +3,7 @@
     {{!-- Language selector --}}
     <div class="crw-editor-row">
       <div class="crw-editor-field">
-        <label class="crw-label">{{localize "crw.import.language"}}</label>
+        <div class="crw-category-title">{{localize "crw.import.language"}}</div>
         <select name="language" class="crw-input crw-select">
           <option value="en" {{#if (eq language "en")}}selected{{/if}}>English</option>
           <option value="pl" {{#if (eq language "pl")}}selected{{/if}}>Polski</option>
@@ -13,7 +13,7 @@
 
     {{!-- Textarea --}}
     <div class="crw-editor-field">
-      <label class="crw-label">{{localize "crw.import.paste"}}</label>
+      <div class="crw-category-title">{{localize "crw.import.paste"}}</div>
       <textarea name="statblockText" class="crw-input crw-import-textarea">{{inputText}}</textarea>
     </div>
 
@@ -56,6 +56,15 @@
       </div>
       {{/if}}
 
+      <div class="crw-editor-field" style="margin-top:8px;">
+          <div class="crw-category-title">{{localize "crw.npc.editor.tier"}}</div>
+        <select name="importCategory" class="crw-input crw-select">
+          {{#each categories}}
+          <option value="{{this.name}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
+          {{/each}}
+        </select>
+      </div>
+
       {{!-- Preview --}}
       {{#if template}}
       <div class="crw-import-preview">
@@ -72,14 +81,6 @@
           <span><strong>{{localize "crw.npc.ui.hp"}}:</strong> {{template.hp}}</span>
           <span><strong>{{localize "crw.npc.ui.seriousWound"}}:</strong> {{template.seriousWound}}</span>
           <span><strong>{{localize "crw.npc.ui.deathSave"}}:</strong> {{template.deathSave}}</span>
-        </div>
-        <div class="crw-editor-field" style="margin-top:8px;">
-          <label class="crw-label">{{localize "crw.npc.editor.tier"}}</label>
-          <select name="importCategory" class="crw-input crw-select">
-            {{#each categories}}
-            <option value="{{this.name}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
-            {{/each}}
-          </select>
         </div>
 
         {{#if template.armor.head}}
