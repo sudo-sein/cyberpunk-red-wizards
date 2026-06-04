@@ -119,6 +119,11 @@ test("parseSkills strips an OCR-cased Skill Bases header", () => {
   eq(r.skills, [{ name: "Athletics", base: 11 }, { name: "Heavy Weapons", base: 14 }]);
 });
 
+test("parseStats splits a single inline stat line of 10 numbers 5/5", () => {
+  const { stats } = parseStats(["int ▶ ReF ▶ Dex ▶ teCh ▶ Cool 3 6 5 2 4 4 — 4 6 3"]);
+  eq(stats, { int: 3, ref: 6, dex: 5, tech: 2, cool: 4, will: 4, luck: 0, move: 4, body: 6, emp: 3 });
+});
+
 test("parseEquipment routes cyberware vs gear and ignores cyberware quantity", () => {
   const r = parseEquipment(["▶ Cyberware & Special Equipment Cyberarm x2"], map);
   eq(r.cyberware, [{ packName: "core_cyberware", itemName: "Cyberarm" }]);

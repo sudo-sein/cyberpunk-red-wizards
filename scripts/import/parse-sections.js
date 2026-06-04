@@ -17,10 +17,19 @@ export function parseStats(statLines) {
     primary = extractStatNumbers(statLines[1]);
     secondLine = statLines[2] ?? "";
   }
+
+  // Inline statblocks pack both stat rows onto one line (10 values). When the
+  // primary line already carries >=10 numbers and there is no usable second
+  // line, split it 5/5 into primary and secondary.
+  let secondary = extractStatNumbers(secondLine);
+  if (primary.length >= 10 && secondary.length < 5) {
+    secondary = primary.slice(5, 10);
+    primary = primary.slice(0, 5);
+  }
+
   if (primary.length >= 5) STATS1.forEach((k, i) => { stats[k] = primary[i]; });
   else warnings.push({ section: "stats", message: "Could not parse INT/REF/DEX/TECH/COOL line" });
 
-  const secondary = extractStatNumbers(secondLine);
   STATS2.forEach((k, i) => { stats[k] = secondary[i] ?? 0; });
   if (secondary.length < 5) {
     warnings.push({ section: "stats", message: `Second stat line had ${secondary.length} of 5 values; missing set to 0` });
