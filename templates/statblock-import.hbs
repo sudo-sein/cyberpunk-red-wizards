@@ -101,6 +101,25 @@
         {{/each}}
         {{/if}}
 
+        {{#if template.cyberware.length}}
+        <div class="crw-category-title">{{localize "crw.npc.ui.cyberware"}}</div>
+        {{#each template.cyberware}}
+        <div class="crw-npc-gear-row">
+          <span class="crw-npc-gear-name">{{this.itemName}}</span>
+        </div>
+        {{/each}}
+        {{/if}}
+
+        {{#if template.equipment.length}}
+        <div class="crw-category-title">{{localize "crw.npc.ui.equipment"}}</div>
+        {{#each template.equipment}}
+        <div class="crw-npc-gear-row">
+          <span class="crw-npc-gear-name">{{this.itemName}}</span>
+          {{#if (gt this.quantity 1)}}<span class="crw-npc-gear-detail">×{{this.quantity}}</span>{{/if}}
+        </div>
+        {{/each}}
+        {{/if}}
+
         {{#if template.skills.length}}
         <div class="crw-category-title">{{localize "crw.npc.ui.skills"}}</div>
         <div class="crw-npc-skills-list">
