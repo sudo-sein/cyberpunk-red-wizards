@@ -3,7 +3,7 @@
     {{!-- Language selector --}}
     <div class="crw-editor-row">
       <div class="crw-editor-field">
-        <label class="crw-label">{{localize "crw.import.language"}}</label>
+        <div class="crw-category-title">{{localize "crw.import.language"}}</div>
         <select name="language" class="crw-input crw-select">
           <option value="en" {{#if (eq language "en")}}selected{{/if}}>English</option>
           <option value="pl" {{#if (eq language "pl")}}selected{{/if}}>Polski</option>
@@ -13,7 +13,7 @@
 
     {{!-- Textarea --}}
     <div class="crw-editor-field">
-      <label class="crw-label">{{localize "crw.import.paste"}}</label>
+      <div class="crw-category-title">{{localize "crw.import.paste"}}</div>
       <textarea name="statblockText" class="crw-input crw-import-textarea">{{inputText}}</textarea>
     </div>
 
@@ -46,6 +46,25 @@
       </div>
       {{/if}}
 
+      {{!-- Confidence summary --}}
+      {{#if diagnosticsSummary}}
+      <div class="crw-import-messages crw-import-summary">
+        <div class="crw-category-title">{{localize "crw.import.confidence"}}</div>
+        <div class="crw-import-msg">
+          {{localize "crw.import.parsedSections"}}: {{diagnosticsSummary.found}} / {{diagnosticsSummary.total}}{{#if diagnosticsSummary.missing.length}} — {{localize "crw.import.missing"}}: {{diagnosticsSummary.missingLabel}}{{/if}}
+        </div>
+      </div>
+      {{/if}}
+
+      <div class="crw-editor-field" style="margin-top:8px;">
+          <div class="crw-category-title">{{localize "crw.npc.editor.tier"}}</div>
+        <select name="importCategory" class="crw-input crw-select">
+          {{#each categories}}
+          <option value="{{this.name}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
+          {{/each}}
+        </select>
+      </div>
+
       {{!-- Preview --}}
       {{#if template}}
       <div class="crw-import-preview">
@@ -63,14 +82,6 @@
           <span><strong>{{localize "crw.npc.ui.seriousWound"}}:</strong> {{template.seriousWound}}</span>
           <span><strong>{{localize "crw.npc.ui.deathSave"}}:</strong> {{template.deathSave}}</span>
         </div>
-        <div class="crw-editor-field" style="margin-top:8px;">
-          <label class="crw-label">{{localize "crw.npc.editor.tier"}}</label>
-          <select name="importCategory" class="crw-input crw-select">
-            {{#each categories}}
-            <option value="{{this.name}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
-            {{/each}}
-          </select>
-        </div>
 
         {{#if template.armor.head}}
         <div class="crw-category-title">{{localize "crw.npc.ui.armor"}}</div>
@@ -86,6 +97,25 @@
         <div class="crw-npc-gear-row">
           <span class="crw-npc-gear-name">{{this.itemName}}{{#if (eq this.quality "poor")}} (Poor){{/if}}{{#if (eq this.quality "excellent")}} (Excellent){{/if}}</span>
           <span class="crw-npc-gear-detail">{{this.damage}}</span>
+        </div>
+        {{/each}}
+        {{/if}}
+
+        {{#if template.cyberware.length}}
+        <div class="crw-category-title">{{localize "crw.npc.ui.cyberware"}}</div>
+        {{#each template.cyberware}}
+        <div class="crw-npc-gear-row">
+          <span class="crw-npc-gear-name">{{this.itemName}}</span>
+        </div>
+        {{/each}}
+        {{/if}}
+
+        {{#if template.equipment.length}}
+        <div class="crw-category-title">{{localize "crw.npc.ui.equipment"}}</div>
+        {{#each template.equipment}}
+        <div class="crw-npc-gear-row">
+          <span class="crw-npc-gear-name">{{this.itemName}}</span>
+          {{#if (gt this.quantity 1)}}<span class="crw-npc-gear-detail">×{{this.quantity}}</span>{{/if}}
         </div>
         {{/each}}
         {{/if}}

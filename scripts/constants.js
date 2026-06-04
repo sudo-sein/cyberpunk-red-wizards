@@ -14,3 +14,9 @@ export const STAT_ABBRS = {
   int: "INT", ref: "REF", dex: "DEX", tech: "TECH", cool: "COOL",
   will: "WILL", luck: "LUCK", move: "MOVE", body: "BODY", emp: "EMP",
 };
+
+// Core statblock-import sections that count toward parse confidence. Gear
+// (equipment/cyberware) is intentionally excluded — it is optional and never
+// scored or warned. Shared by the parser's diagnostics and the import UI so the
+// scored set stays in lockstep.
+export const CORE_IMPORT_SECTIONS = ["stats", "vitals", "armor", "weapons", "skills"];

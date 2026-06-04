@@ -2,6 +2,7 @@ import { parseStatblock } from "../import/statblock-parser.js";
 import { createNpcFromTemplate } from "../npc/npc-factory.js";
 import { getCustomTemplates, saveCustomTemplates } from "../data/npc-loader.js";
 import { getCategories, UNCATEGORIZED } from "../data/npc-categories.js";
+import { CORE_IMPORT_SECTIONS } from "../constants.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -53,6 +54,14 @@ export default class StatblockImportApp extends HandlebarsApplicationMixin(Appli
 
   async _prepareContext() {
     const { language, inputText, result } = this.#state;
+    const diag = result?.diagnostics ?? null;
+    const missing = diag ? CORE_IMPORT_SECTIONS.filter(k => !diag.sections[k]) : [];
+    const diagnosticsSummary = diag ? {
+      found: diag.score.found,
+      total: diag.score.total,
+      missing,
+      missingLabel: missing.join(", "),
+    } : null;
     return {
       language,
       inputText,
@@ -67,6 +76,7 @@ export default class StatblockImportApp extends HandlebarsApplicationMixin(Appli
         name,
         selected: name === (result?.template?.tier ?? UNCATEGORIZED),
       })),
+      diagnosticsSummary,
     };
   }
 

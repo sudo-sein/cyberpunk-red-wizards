@@ -1,0 +1,28 @@
+{
+  "id": "ocr-mook",
+  "name": "OCR Mook",
+  "stats": { "int": 4, "ref": 6, "dex": 5, "tech": 3, "cool": 5, "will": 5, "luck": 0, "move": 6, "body": 5, "emp": 4 },
+  "hp": 40,
+  "seriousWound": 20,
+  "deathSave": 7,
+  "armor": {
+    "head": { "name": "Light Armorjack", "sp": 11, "packName": "core_armor", "itemName": "Light Armorjack (Head)" },
+    "body": { "name": "Light Armorjack", "sp": 11, "packName": "core_armor", "itemName": "Light Armorjack (Body)" }
+  },
+  "weapons": [
+    { "packName": "core_weapons", "itemName": "Medium Pistol", "quality": "standard", "damage": "2d6" }
+  ],
+  "skills": [
+    { "name": "Athletics", "base": 10 },
+    { "name": "Brawling", "base": 10 },
+    { "name": "Handgun", "base": 12 },
+    { "name": "Perception", "base": 9 },
+    { "name": "Stealth", "base": 8 }
+  ],
+  "equipment": [
+    { "packName": "core_ammo", "itemName": "Medium Pistol (Basic)", "quantity": 25 },
+    { "packName": "core_gear", "itemName": "Flashlight", "quantity": 1 }
+  ],
+  "cyberware": [],
+  "role": null
+}

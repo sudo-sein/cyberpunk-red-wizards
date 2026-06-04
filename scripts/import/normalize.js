@@ -42,35 +42,34 @@ export function normalize(text, map) {
 }
 
 // Remove everything from the junk "▶ Armor" marker up to the SECOND armor
-// label (the real card's armor block). Cards list armor with no "▶". The junk
-// block's own armor line is the first label after the marker; the real card's
-// is the second. Collecting positions across every configured armor keyword
-// keeps this working when the real card's keyword differs from the junk
-// block's (PL cards: junk "Armor:", real "Pancerz:"). If there is no second
-// label, cut up to the next known section header instead.
+// label (the real card's armor block). Matching is case-insensitive so OCR
+// casing on the marker ("▶ ARmoR") or labels still resolves. Indices come from
+// a lowercased mirror but slices apply to the original text.
 function stripJunkArmorBlock(full, map) {
+  const lower = full.toLowerCase();
   const marker = map.labels.junkArmorMarker;
-  const markerIdx = full.indexOf(marker);
+  const markerIdx = lower.indexOf(marker.toLowerCase());
   if (markerIdx === -1) return full;
 
   const positions = [];
   for (const label of armorKeywordList(map.labels)) {
-    let idx = full.indexOf(label, markerIdx + marker.length);
-    while (idx !== -1) { positions.push(idx); idx = full.indexOf(label, idx + label.length); }
+    const labelLower = label.toLowerCase();
+    let idx = lower.indexOf(labelLower, markerIdx + marker.length);
+    while (idx !== -1) { positions.push(idx); idx = lower.indexOf(labelLower, idx + labelLower.length); }
   }
   positions.sort((a, b) => a - b);
 
   const cutEnd = positions.length >= 2
     ? positions[1]
-    : findNextSectionStart(full, markerIdx + marker.length, map.sectionHeaders);
+    : findNextSectionStart(lower, markerIdx + marker.length, map.sectionHeaders);
   if (cutEnd === -1) return full;
   return full.slice(0, markerIdx) + full.slice(cutEnd);
 }
 
-function findNextSectionStart(text, fromIdx, headers) {
+function findNextSectionStart(lowerText, fromIdx, headers) {
   let earliest = -1;
   for (const key of Object.keys(headers)) {
-    const idx = text.indexOf(headers[key], fromIdx);
+    const idx = lowerText.indexOf(headers[key].toLowerCase(), fromIdx);
     if (idx !== -1 && (earliest === -1 || idx < earliest)) earliest = idx;
   }
   return earliest;

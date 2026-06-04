@@ -17,6 +17,7 @@ const map = {
   armor: {
     "M Armorjack": { head: "Medium Armorjack (Head)", body: "Medium Armorjack (Body)", sp: 13 },
     "Subdermal": { sp: 11, cyberware: "Subdermal Armor" },
+    "Kevlar": { head: "Kevlar® (Head)", body: "Kevlar® (Body)", sp: 7 },
   },
   ammo: {},
   equipment: { "Cyberarm": { packName: "core_cyberware", itemName: "Cyberarm" } },
@@ -102,6 +103,25 @@ test("parseRoleAbility maps ability line to role with rank from level", () => {
 });
 test("parseRoleAbility returns null when section absent", () => {
   eq(parseRoleAbility([], map), null);
+});
+
+test("parseArmor strips a trailing SP-icon number from the armor name", () => {
+  const a = parseArmor([["Armor: Kevlar 6", "Head 7 SP", "Body 7 SP"]], map);
+  eq(a.head, { name: "Kevlar", sp: 7, packName: "core_armor", itemName: "Kevlar® (Head)" });
+});
+test("parseArmor resolves a ® armor name case-insensitively", () => {
+  const a = parseArmor([["Armor: Kevlar®", "Head 7 SP", "Body 7 SP"]], map);
+  eq(a.head, { name: "Kevlar®", sp: 7, packName: "core_armor", itemName: "Kevlar® (Head)" });
+  eq(a.body, { name: "Kevlar®", sp: 7, packName: "core_armor", itemName: "Kevlar® (Body)" });
+});
+test("parseSkills strips an OCR-cased Skill Bases header", () => {
+  const r = parseSkills(["▶ skill bAses Athletics 11, Heavy Weapons 14"], map);
+  eq(r.skills, [{ name: "Athletics", base: 11 }, { name: "Heavy Weapons", base: 14 }]);
+});
+
+test("parseStats splits a single inline stat line of 10 numbers 5/5", () => {
+  const { stats } = parseStats(["int ▶ ReF ▶ Dex ▶ teCh ▶ Cool 3 6 5 2 4 4 — 4 6 3"]);
+  eq(stats, { int: 3, ref: 6, dex: 5, tech: 2, cool: 4, will: 4, luck: 0, move: 4, body: 6, emp: 3 });
 });
 
 test("parseEquipment routes cyberware vs gear and ignores cyberware quantity", () => {

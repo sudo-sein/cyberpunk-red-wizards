@@ -81,3 +81,50 @@ export function armorKeywordList(labels) {
 export function splitOnParenBoundary(str) {
   return str.replace(/\)\s+(?=[A-ZÀ-ſ])/g, "), ");
 }
+
+// Decorative/format code points PDF copy injects, plus the ▶ section bullet.
+// U+00AD soft hyphen, U+200B zero-width space, U+200C ZWNJ, U+200D ZWJ,
+// U+2060 word joiner, U+FEFF BOM/ZWNBSP, U+FFFE, U+FFFF, U+25B6 ▶.
+const DECORATIVE = /[­​‌‍⁠﻿￾￿▶]/g;
+
+// Fold a line for header matching: drop the ▶ bullet and decorative chars,
+// lowercase, reduce to alphanumeric words separated by single spaces.
+// "▶ CybeRwARe & sPeCiAl equiPment" -> "cyberware special equipment".
+export function canonical(s) {
+  return (s ?? "")
+    .replace(DECORATIVE, " ")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+}
+
+// True when `line` begins with `headerPhrase` on a word boundary, ignoring
+// case, the ▶ bullet, and punctuation.
+export function matchesHeader(line, headerPhrase) {
+  const h = canonical(headerPhrase);
+  if (!h) return false;
+  const l = canonical(line);
+  return l === h || l.startsWith(h + " ");
+}
+
+// Strip a leading header phrase from a line, case/punctuation tolerant, and
+// return the remaining ORIGINAL text verbatim (downstream resolvers need the
+// real casing/punctuation of item names). Non-matching lines are returned
+// trimmed but otherwise unchanged.
+export function stripLeadingHeader(line, headerPhrase) {
+  const tokens = canonical(headerPhrase).split(" ").filter(Boolean);
+  if (!tokens.length) return (line ?? "").trim();
+  const sep = "[^\\p{L}\\p{N}]";
+  const pattern = "^" + sep + "*" + tokens.map(escapeRegExp).join(sep + "+") + sep + "*";
+  const re = new RegExp(pattern, "iu");
+  return re.test(line) ? line.replace(re, "").trim() : (line ?? "").trim();
+}
+
+// Case-insensitive lookup in a plain string-keyed object.
+export function ciGet(obj, name) {
+  if (!obj || name == null) return undefined;
+  if (obj[name] !== undefined) return obj[name];
+  const lower = String(name).toLowerCase();
+  const hit = Object.entries(obj).find(([k]) => k.toLowerCase() === lower);
+  return hit ? hit[1] : undefined;
+}

@@ -3,7 +3,7 @@ import { deepStrictEqual as eq } from "node:assert/strict";
 import { sectionize } from "../../scripts/import/sectionizer.js";
 
 const map = {
-  labels: { armorKeyword: "Armor:", weaponsKeyword: "Weapons" },
+  labels: { armorKeyword: "Armor:", weaponsKeyword: "Weapons", headSp: "Head\\s+\\d+\\s*SP", bodySp: "Body\\s+\\d+\\s*SP" },
   sectionHeaders: {
     stats: "▶ INT ▶ REF ▶ DEX ▶ TECH ▶ COOL",
     hp: "▶ Hit Points", armor: "Armor:", weapons: "Weapons",
@@ -78,4 +78,69 @@ test("captures stats header line and the following number line", () => {
   const s = sectionize(lines, map);
   eq(s.stats.length, 2);
   eq(s.stats[1], "5 — 7 4");
+});
+
+test("routes OCR-cased headers to the correct sections", () => {
+  const lines = [
+    "int ▶ ReF ▶ Dex ▶ teCh ▶ Cool 3 6 5 2 4",
+    "4 — 4 6 3",
+    "▶ hit Points ▶ seRously wounDeD ▶ DeAth sAve 35 18 6",
+    "Armor: Kevlar®", "Head 7 SP", "Body 7 SP",
+    "Weapons", "Poor Quality Shotgun 5d6",
+    "▶ skill bAses Athletics 9, Brawling 11",
+    "▶ CybeRwARe & sPeCiAl equiPment Slug Ammo x25, Radio Communicator",
+  ];
+  const s = sectionize(lines, map);
+  eq(s.stats.length, 2);
+  eq(s.vitals.join(" ").includes("35 18 6"), true);
+  eq(s.armor.length, 1);
+  eq(s.armor[0][0], "Armor: Kevlar®");
+  eq(s.weapons.length, 1);
+  eq(s.skills.join(" ").includes("Athletics 9"), true);
+  eq(s.equipment.join(" ").includes("Slug Ammo x25"), true);
+});
+test("captures inline content after a Weapons keyword on the same line", () => {
+  const s = sectionize(["Weapons Poor Quality Shotgun 5d6"], map);
+  eq(s.weapons.length, 1);
+  eq(s.weapons[0], ["Poor Quality Shotgun 5d6"]);
+});
+
+test("does not open an armor block for an 'Armor Piercing' equipment line", () => {
+  const lines = [
+    "▶ Cyberware & Special Equipment Grenade x2,",
+    "Armor Piercing Rifle Ammo x50",
+  ];
+  const s = sectionize(lines, map);
+  eq(s.armor.length, 0, "no spurious armor block");
+  eq(s.equipment.join(" ").includes("Armor Piercing Rifle Ammo x50"), true);
+});
+
+test("dispatches a single-line inline statblock into the right sections", () => {
+  const blob = "int ▶ ReF ▶ Dex ▶ teCh ▶ Cool 3 6 5 2 4 4 — 4 6 3 ▶ hit Points ▶ seRously wounDeD ▶ DeAth sAve 35 18 6 Armor: Kevlar® Head 7 SP Body 7 SP Weapons Poor Quality Shotgun 5d6 Very Heavy Pistol 4d6 ▶ skill bAses Athletics 9, Heavy Weapons 14, Stealth 7 ▶ CybeRwARe & sPeCiAl equiPment Slug Ammo x25, Radio Communicator";
+  const s = sectionize([blob], map);
+  eq(s.stats.length, 1);
+  eq(s.stats[0].includes("3 6 5 2 4"), true);
+  eq(s.vitals.join(" ").includes("35 18 6"), true);
+  eq(s.armor.length, 1);
+  eq(s.armor[0][0], "Armor: Kevlar®");
+  eq(s.armor[0].join(" ").includes("Head 7 SP"), true);
+  eq(s.weapons.length, 1);
+  eq(s.weapons[0].join(" ").includes("Poor Quality Shotgun 5d6"), true);
+  eq(s.skills.join(" ").includes("Athletics 9"), true);
+  eq(s.skills.join(" ").includes("Heavy Weapons 14"), true, "Heavy Weapons stays in skills");
+  eq(s.equipment.join(" ").includes("Slug Ammo x25"), true);
+});
+test("line-broken input is unaffected by the inline strategy", () => {
+  const lines = [
+    "▶ INT ▶ REF ▶ DEX ▶ TECH ▶ COOL 4 8 6 4 6",
+    "5 — 7 4",
+    "▶ Hit Points 40 20 7",
+    "Armor: M Armorjack", "Head 13 SP", "Body 13 SP",
+    "Weapons", "Assault Rifle 5d6",
+    "▶ Skill Bases Athletics 10, Heavy Weapons 12",
+  ];
+  const s = sectionize(lines, map);
+  eq(s.weapons.length, 1);
+  eq(s.skills.join(" ").includes("Heavy Weapons 12"), true);
+  eq(s.armor[0][0], "Armor: M Armorjack");
 });

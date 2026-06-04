@@ -1,4 +1,4 @@
-import { extractStatNumbers, splitTopLevel, splitNameAndLevel, splitOnParenBoundary, escapeRegExp, armorKeywordList } from "./tokenize.js";
+import { extractStatNumbers, splitTopLevel, splitNameAndLevel, splitOnParenBoundary, armorKeywordList, ciGet, matchesHeader, stripLeadingHeader } from "./tokenize.js";
 import { resolveWeapon, resolveSkillOrRole, resolveEquipmentToken, addCyberware } from "./resolver.js";
 
 const STATS1 = ["int", "ref", "dex", "tech", "cool"];
@@ -17,10 +17,19 @@ export function parseStats(statLines) {
     primary = extractStatNumbers(statLines[1]);
     secondLine = statLines[2] ?? "";
   }
+
+  // Inline statblocks pack both stat rows onto one line (10 values). When the
+  // primary line already carries >=10 numbers and there is no usable second
+  // line, split it 5/5 into primary and secondary.
+  let secondary = extractStatNumbers(secondLine);
+  if (primary.length >= 10 && secondary.length < 5) {
+    secondary = primary.slice(5, 10);
+    primary = primary.slice(0, 5);
+  }
+
   if (primary.length >= 5) STATS1.forEach((k, i) => { stats[k] = primary[i]; });
   else warnings.push({ section: "stats", message: "Could not parse INT/REF/DEX/TECH/COOL line" });
 
-  const secondary = extractStatNumbers(secondLine);
   STATS2.forEach((k, i) => { stats[k] = secondary[i] ?? 0; });
   if (secondary.length < 5) {
     warnings.push({ section: "stats", message: `Second stat line had ${secondary.length} of 5 values; missing set to 0` });
@@ -44,11 +53,11 @@ export function parseArmor(armorBlocks, map) {
   const entries = armorBlocks.map(block => {
     const text = block.join(" ");
     const nameLine = block[0] ?? "";
-    const armorName = sliceAfterArmorKeyword(nameLine, keywords);
+    const armorName = stripTrailingSpNumber(sliceAfterArmorKeyword(nameLine, keywords));
     const headSp = Number((text.match(headRe) || [])[1] ?? 0);
     const bodySp = Number((text.match(bodyRe) || [])[1] ?? 0);
 
-    const mapped = map.armor[armorName] ?? map.armor[armorName.replace("®", "")];
+    const mapped = ciGet(map.armor, armorName) ?? ciGet(map.armor, armorName.replace("®", ""));
     if (mapped && !mapped.head) {
       // SP comes from cyberware: emit slots with no packName.
       return { head: { name: armorName, sp: headSp || mapped.sp || 0 }, body: { name: armorName, sp: bodySp || mapped.sp || 0 } };
@@ -68,14 +77,19 @@ export function parseArmor(armorBlocks, map) {
   };
 }
 
-// Strip the leading armor keyword from a name line, trying each configured
-// keyword (PL cards may use "Pancerz:" or the English "Armor:").
+// Strip the leading armor keyword from a name line, case-insensitively, trying
+// each configured keyword (PL cards may use "Pancerz:" or English "Armor:").
 function sliceAfterArmorKeyword(line, keywords) {
   for (const k of keywords) {
-    const i = line.indexOf(k);
-    if (i !== -1) return line.slice(i + k.length).trim();
+    if (matchesHeader(line, k)) return stripLeadingHeader(line, k);
   }
   return line.trim();
+}
+
+// CRB armor icons print the total SP after the name ("Kevlar 6"); that trailing
+// standalone integer is not part of the item name.
+function stripTrailingSpNumber(name) {
+  return name.replace(/\s+\d+$/, "").trim();
 }
 
 export function parseWeapons(weaponBlocks, map) {
@@ -131,7 +145,7 @@ export function parseSkills(skillLines, map) {
   if (skillLines.length === 0) return { skills, role, warnings };
 
   let text = skillLines.join(" ");
-  text = stripHeader(text, map.sectionHeaders.skills);
+  text = stripLeadingHeader(text, map.sectionHeaders.skills);
   for (const seg of splitTopLevel(text, ",")) {
     const { name, level } = splitNameAndLevel(seg);
     if (level === null) {
@@ -153,7 +167,7 @@ export function parseEquipment(equipLines, map) {
   if (equipLines.length === 0) return { equipment, cyberware, warnings };
 
   let text = equipLines.join(" ");
-  text = stripHeader(text, map.sectionHeaders.equipment);
+  text = stripLeadingHeader(text, map.sectionHeaders.equipment);
   text = splitOnParenBoundary(text);
   for (const token of splitTopLevel(text, ",")) {
     const res = resolveEquipmentToken(token, map);
@@ -172,7 +186,7 @@ export function parseEquipment(equipLines, map) {
 export function parseRoleAbility(roleLines, map) {
   if (!roleLines || roleLines.length === 0) return null;
   let text = roleLines.join(" ");
-  text = stripHeader(text, map.sectionHeaders.roleAbility);
+  text = stripLeadingHeader(text, map.sectionHeaders.roleAbility);
   for (const seg of splitTopLevel(text, ",")) {
     const { name, level } = splitNameAndLevel(seg);
     if (level === null || !name) continue;
@@ -180,9 +194,4 @@ export function parseRoleAbility(roleLines, map) {
     if (r.kind === "role") return r.role;
   }
   return null;
-}
-
-function stripHeader(text, header) {
-  const re = new RegExp("^.*?" + escapeRegExp(header) + "\\s*", "i");
-  return text.replace(re, "").trim();
 }
