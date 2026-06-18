@@ -150,15 +150,11 @@ export default class StepSummary extends StepBase {
       },
     });
 
-    // CPRActor.create() auto-populates empty foundational cyberware containers
-    // (Fashionware/Internal/External "Option Slots") that the creator never
-    // uses. Uninstall first so deletion doesn't fight the install bookkeeping,
-    // then remove the item docs so they don't clutter the sheet.
-    await actor.update({ "system.installedItems.list": [] });
-    const autoCyberwareIds = actor.itemTypes.cyberware.map((cw) => cw.id);
-    if (autoCyberwareIds.length) {
-      await actor.deleteEmbeddedDocuments("Item", autoCyberwareIds);
-    }
+    // Keep the auto-populated foundational cyberware (Fashionware/Internal/
+    // External "Option Slots") and their entries in installedItems.list.
+    // These are prerequisites for installing any optional cyberware later —
+    // removing them leaves the character unable to install fashionware,
+    // internal, or external cyberware (see issue #16).
 
     const statsData = buildStatsData(state.stats);
     const derived = calculateAllDerived(state.stats);
