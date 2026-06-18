@@ -2,6 +2,8 @@
 ![Latest Release Download Count](https://img.shields.io/github/downloads/sudo-sein/cyberpunk-red-wizards/latest/module.zip)
 ![Total Download Count](https://img.shields.io/github/downloads/sudo-sein/cyberpunk-red-wizards/module.zip?displayAssetName=false&label=total%20downloads)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/L4L4YGPJ6)
+
 # Cyberpunk RED Wizards
 
 A Foundry VTT module for **Cyberpunk RED** that adds a step-by-step **Character Creator**, an **NPC Generator** with a statblock importer and custom-template editor, and an in-game **Store** for buying equipment.
